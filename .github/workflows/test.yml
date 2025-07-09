@@ -41,7 +41,7 @@ jobs:
         run: pnpm run build
 
       - name: Run tests with coverage
-        run: pnpm run test
+        run: pnpm exec vitest --coverage.enabled true
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
