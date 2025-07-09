@@ -37,10 +37,10 @@ jobs:
         run: pnpm install
 
       - name: Run Lint
-        run: pnpm exec eslint . --fix || true
+        run: pnpm exec eslint . --fix
 
       - name: Run Format
-        run: pnpm exec prettier --write . || true
+        run: pnpm exec prettier --write .
 
       - name: Commit formatting changes
         uses: stefanzweifel/git-auto-commit-action@v5
