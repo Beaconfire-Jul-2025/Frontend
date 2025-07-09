@@ -39,9 +39,9 @@ const LoginPage = () => {
 
       // Redirect based on role
       if (userData.role === "ROLE_HR") {
-        navigate("/hr-dashboard");
+        navigate("/hr");
       } else {
-        navigate("/employee-dashboard");
+        navigate("/employee");
       }
     } catch (error) {
       message.error("Login failed. Please check your credentials.");
@@ -52,106 +52,89 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
-      <ProConfigProvider hashed={false}>
-        <div
-          style={{
-            backgroundColor: token.colorBgContainer,
-            borderRadius: token.borderRadiusLG,
-            boxShadow: token.boxShadowTertiary,
-            padding: "32px",
-            minWidth: "400px",
-            maxWidth: "480px",
-            width: "100%",
+    <ProConfigProvider hashed={false}>
+      <div
+        style={{
+          backgroundColor: token.colorBgContainer,
+        }}
+      >
+        <LoginForm
+          logo={
+            <LoginOutlined
+              style={{ fontSize: "32px", color: token.colorPrimary }}
+            />
+          }
+          title="Welcome Back"
+          subTitle="Please sign in to your account"
+          loading={loading}
+          onFinish={handleLogin}
+          submitter={{
+            searchConfig: {
+              submitText: "Sign In",
+            },
+            submitButtonProps: {
+              size: "large",
+              style: {
+                width: "100%",
+                height: "48px",
+                borderRadius: token.borderRadiusLG,
+                fontSize: "16px",
+                fontWeight: 600,
+              },
+            },
+            resetButtonProps: {
+              style: {
+                display: "none",
+              },
+            },
           }}
         >
-          <LoginForm
-            logo={
-              <LoginOutlined
-                style={{ fontSize: "32px", color: token.colorPrimary }}
-              />
-            }
-            title="Welcome Back"
-            subTitle="Please sign in to your account"
-            loading={loading}
-            onFinish={handleLogin}
-            submitter={{
-              searchConfig: {
-                submitText: "Sign In",
-              },
-              submitButtonProps: {
-                size: "large",
-                style: {
-                  width: "100%",
-                  height: "48px",
-                  borderRadius: token.borderRadiusLG,
-                  fontSize: "16px",
-                  fontWeight: 600,
-                },
-              },
-              resetButtonProps: {
-                style: {
-                  display: "none",
-                },
+          <ProFormText
+            name="username"
+            fieldProps={{
+              size: "large",
+              prefix: <UserOutlined className="text-gray-400" />,
+              style: {
+                borderRadius: token.borderRadiusLG,
               },
             }}
-          >
-            <ProFormText
-              name="username"
-              fieldProps={{
-                size: "large",
-                prefix: <UserOutlined className="text-gray-400" />,
-                style: {
-                  borderRadius: token.borderRadiusLG,
-                },
-              }}
-              placeholder="Username"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your username!",
-                },
-                {
-                  min: 2,
-                  message: "Username must be at least 2 characters",
-                },
-              ]}
-            />
+            placeholder="Username"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+              {
+                min: 2,
+                message: "Username must be at least 2 characters",
+              },
+            ]}
+          />
 
-            <ProFormText.Password
-              name="password"
-              fieldProps={{
-                size: "large",
-                prefix: <LockOutlined className="text-gray-400" />,
-                style: {
-                  borderRadius: token.borderRadiusLG,
-                },
-              }}
-              placeholder="Password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-                {
-                  min: 6,
-                  message: "Password must be at least 6 characters",
-                },
-              ]}
-            />
-
-            <div
-              style={{
-                marginBlockEnd: 24,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            ></div>
-          </LoginForm>
-        </div>
-      </ProConfigProvider>
-    </div>
+          <ProFormText.Password
+            name="password"
+            fieldProps={{
+              size: "large",
+              prefix: <LockOutlined className="text-gray-400" />,
+              style: {
+                borderRadius: token.borderRadiusLG,
+              },
+            }}
+            placeholder="Password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+              {
+                min: 6,
+                message: "Password must be at least 6 characters",
+              },
+            ]}
+          />
+        </LoginForm>
+      </div>
+    </ProConfigProvider>
   );
 };
 
