@@ -10,6 +10,7 @@ import "./App.css";
 import ProtectedRoute from "./components/common/ProtectedRoute.tsx";
 import HRDashboard from "./components/hr/HRDashboard.tsx";
 import EmployeeDashboard from "./components/employee/EmployeeDashboard.tsx";
+import EmployeeOnboard from "./components/employee/EmployeeOnboard.tsx";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route
-            path="/hr-dashboard"
+            path="/hr"
             element={
               <ProtectedRoute requiredRole="ROLE_HR">
                 <HRDashboard />
@@ -26,7 +27,7 @@ function App() {
             }
           />
           <Route
-            path="/employee-dashboard"
+            path="/employee"
             element={
               <ProtectedRoute requiredRole="ROLE_EMPLOYEE">
                 <EmployeeDashboard />

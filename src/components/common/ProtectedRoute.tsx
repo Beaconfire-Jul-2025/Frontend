@@ -21,8 +21,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   if (requiredRole && userStr) {
     const user: User = JSON.parse(userStr);
     if (user.role !== requiredRole) {
-      const redirectPath =
-        user.role === "ROLE_HR" ? "/hr-dashboard" : "/employee-dashboard";
+      const redirectPath = user.role === "ROLE_HR" ? "/hr" : "/employee";
       return <Navigate to={redirectPath} replace />;
     }
   }
