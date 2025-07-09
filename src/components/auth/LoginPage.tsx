@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import { useState } from "react";
 import { LockOutlined, LoginOutlined, UserOutlined } from "@ant-design/icons";
 import {

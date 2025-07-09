@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { getUser, logout } from "../../utils/authUtils";
 import type { User } from "../../types/auth";
+import type { ItemType } from "antd/es/menu/interface";
 
 const { Header: AntHeader } = Layout;
 
@@ -21,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
     logout();
   };
 
-  const menuItems = [
+  const menuItems: ItemType[] = [
     {
       key: "profile",
       icon: <UserOutlined />,
