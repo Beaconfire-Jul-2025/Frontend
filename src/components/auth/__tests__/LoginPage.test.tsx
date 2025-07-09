@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import LoginPage from "../LoginPage";
-import { vi } from "vitest";
+import { type Mock, vi } from "vitest";
 import { login } from "../../../api/auth";
 import { message } from "antd";
 import { BrowserRouter } from "react-router-dom";
@@ -37,7 +37,7 @@ describe("LoginPage", () => {
       name: "Jane",
     };
 
-    (login as any).mockResolvedValue({
+    (login as Mock).mockResolvedValue({
       token: "mock-token",
       user: mockUser,
     });
@@ -68,7 +68,7 @@ describe("LoginPage", () => {
   });
 
   it("should show error on failed login", async () => {
-    (login as any).mockRejectedValue(new Error("Unauthorized"));
+    (login as Mock).mockRejectedValue(new Error("Unauthorized"));
 
     render(
       <BrowserRouter>
