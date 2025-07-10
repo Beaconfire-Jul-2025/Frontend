@@ -168,12 +168,6 @@ const EmployeeOnboard: React.FC = () => {
         validateMessages: {
           required: "This field is required",
         },
-        onValuesChange: (changedValues, allValues: BasicInfoFormData) => {
-          console.log("Form values changed:", changedValues, allValues);
-        },
-        onFinishFailed: (errorInfo) => {
-          console.log("Form validation failed:", errorInfo);
-        },
         initialValues: getInitialValues(),
       }}
       stepsProps={{
