@@ -42,6 +42,7 @@ const EmployeeHousing = () => {
         // const data = await response.json();
         // setHouseInfo(data);
       } catch (error) {
+        console.error(error);
         message.error('Failed to load housing data');
       } finally {
         setLoading(false);
