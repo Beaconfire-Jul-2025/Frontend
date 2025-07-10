@@ -37,7 +37,7 @@ const LoginPage = () => {
 
       message.success("Login successful!");
 
-      // Redirect based on role
+      // Redirect based on the role
       if (userData.role === "ROLE_HR") {
         navigate("/hr");
       } else {
