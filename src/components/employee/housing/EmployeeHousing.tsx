@@ -1,8 +1,8 @@
-import { Card, Typography, List, Divider, Space, Button } from 'antd';
-import Layout from "../common/Layout";
-import { useEffect, useState } from 'react';
-import { Spin, message } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Card, Typography, List, Divider, Space, Button } from "antd";
+import Layout from "../../common/Layout.tsx";
+import { useEffect, useState } from "react";
+import { Spin, message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
@@ -11,23 +11,23 @@ const EmployeeHousing = () => {
 
   // Mock data
   const houseInfo = {
-    address: '4567 Beacon Ave, Sunnyvale, CA 94085',
+    address: "4567 Beacon Ave, Sunnyvale, CA 94085",
     roommates: [
-      { name: 'Jane Doe', phone: '555-123-4567' },
-      { name: 'Tom Smith', phone: '555-987-6543' },
+      { name: "Jane Doe", phone: "555-123-4567" },
+      { name: "Tom Smith", phone: "555-987-6543" },
     ],
     reports: [
       {
-        title: 'Leaky Faucet',
-        description: 'The faucet in the kitchen is leaking.',
-        createdBy: 'Jane Doe',
-        reportDate: '2025-07-08',
-        status: 'Open',
+        title: "Leaky Faucet",
+        description: "The faucet in the kitchen is leaking.",
+        createdBy: "Jane Doe",
+        reportDate: "2025-07-08",
+        status: "Open",
         comments: [
           {
-            description: 'Scheduled plumber visit.',
-            createdBy: 'HR',
-            commentDate: '2025-07-09',
+            description: "Scheduled plumber visit.",
+            createdBy: "HR",
+            commentDate: "2025-07-09",
           },
         ],
       },
@@ -46,7 +46,7 @@ const EmployeeHousing = () => {
         // setHouseInfo(data);
       } catch (error) {
         console.error(error);
-        message.error('Failed to load housing data');
+        message.error("Failed to load housing data");
       } finally {
         setLoading(false);
       }
@@ -84,7 +84,12 @@ const EmployeeHousing = () => {
 
             <Title level={5}>Facility Reports</Title>
             <div style={{ marginBottom: 16 }}>
-              <Button type="primary" onClick={() => navigate('/employee/housing/facility-report/new')}>
+              <Button
+                type="primary"
+                onClick={() =>
+                  navigate("/employee/housing/facility-report/new")
+                }
+              >
                 Report an Issue
               </Button>
             </div>
@@ -94,7 +99,12 @@ const EmployeeHousing = () => {
               renderItem={(report, index) => (
                 <List.Item
                   actions={[
-                    <Button key="view" onClick={() => navigate(`/employee/housing/facility-report/${index}`)}>
+                    <Button
+                      key="view"
+                      onClick={() =>
+                        navigate(`/employee/housing/facility-report/${index}`)
+                      }
+                    >
                       View Details
                     </Button>,
                   ]}

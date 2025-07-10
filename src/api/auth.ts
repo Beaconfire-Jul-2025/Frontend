@@ -16,7 +16,7 @@ export interface LoginResponse {
 }
 
 const API_BASE_URL =
-  import.meta.env.VITE_AUTH_API_URL || "http://localhost:8082";
+  import.meta.env.VITE_AUTH_API_URL || "http://localhost:8081";
 
 const authAPI = axios.create({
   baseURL: API_BASE_URL,
