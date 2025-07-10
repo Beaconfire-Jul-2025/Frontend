@@ -34,6 +34,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/employee/onboarding"
+            element={
+              <ProtectedRoute requiredRole="ROLE_EMPLOYEE">
+                <EmployeeOnboard />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>

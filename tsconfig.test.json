@@ -3,11 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "noEmit": true,
-    "types": [
-      "vitest/globals",
-      "jsdom",
-      "@testing-library/jest-dom"
-    ],
+    "types": ["vitest/globals", "jsdom", "@testing-library/jest-dom"],
     "jsx": "react-jsx"
   },
   "include": [
@@ -20,8 +16,5 @@
     "**/*.spec.tsx",
     "vitest.setup.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }
