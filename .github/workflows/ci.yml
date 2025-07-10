@@ -31,7 +31,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
@@ -47,7 +47,7 @@ jobs:
         with:
           commit_message: "Apply formatting and linting changes"
           branch: ${{ github.head_ref || github.ref }}
-          file_pattern: '**/*.{js,jsx,ts,tsx,json,md,css,html,yml,yaml}'
+          file_pattern: "**/*.{js,jsx,ts,tsx,json,md,css,html,yml,yaml}"
 
   unit_test:
     name: Run Vitest and Report Coverage
@@ -78,7 +78,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
