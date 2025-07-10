@@ -44,6 +44,7 @@ const EmployeeFacilityReportDetails = () => {
                 // const data = await res.json();
                 // setReports([data]);
             } catch (err) {
+                console.error(err);
                 message.error('Failed to load report data.');
             } finally {
                 setLoading(false);
@@ -77,6 +78,7 @@ const EmployeeFacilityReportDetails = () => {
                 report.newComment = '';
                 setReports(updatedReports);
             } catch (error) {
+                console.log(error);
                 message.error('Failed to add comment.');
             }
         }

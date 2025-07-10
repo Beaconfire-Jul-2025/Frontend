@@ -20,10 +20,12 @@ const EmployeeNewFacilityReport = () => {
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify(values),
       // });
+      console.log(values);
 
       message.success('Facility issue reported successfully!');
       navigate('/employee/housing');
     } catch (error) {
+      console.log(error);
       message.error('Failed to report issue.');
     } finally {
       setLoading(false);
