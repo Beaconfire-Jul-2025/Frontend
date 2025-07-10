@@ -12,9 +12,9 @@ import ProtectedRoute from "./components/common/ProtectedRoute.tsx";
 import HRDashboard from "./components/hr/HRDashboard.tsx";
 import EmployeeDashboard from "./components/employee/EmployeeDashboard.tsx";
 import EmployeeOnboard from "@/components/employee/EmployeeOnboard.tsx";
-import EmployeeHousing from "@/components/employee/EmployeeHousing.tsx";
-import EmployeeFacilityReportDetails from "@/components/employee/EmployeeFacilityReportDetails.tsx";
-import EmployeeNewFacilityReport from "@/components/employee/EmployeeNewFacilityReport.tsx";
+import EmployeeHousing from "@/components/employee/housing/EmployeeHousing.tsx";
+import EmployeeFacilityReportDetails from "@/components/employee/housing/EmployeeFacilityReportDetails.tsx";
+import EmployeeNewFacilityReport from "@/components/employee/housing/EmployeeNewFacilityReport.tsx";
 
 function App() {
   return (
@@ -38,30 +38,30 @@ function App() {
               </ProtectedRoute>
             }
           />
-            <Route
-                path="/employee/housing"
-                element={
-                    <ProtectedRoute requiredRole="ROLE_EMPLOYEE">
-                        <EmployeeHousing />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/employee/housing/facility-report/:id"
-                element={
-                    <ProtectedRoute requiredRole="ROLE_EMPLOYEE">
-                        <EmployeeFacilityReportDetails />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/employee/housing/facility-report/new"
-                element={
-                    <ProtectedRoute requiredRole="ROLE_EMPLOYEE">
-                        <EmployeeNewFacilityReport />
-                    </ProtectedRoute>
-                }
-            />
+          <Route
+            path="/employee/housing"
+            element={
+              <ProtectedRoute requiredRole="ROLE_EMPLOYEE">
+                <EmployeeHousing />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/employee/housing/facility-report/:id"
+            element={
+              <ProtectedRoute requiredRole="ROLE_EMPLOYEE">
+                <EmployeeFacilityReportDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/employee/housing/facility-report/new"
+            element={
+              <ProtectedRoute requiredRole="ROLE_EMPLOYEE">
+                <EmployeeNewFacilityReport />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/employee/onboarding"
             element={
