@@ -12,8 +12,16 @@ export const useAvatarUpload = () => {
       return;
     }
     if (info.file.status === "done") {
-      const url =
-        info.file.response?.url || URL.createObjectURL(info.file.originFileObj);
+      let url: string;
+      if (info.file.response?.url) {
+        url = info.file.response.url;
+      } else if (info.file.originFileObj) {
+        url = URL.createObjectURL(info.file.originFileObj);
+      } else {
+        console.error("Could not get a URL for the uploaded file.");
+        setLoading(false);
+        return;
+      }
       setAvatarUrl(url);
       setLoading(false);
     }

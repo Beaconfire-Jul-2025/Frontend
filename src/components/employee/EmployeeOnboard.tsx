@@ -6,7 +6,7 @@ import {
   ProFormDatePicker,
 } from "@ant-design/pro-components";
 import { Form, message } from "antd";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { useOnboardingData } from "@/hooks/useOnboardingData";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import type { BasicInfoFormData } from "@/types/employee";
@@ -16,7 +16,7 @@ const EmployeeOnboard: React.FC = () => {
   const { loadOnboardingData, updateOnboardingData } = useOnboardingData();
   const { avatarUrl, setAvatarUrl } = useAvatarUpload();
 
-  const disableDOBDates = (current) => {
+  const disableDOBDates = (current: Dayjs) => {
     // Disable dates after today
     const isFutureDate = current && current > dayjs().endOf("day");
 
