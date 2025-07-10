@@ -10,7 +10,6 @@ import "./App.css";
 import ProtectedRoute from "./components/common/ProtectedRoute.tsx";
 import HRDashboard from "./components/hr/HRDashboard.tsx";
 import EmployeeDashboard from "./components/employee/EmployeeDashboard.tsx";
-import EmployeeOnboard from "./components/employee/EmployeeOnboard.tsx";
 
 function App() {
   return (

@@ -63,7 +63,7 @@ describe("LoginPage", () => {
       expect(localStorage.getItem("authToken")).toBe("mock-token");
       expect(localStorage.getItem("user")).toBe(JSON.stringify(mockUser));
       expect(message.success).toHaveBeenCalledWith("Login successful!");
-      expect(mockNavigate).toHaveBeenCalledWith("/hr-dashboard");
+      expect(mockNavigate).toHaveBeenCalledWith("/hr");
     });
   });
 
