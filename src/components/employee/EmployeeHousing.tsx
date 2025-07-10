@@ -1,11 +1,14 @@
-import { Card, Typography, List, Divider, Space } from 'antd';
+import { Card, Typography, List, Divider, Space, Button } from 'antd';
 import Layout from "../common/Layout";
 import { useEffect, useState } from 'react';
 import { Spin, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
 const EmployeeHousing = () => {
+  const navigate = useNavigate();
+
   // Mock data
   const houseInfo = {
     address: '4567 Beacon Ave, Sunnyvale, CA 94085',
@@ -80,32 +83,25 @@ const EmployeeHousing = () => {
             <Divider />
 
             <Title level={5}>Facility Reports</Title>
+            <div style={{ marginBottom: 16 }}>
+              <Button type="primary" onClick={() => navigate('/employee/housing/facility-report/new')}>
+                Report an Issue
+              </Button>
+            </div>
+
             <List
               dataSource={houseInfo.reports}
-              renderItem={(report) => (
-                <List.Item style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <Text strong>{report.title}</Text>
-                  <Text>{report.description}</Text>
-                  <Text type="secondary">
-                    Reported by {report.createdBy} on {report.reportDate}
-                  </Text>
-                  <Text>Status: {report.status}</Text>
-
-                  <Divider style={{ margin: '12px 0' }} />
-
-                  <Title level={5} style={{ marginTop: 0 }}>Comments</Title>
-                  <List
-                    dataSource={report.comments}
-                    renderItem={(comment) => (
-                      <List.Item>
-                        <Space direction="vertical">
-                          <Text>{comment.description}</Text>
-                          <Text type="secondary">
-                            By {comment.createdBy} on {comment.commentDate}
-                          </Text>
-                        </Space>
-                      </List.Item>
-                    )}
+              renderItem={(report, index) => (
+                <List.Item
+                  actions={[
+                    <Button key="view" onClick={() => navigate(`/employee/housing/facility-report/${index}`)}>
+                      View Details
+                    </Button>,
+                  ]}
+                >
+                  <List.Item.Meta
+                    title={report.title}
+                    description={`Reported on ${report.reportDate} — Status: ${report.status}`}
                   />
                 </List.Item>
               )}
