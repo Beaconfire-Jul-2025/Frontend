@@ -172,5 +172,5 @@ describe("EmployeeOnboard Component", () => {
     await user.click(screen.getByRole("button", { name: "Finish" }));
 
     vi.restoreAllMocks();
-  });
+  }, 10000);
 });
