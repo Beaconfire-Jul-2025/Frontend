@@ -1,4 +1,5 @@
 import type { UploadFile } from "antd/es/upload/interface";
+import { Dayjs } from "dayjs";
 
 export interface BasicInfoFormData {
   FirstName: string;
@@ -10,7 +11,7 @@ export interface BasicInfoFormData {
   AlternatePhone?: string;
   Gender: string;
   SSN: string;
-  DOB: string;
+  DOB?: Dayjs;
   avatar?: UploadFile[];
   CurrentAddress: {
     AddressLine1: string;
@@ -19,6 +20,13 @@ export interface BasicInfoFormData {
     State: string;
     ZipCode: string;
   };
+  ID?: string;
+  UserID?: string;
+  ApplicationType?: string;
+  Contact?: Contact[];
+  Address?: Address[];
+  VisaStatus?: VisaStatus[];
+  PersonalDocument?: PersonalDocument[];
 }
 
 export interface OnboardingData {
@@ -52,7 +60,7 @@ export interface Contact {
   LastName: string;
   MiddleName?: string;
   CellPhone: string;
-  AlternatePhone?: string;
+  AlternatePhone: string;
   Email: string;
   Relationship: string;
   Type: "EMERGENCY" | "REFERENCE";
