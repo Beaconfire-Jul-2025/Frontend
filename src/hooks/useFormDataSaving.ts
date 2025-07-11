@@ -9,6 +9,8 @@ import {
   handleAddresses,
   handleWorkAuthorization,
   handleDriverLicense,
+  handleEmergencyContacts,
+  handleReferences,
 } from "@/utils/formDataHelpers.ts";
 import { handlePersonalDocuments } from "@/utils/documentHelpers.ts";
 
@@ -35,6 +37,8 @@ export const useFormDataSaving = () => {
         updatedData = handleWorkAuthorization(values, updatedData);
         updatedData = handleDriverLicense(values, updatedData);
         updatedData = handlePersonalDocuments(values, updatedData);
+        updatedData = handleEmergencyContacts(values, updatedData);
+        updatedData = handleReferences(values, updatedData);
 
         // Handle Avatar
         if (values.AvatarPath && values.AvatarPath.length > 0) {

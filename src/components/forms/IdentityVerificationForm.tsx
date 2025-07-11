@@ -12,7 +12,7 @@ interface PersonalInfoFormProps {
   onValuesChange?: (values: Partial<FormData>) => void;
 }
 
-export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
+export const IdentityVerificationForm: React.FC<PersonalInfoFormProps> = ({
   initialValues,
 }) => {
   const disableDOBDates = (current: Dayjs): boolean => {
