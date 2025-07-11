@@ -1,5 +1,6 @@
+// src/utils/formDataHelpers.ts
 import dayjs from "dayjs";
-import type { FormData } from "@/types/employee";
+import type { EmergencyContact, FormData, Reference } from "@/types/employee";
 
 export const prepareFormDataForSave = (
   values: FormData,
@@ -78,5 +79,51 @@ export const handleDriverLicense = (
       ExpirationDate: undefined,
     };
   }
+  return updatedData;
+};
+
+export const handleEmergencyContacts = (
+  values: FormData,
+  currentData: FormData,
+): FormData => {
+  const updatedData = { ...currentData };
+
+  if (values.EmergencyContacts && values.EmergencyContacts.length > 0) {
+    updatedData.EmergencyContacts = values.EmergencyContacts.filter(
+      (contact): contact is EmergencyContact =>
+        contact.FirstName !== undefined &&
+        contact.LastName !== undefined &&
+        contact.Email !== undefined &&
+        contact.CellPhone !== undefined &&
+        contact.Relationship !== undefined &&
+        contact.Address !== undefined,
+    );
+  } else {
+    updatedData.EmergencyContacts = [];
+  }
+
+  return updatedData;
+};
+
+export const handleReferences = (
+  values: FormData,
+  currentData: FormData,
+): FormData => {
+  const updatedData = { ...currentData };
+
+  if (values.References && values.References.length > 0) {
+    updatedData.References = values.References.filter(
+      (reference): reference is Reference =>
+        reference.FirstName !== undefined &&
+        reference.LastName !== undefined &&
+        reference.Email !== undefined &&
+        reference.Phone !== undefined &&
+        reference.Relationship !== undefined &&
+        reference.Address !== undefined,
+    );
+  } else {
+    updatedData.References = [];
+  }
+
   return updatedData;
 };
