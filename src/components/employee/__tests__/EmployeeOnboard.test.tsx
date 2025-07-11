@@ -6,7 +6,7 @@ import { ConfigProvider } from "antd";
 import enUS from "antd/locale/en_US";
 import dayjs from "dayjs";
 
-import EmployeeOnboard from "../EmployeeOnboard";
+import EmployeeOnboard from "../../pages/EmployeeOnboard.tsx";
 import { useFormData } from "@/hooks/useFormData.ts";
 import { useAvatarUpload } from "@/hooks/useAvatarUpload";
 import antd from "antd";
