@@ -11,7 +11,7 @@ import {
   DriverLicenseForm,
 } from "@/components/forms";
 import type { FormData } from "@/types/employee.ts";
-import { WelcomeSplash, SuccessScreen } from "@/components/pages/results";
+import { WelcomeSplash, SuccessScreen } from "@/pages/results";
 
 const EmployeeOnboard: React.FC = () => {
   const { loadFormData, removeFormData } = useFormData();

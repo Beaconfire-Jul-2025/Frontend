@@ -1,16 +1,15 @@
 import React from "react";
 import { Typography } from "antd";
-import Layout from "../common/Layout";
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 const HRDashboard: React.FC = () => {
   return (
-    <Layout title="HR Dashboard">
-      <div className="space-y-6">
-        <Title>HR Dashboard</Title>
-      </div>
-    </Layout>
+    <div style={{ padding: 24 }}>
+      <Title level={2}>HR Dashboard</Title>
+      <Paragraph>Welcome to the HR Portal.</Paragraph>
+      <Paragraph>This is a placeholder for the HR dashboard content.</Paragraph>
+    </div>
   );
 };
 
