@@ -1,5 +1,4 @@
 import { Card, Typography, List, Divider, Space, Button } from "antd";
-import Layout from "../../common/Layout.tsx";
 import { useEffect, useState } from "react";
 import { Spin, message } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -56,70 +55,66 @@ const EmployeeHousing = () => {
   }, []);
 
   return (
-    <Layout title="Housing">
-      <div className="space-y-6">
-        {loading ? (
-          <Spin />
-        ) : (
-          <Card title="Housing Details">
-            <Title level={5}>Address</Title>
-            <Text>{houseInfo.address}</Text>
+    <div className="space-y-6">
+      {loading ? (
+        <Spin />
+      ) : (
+        <Card title="Housing Details">
+          <Title level={5}>Address</Title>
+          <Text>{houseInfo.address}</Text>
 
-            <Divider />
+          <Divider />
 
-            <Title level={5}>Roommates</Title>
-            <List
-              dataSource={houseInfo.roommates}
-              renderItem={(roommate) => (
-                <List.Item>
-                  <Space direction="vertical">
-                    <Text strong>{roommate.name}</Text>
-                    <Text type="secondary">{roommate.phone}</Text>
-                  </Space>
-                </List.Item>
-              )}
-            />
+          <Title level={5}>Roommates</Title>
+          <List
+            dataSource={houseInfo.roommates}
+            renderItem={(roommate) => (
+              <List.Item>
+                <Space direction="vertical">
+                  <Text strong>{roommate.name}</Text>
+                  <Text type="secondary">{roommate.phone}</Text>
+                </Space>
+              </List.Item>
+            )}
+          />
 
-            <Divider />
+          <Divider />
 
-            <Title level={5}>Facility Reports</Title>
-            <div style={{ marginBottom: 16 }}>
-              <Button
-                type="primary"
-                onClick={() =>
-                  navigate("/employee/housing/facility-report/new")
-                }
+          <Title level={5}>Facility Reports</Title>
+          <div style={{ marginBottom: 16 }}>
+            <Button
+              type="primary"
+              onClick={() => navigate("/employee/housing/facility-report/new")}
+            >
+              Report an Issue
+            </Button>
+          </div>
+
+          <List
+            dataSource={houseInfo.reports}
+            renderItem={(report, index) => (
+              <List.Item
+                actions={[
+                  <Button
+                    key="view"
+                    onClick={() =>
+                      navigate(`/employee/housing/facility-report/${index}`)
+                    }
+                  >
+                    View Details
+                  </Button>,
+                ]}
               >
-                Report an Issue
-              </Button>
-            </div>
-
-            <List
-              dataSource={houseInfo.reports}
-              renderItem={(report, index) => (
-                <List.Item
-                  actions={[
-                    <Button
-                      key="view"
-                      onClick={() =>
-                        navigate(`/employee/housing/facility-report/${index}`)
-                      }
-                    >
-                      View Details
-                    </Button>,
-                  ]}
-                >
-                  <List.Item.Meta
-                    title={report.title}
-                    description={`Reported on ${report.reportDate} — Status: ${report.status}`}
-                  />
-                </List.Item>
-              )}
-            />
-          </Card>
-        )}
-      </div>
-    </Layout>
+                <List.Item.Meta
+                  title={report.title}
+                  description={`Reported on ${report.reportDate} — Status: ${report.status}`}
+                />
+              </List.Item>
+            )}
+          />
+        </Card>
+      )}
+    </div>
   );
 };
 

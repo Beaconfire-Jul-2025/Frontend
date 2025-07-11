@@ -12,7 +12,6 @@ import {
   Spin,
   message,
 } from "antd";
-import Layout from "../../common/Layout.tsx";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -97,7 +96,7 @@ const EmployeeFacilityReportDetails = () => {
   };
 
   return (
-    <Layout title="Facility Reports">
+    <>
       <Modal
         title="Report an Issue"
         open={isModalOpen}
@@ -198,7 +197,7 @@ const EmployeeFacilityReportDetails = () => {
           ))}
         </div>
       )}
-    </Layout>
+    </>
   );
 };
 
