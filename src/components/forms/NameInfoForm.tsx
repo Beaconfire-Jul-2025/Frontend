@@ -1,10 +1,10 @@
 import React from "react";
 import { ProFormText } from "@ant-design/pro-components";
-import type { BasicInfoFormData } from "@/types/employee";
+import type { FormData } from "@/types/employee";
 
 interface NameInfoFormProps {
-  initialValues?: Partial<BasicInfoFormData>;
-  onValuesChange?: (values: Partial<BasicInfoFormData>) => void;
+  initialValues?: Partial<FormData>;
+  onValuesChange?: (values: Partial<FormData>) => void;
 }
 
 export const NameInfoForm: React.FC<NameInfoFormProps> = ({

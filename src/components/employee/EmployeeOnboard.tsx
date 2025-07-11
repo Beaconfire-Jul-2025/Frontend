@@ -1,81 +1,145 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { StepsForm } from "@ant-design/pro-components";
 import { message } from "antd";
 import dayjs from "dayjs";
-import { useOnboardingData } from "@/hooks/useOnboardingData";
-import { useAvatarUpload } from "@/hooks/useAvatarUpload";
+import { useFormData } from "@/hooks/useFormData.ts";
 import { NameInfoForm } from "@/components/forms/NameInfoForm";
 import { ContactInfoForm } from "@/components/forms/ContactInfoForm";
 import { PersonalInfoForm } from "@/components/forms/PersonalInfoForm";
 import { AddressInfoForm } from "@/components/forms/AddressInfoForm";
-import type {
-  BasicInfoFormData,
-  OnboardingData,
-  PersonalDocument,
-} from "@/types/employee";
+import { DriverLicenseForm } from "@/components/forms/DriverLicenseForm";
+import type { FormData, PersonalDocument } from "@/types/employee";
+import { useAvatarUpload } from "@/hooks/useAvatarUpload.ts";
 
 const EmployeeOnboard: React.FC = () => {
-  const { loadOnboardingData, updateOnboardingData } = useOnboardingData();
-  const { avatarUrl, setAvatarUrl } = useAvatarUpload();
+  const { loadFormData, updateFormData, removeFormData } = useFormData();
+  const { avatarUrl } = useAvatarUpload();
 
-  const handleStepFinish = async (
-    values: BasicInfoFormData,
-  ): Promise<boolean> => {
+  const handleStepFinish = async (values: FormData): Promise<boolean> => {
     console.log("handleStepFinish called with values:", values);
 
     try {
-      const existingData: OnboardingData = loadOnboardingData();
+      const existingData: FormData = loadFormData();
 
-      const preparedValues: Partial<OnboardingData> = {
+      const preparedValues: Partial<FormData> = {
         ...values,
         DOB: values.DOB ? dayjs(values.DOB).toISOString() : undefined,
       };
 
-      const updatedData: OnboardingData = {
+      const updatedData: FormData = {
         ...existingData,
         ...preparedValues,
-        ID: existingData.ID || `emp_${Date.now()}`,
-        UserID: existingData.UserID || `user_auth_${Date.now()}`,
-        ApplicationType: "ONBOARDING",
-        Contact: existingData.Contact || [],
-        VisaStatus: existingData.VisaStatus || [],
-        PersonalDocument: existingData.PersonalDocument || [],
+        ApplicationType: "ONBOARD",
+        EmergencyContacts: existingData.EmergencyContacts ?? [],
+        References: existingData.References ?? [],
+        PersonalDocuments: existingData.PersonalDocuments ?? [],
       };
 
-      if (values.DOB) {
-        updatedData.DOB = dayjs(values.DOB).toISOString();
-      }
+      // Handle addresses
+      if (values.Addresses && values.Addresses.length > 0) {
+        // Find the primary address if it exists in the submitted values
+        const primaryAddressFromForm = values.Addresses.find(
+          (addr) => addr.Type === "PRIMARY",
+        );
 
-      if (values.CurrentAddress) {
-        updatedData.Address = [
-          {
-            ID: existingData.Address?.[0]?.ID || `addr_${Date.now()}`,
-            AddressLine1: values.CurrentAddress.AddressLine1,
-            AddressLine2: values.CurrentAddress.AddressLine2 || "",
-            City: values.CurrentAddress.City,
-            State: values.CurrentAddress.State,
-            ZipCode: values.CurrentAddress.ZipCode,
-          },
-        ];
-      }
+        if (primaryAddressFromForm) {
+          const existingAddresses = updatedData.Addresses ?? [];
+          const primaryIndex = existingAddresses.findIndex(
+            (addr) => addr.Type === "PRIMARY",
+          );
 
-      if (values.avatar && values.avatar.length > 0) {
-        const avatarDoc: PersonalDocument = {
-          ID: `doc_avatar_${Date.now()}`,
-          Path: avatarUrl,
-          Title: "Profile Picture",
-          Comment: "Employee avatar image",
-          CreateDate: new Date().toISOString(),
+          if (primaryIndex >= 0) {
+            // Update existing primary address
+            existingAddresses[primaryIndex] = primaryAddressFromForm;
+          } else {
+            // Add new primary address
+            existingAddresses.push(primaryAddressFromForm);
+          }
+          updatedData.Addresses = existingAddresses;
+        }
+      } else updatedData.Addresses ??= [];
+
+      // Handle work authorization (default values)
+      updatedData.WorkAuthorization = {
+        IsUSCitizen: values.WorkAuthorization?.IsUSCitizen ?? true,
+        GreenCardHolder: values.WorkAuthorization?.GreenCardHolder ?? false,
+        Type: values.WorkAuthorization?.Type ?? "N/A",
+        StartDate: values.WorkAuthorization?.StartDate
+          ? dayjs(values.WorkAuthorization.StartDate).toISOString()
+          : undefined,
+        EndDate: values.WorkAuthorization?.EndDate
+          ? dayjs(values.WorkAuthorization.EndDate).toISOString()
+          : undefined,
+        LastModificationDate: dayjs(
+          values.WorkAuthorization?.LastModificationDate ?? new Date(),
+        ).toISOString(),
+      };
+
+      // --- Driver License Handling ---
+      if (values.DriverLicense) {
+        updatedData.DriverLicense = {
+          ...values.DriverLicense,
+          ExpirationDate: values.DriverLicense.ExpirationDate
+            ? dayjs(values.DriverLicense.ExpirationDate).toISOString()
+            : undefined,
         };
-
-        updatedData.PersonalDocument = (
-          updatedData.PersonalDocument || []
-        ).filter((doc: PersonalDocument) => doc.Title !== "Profile Picture");
-
-        updatedData.PersonalDocument.push(avatarDoc);
+      } else {
+        updatedData.DriverLicense = {
+          HasLicense: false,
+          LicenseNumber: undefined,
+          ExpirationDate: undefined,
+        };
       }
 
-      updateOnboardingData(updatedData);
+      // --- Personal Documents Handling ---
+      if (values.PersonalDocuments && values.PersonalDocuments.length > 0) {
+        const driverLicenseDocFromForm = values.PersonalDocuments.find(
+          (doc) => doc.Type === "DRIVER_LICENSE_PROOF",
+        );
+
+        if (driverLicenseDocFromForm) {
+          // Ensure we have a valid Path from the UploadFile structure
+          const docPath =
+            driverLicenseDocFromForm.File?.url ??
+            driverLicenseDocFromForm.File?.response?.url ??
+            driverLicenseDocFromForm.Path;
+
+          if (docPath) {
+            const driverLicenseDoc: PersonalDocument = {
+              Type: "DRIVER_LICENSE_PROOF",
+              Path: docPath,
+              Title: driverLicenseDocFromForm.Title ?? "Driver License Front",
+              Comment:
+                driverLicenseDocFromForm.Comment ?? "Scan of driver's license",
+              CreateDate:
+                driverLicenseDocFromForm.CreateDate instanceof dayjs
+                  ? driverLicenseDocFromForm.CreateDate.toISOString()
+                  : (driverLicenseDocFromForm.CreateDate ??
+                    new Date().toISOString()),
+            };
+
+            // Remove existing driver license document if present
+            updatedData.PersonalDocuments = (
+              updatedData.PersonalDocuments ?? []
+            ).filter(
+              (doc: PersonalDocument) => doc.Type !== "DRIVER_LICENSE_PROOF",
+            );
+
+            // Add new driver license document
+            updatedData.PersonalDocuments.push(driverLicenseDoc);
+          }
+        }
+      }
+
+      // --- Avatar Handling ---
+      const avatarFiles = values.AvatarPath;
+      if (avatarFiles && avatarFiles.length > 0) {
+        updatedData.AvatarPath = avatarUrl;
+      } else if (values.AvatarPath) {
+        updatedData.AvatarPath = values.AvatarPath;
+      }
+
+      updateFormData(updatedData);
       console.log("Step data saved successfully:", updatedData);
       return true;
     } catch (error) {
@@ -85,13 +149,15 @@ const EmployeeOnboard: React.FC = () => {
     }
   };
 
-  const onFinish = async (values: BasicInfoFormData): Promise<boolean> => {
+  const onFinish = async (values: FormData): Promise<boolean> => {
     try {
       await handleStepFinish(values);
       message.success("Onboarding information saved successfully!");
 
-      const finalData = loadOnboardingData();
+      const finalData = loadFormData();
       console.log("Complete Onboarding Data:", finalData);
+
+      removeFormData();
 
       return true;
     } catch (error) {
@@ -101,42 +167,14 @@ const EmployeeOnboard: React.FC = () => {
     }
   };
 
-  const getInitialValues = (): BasicInfoFormData => {
-    const savedData: OnboardingData = loadOnboardingData();
+  const initialValues = useMemo(() => {
+    const savedData: FormData = loadFormData();
     console.log("Loading initial values:", savedData);
-
-    const avatarDoc = savedData.PersonalDocument?.find(
-      (doc: PersonalDocument) => doc.Title === "Profile Picture",
-    );
-    if (avatarDoc) {
-      setAvatarUrl(avatarDoc.Path);
-    }
-
-    return {
-      FirstName: savedData.FirstName || "",
-      LastName: savedData.LastName || "",
-      MiddleName: savedData.MiddleName || "",
-      PreferredName: savedData.PreferredName || "",
-      Email: savedData.Email || "",
-      CellPhone: savedData.CellPhone || "",
-      AlternatePhone: savedData.AlternatePhone || "",
-      Gender: savedData.Gender || "",
-      SSN: savedData.SSN || "",
-      DOB: savedData.DOB ? dayjs(savedData.DOB) : undefined,
-      CurrentAddress: {
-        AddressLine1: savedData.Address?.[0]?.AddressLine1 || "",
-        AddressLine2: savedData.Address?.[0]?.AddressLine2 || "",
-        City: savedData.Address?.[0]?.City || "",
-        State: savedData.Address?.[0]?.State || "",
-        ZipCode: savedData.Address?.[0]?.ZipCode || "",
-      },
-    };
-  };
-
-  const initialValues = getInitialValues();
+    return savedData ?? {};
+  }, [loadFormData]);
 
   return (
-    <StepsForm<BasicInfoFormData>
+    <StepsForm<FormData>
       onFinish={onFinish}
       formProps={{
         layout: "vertical",
@@ -161,7 +199,7 @@ const EmployeeOnboard: React.FC = () => {
         onFinish={handleStepFinish}
         layout="vertical"
       >
-        <NameInfoForm initialValues={initialValues} />
+        <NameInfoForm />
       </StepsForm.StepForm>
 
       {/* Step 2: Contact Information */}
@@ -174,7 +212,7 @@ const EmployeeOnboard: React.FC = () => {
         onFinish={handleStepFinish}
         layout="vertical"
       >
-        <ContactInfoForm initialValues={initialValues} />
+        <ContactInfoForm />
       </StepsForm.StepForm>
 
       {/* Step 3: Personal Information */}
@@ -187,7 +225,7 @@ const EmployeeOnboard: React.FC = () => {
         onFinish={handleStepFinish}
         layout="vertical"
       >
-        <PersonalInfoForm initialValues={initialValues} />
+        <PersonalInfoForm />
       </StepsForm.StepForm>
 
       {/* Step 4: Address Information */}
@@ -200,7 +238,20 @@ const EmployeeOnboard: React.FC = () => {
         onFinish={handleStepFinish}
         layout="vertical"
       >
-        <AddressInfoForm initialValues={initialValues} />
+        <AddressInfoForm />
+      </StepsForm.StepForm>
+
+      {/* Step 5: Driver License Information */}
+      <StepsForm.StepForm
+        name="driverLicenseInfo"
+        title="Driver License Information"
+        stepProps={{
+          description: "Please provide your driver's license information",
+        }}
+        onFinish={handleStepFinish}
+        layout="vertical"
+      >
+        <DriverLicenseForm initialValues={initialValues} />
       </StepsForm.StepForm>
     </StepsForm>
   );

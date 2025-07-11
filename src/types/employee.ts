@@ -1,32 +1,79 @@
-import type { UploadFile } from "antd/es/upload/interface";
-import { Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import type { UploadFile } from "antd";
 
-export interface BasicInfoFormData {
+export interface FormData {
+  FirstName?: string;
+  LastName?: string;
+  MiddleName?: string;
+  PreferredName?: string;
+  AvatarPath?: string;
+  Email?: string;
+  CellPhone?: string;
+  WorkPhone?: string;
+  Gender?: string;
+  SSN?: string;
+  DOB?: string | Dayjs;
+  Addresses?: Address[];
+  WorkAuthorization?: WorkAuthorization;
+  DriverLicense?: DriverLicense;
+  EmergencyContacts?: EmergencyContact[];
+  References?: Reference[];
+  PersonalDocuments?: PersonalDocument[]; // Includes driver's license file
+  ApplicationType?: string;
+}
+
+export interface Address {
+  Type: string;
+  AddressLine1: string;
+  AddressLine2?: string;
+  City: string;
+  State: string;
+  ZipCode: string;
+}
+
+export interface WorkAuthorization {
+  IsUSCitizen: boolean;
+  GreenCardHolder: boolean;
+  Type: string;
+  StartDate?: string | Dayjs;
+  EndDate?: string | Dayjs;
+  LastModificationDate: string | Dayjs;
+}
+
+export interface DriverLicense {
+  HasLicense: boolean;
+  LicenseNumber?: string;
+  ExpirationDate?: string | Dayjs;
+}
+
+export interface PersonalDocument {
+  Type: string;
+  Path?: string;
+  Title: string;
+  Comment?: string;
+  CreateDate?: string | Dayjs;
+  File?: UploadFile;
+}
+
+export interface EmergencyContact {
   FirstName: string;
   LastName: string;
   MiddleName?: string;
-  PreferredName?: string;
-  Email: string;
   CellPhone: string;
   AlternatePhone?: string;
-  Gender: string;
-  SSN: string;
-  DOB?: Dayjs;
-  avatar?: UploadFile[];
-  CurrentAddress: {
-    AddressLine1: string;
-    AddressLine2?: string;
-    City: string;
-    State: string;
-    ZipCode: string;
-  };
-  ID?: string;
-  UserID?: string;
-  ApplicationType?: string;
-  Contact?: Contact[];
-  Address?: Address[];
-  VisaStatus?: VisaStatus[];
-  PersonalDocument?: PersonalDocument[];
+  Email: string;
+  Relationship: string;
+  Address: Address;
+}
+
+export interface Reference {
+  FirstName: string;
+  LastName: string;
+  MiddleName?: string;
+  Phone: string;
+  Email: string;
+  Relationship: string;
+  Address: Address;
 }
 
 export interface OnboardingData {
@@ -36,58 +83,21 @@ export interface OnboardingData {
   LastName?: string;
   MiddleName?: string;
   PreferredName?: string;
+  AvatarPath?: string;
   Email?: string;
   CellPhone?: string;
-  AlternatePhone?: string;
+  WorkPhone?: string;
   Gender?: string;
   SSN?: string;
   DOB?: string;
   StartDate?: string;
   EndDate?: string;
-  DriverLicense?: string;
-  DriverLicenseExpiration?: string;
   HouseID?: string;
-  Contact?: Contact[];
-  Address?: Address[];
-  VisaStatus?: VisaStatus[];
-  PersonalDocument?: PersonalDocument[];
+  Addresses?: Address[];
+  WorkAuthorization?: WorkAuthorization;
+  DriverLicense?: DriverLicense;
+  EmergencyContacts?: EmergencyContact[];
+  References?: Reference[];
+  PersonalDocuments?: PersonalDocument[];
   ApplicationType?: string;
-}
-
-export interface Contact {
-  ID: string;
-  FirstName: string;
-  LastName: string;
-  MiddleName?: string;
-  CellPhone: string;
-  AlternatePhone: string;
-  Email: string;
-  Relationship: string;
-  Type: "EMERGENCY" | "REFERENCE";
-}
-
-export interface Address {
-  ID: string;
-  AddressLine1: string;
-  AddressLine2?: string;
-  City: string;
-  State: string;
-  ZipCode: string;
-}
-
-export interface VisaStatus {
-  ID: string;
-  VisaType: string;
-  ActiveFlag: boolean;
-  StartDate: string;
-  EndDate: string;
-  LastModificationDate: string;
-}
-
-export interface PersonalDocument {
-  ID: string;
-  Path: string;
-  Title: string;
-  Comment: string;
-  CreateDate: string;
 }

@@ -5,11 +5,11 @@ import {
   ProFormDatePicker,
 } from "@ant-design/pro-components";
 import dayjs, { Dayjs } from "dayjs";
-import type { BasicInfoFormData } from "@/types/employee";
+import type { FormData } from "@/types/employee";
 
 interface PersonalInfoFormProps {
-  initialValues?: Partial<BasicInfoFormData>;
-  onValuesChange?: (values: Partial<BasicInfoFormData>) => void;
+  initialValues?: Partial<FormData>;
+  onValuesChange?: (values: Partial<FormData>) => void;
 }
 
 export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
