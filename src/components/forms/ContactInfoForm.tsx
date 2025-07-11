@@ -1,10 +1,9 @@
 import React from "react";
 import { ProFormText } from "@ant-design/pro-components";
-import type { BasicInfoFormData } from "@/types/employee";
+import type { FormData } from "@/types/employee";
 
 interface ContactInfoFormProps {
-  initialValues?: Partial<BasicInfoFormData>;
-  onValuesChange?: (values: Partial<BasicInfoFormData>) => void;
+  initialValues?: Partial<FormData>;
 }
 
 export const ContactInfoForm: React.FC<ContactInfoFormProps> = ({
@@ -40,8 +39,8 @@ export const ContactInfoForm: React.FC<ContactInfoFormProps> = ({
             message: "Please enter your cell phone number",
           },
           {
-            pattern: /^\d{10}$/,
-            message: "Please enter phone in US format",
+            pattern: /^\d{3}-\d{3}-\d{4}$/,
+            message: "Please enter phone in format: XXX-XXX-XXXX",
           },
         ]}
         className="mb-4"
@@ -49,17 +48,17 @@ export const ContactInfoForm: React.FC<ContactInfoFormProps> = ({
       />
 
       <ProFormText
-        name="AlternatePhone"
+        name="WorkPhone"
         label="Work Phone"
         placeholder="Enter your work phone number (optional)"
         rules={[
           {
-            pattern: /^\d{10}$/,
-            message: "Please enter phone in US format",
+            pattern: /^\d{3}-\d{3}-\d{4}$/,
+            message: "Please enter phone in format: XXX-XXX-XXXX",
           },
         ]}
         className="mb-4"
-        initialValue={initialValues?.AlternatePhone}
+        initialValue={initialValues?.WorkPhone}
       />
     </div>
   );

@@ -41,7 +41,7 @@ const LoginPage = () => {
       if (userData.role === "ROLE_HR") {
         navigate("/hr");
       } else {
-        navigate("/employee");
+        navigate("/employee/onboarding");
       }
     } catch (error) {
       message.error("Login failed. Please check your credentials.");
