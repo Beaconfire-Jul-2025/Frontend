@@ -1,6 +1,6 @@
 // src/components/forms/ReferencesForm.tsx
 import React, { useState } from "react";
-import { Button, Card, Popconfirm, Space } from "antd";
+import { Button, Card, Popconfirm } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { ProFormList } from "@ant-design/pro-components";
 import { ContactPersonForm } from "./ContactPersonForm";
@@ -13,7 +13,7 @@ interface ReferencesFormProps {
 export const ReferencesForm: React.FC<ReferencesFormProps> = ({
   initialValues,
 }) => {
-  const [references, setReferences] = useState(initialValues?.References || []);
+  const [references] = useState(initialValues?.References || []);
 
   return (
     <div className="max-w-4xl">
@@ -68,7 +68,7 @@ export const ReferencesForm: React.FC<ReferencesFormProps> = ({
           </Card>
         )}
       >
-        {(meta) => (
+        {() => (
           <ContactPersonForm
             fieldPrefix={[]}
             title=""

@@ -1,6 +1,6 @@
 // src/components/forms/EmergencyContactsForm.tsx
 import React, { useState } from "react";
-import { Button, Card, Popconfirm, Space } from "antd";
+import { Button, Card, Popconfirm } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { ProFormList } from "@ant-design/pro-components";
 import { ContactPersonForm } from "./ContactPersonForm";
@@ -13,9 +13,7 @@ interface EmergencyContactsFormProps {
 export const EmergencyContactsForm: React.FC<EmergencyContactsFormProps> = ({
   initialValues,
 }) => {
-  const [emergencyContacts, setEmergencyContacts] = useState(
-    initialValues?.EmergencyContacts || [],
-  );
+  const [emergencyContacts] = useState(initialValues?.EmergencyContacts || []);
 
   return (
     <div className="max-w-4xl">
@@ -74,7 +72,7 @@ export const EmergencyContactsForm: React.FC<EmergencyContactsFormProps> = ({
           </Card>
         )}
       >
-        {(meta) => (
+        {() => (
           <ContactPersonForm
             fieldPrefix={[]}
             title=""
