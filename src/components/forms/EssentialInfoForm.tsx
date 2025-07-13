@@ -7,7 +7,7 @@ interface EssentialInfoFormProps {
   initialValues?: Partial<FormData>;
 }
 
-export const EssentialInfoForm: React.FC<EmployeeEssentialsFormProps> = ({
+export const EssentialInfoForm: React.FC<EssentialInfoFormProps> = ({
   initialValues,
 }) => {
   const primaryAddress = useMemo(() => {

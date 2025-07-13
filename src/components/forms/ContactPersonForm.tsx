@@ -1,7 +1,6 @@
 // src/components/forms/ContactPersonForm.tsx
 import React from "react";
 import { ProFormText, ProFormSelect } from "@ant-design/pro-components";
-import { AddressInfoForm } from "./AddressInfoForm";
 import type { FormData } from "@/types/employee";
 
 interface ContactPersonFormProps {
@@ -15,7 +14,6 @@ interface ContactPersonFormProps {
 export const ContactPersonForm: React.FC<ContactPersonFormProps> = ({
   fieldPrefix,
   title,
-  initialValues,
   showPhone = true,
   showAlternatePhone = false,
 }) => {
@@ -76,7 +74,7 @@ export const ContactPersonForm: React.FC<ContactPersonFormProps> = ({
             rules={[
               { required: true, message: "Please enter phone number" },
               {
-                pattern: /^[\d\s\-\(\)\+\.]+$/,
+                pattern: /^[\d\s\-()+.]+$/,
                 message: "Please enter a valid phone number",
               },
             ]}
@@ -91,7 +89,7 @@ export const ContactPersonForm: React.FC<ContactPersonFormProps> = ({
             placeholder="Enter alternate phone number (optional)"
             rules={[
               {
-                pattern: /^[\d\s\-\(\)\+\.]+$/,
+                pattern: /^[\d\s\-()+.]+$/,
                 message: "Please enter a valid phone number",
               },
             ]}
