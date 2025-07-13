@@ -1,14 +1,15 @@
+// src/pages/employee/EmployeeOnboard.tsx
 import React, { useMemo, useState } from "react";
 import { StepsForm } from "@ant-design/pro-components";
 import { message } from "antd";
 import { useFormData } from "@/hooks/useFormData.ts";
 import { useFormDataSaving } from "@/hooks/useFormDataSaving.ts";
 import {
-  NameInfoForm,
-  AddressInfoForm,
-  ContactInfoForm,
-  PersonalInfoForm,
+  IdentityVerificationForm,
   DriverLicenseForm,
+  ReferencesForm,
+  EmergencyContactsForm,
+  EssentialInfoForm,
 } from "@/components/forms";
 import type { FormData } from "@/types/employee.ts";
 import { WelcomeSplash, SuccessScreen } from "@/pages/results";
@@ -79,69 +80,54 @@ const EmployeeOnboard: React.FC = () => {
             className: "mb-8",
           }}
         >
-          {/* Step 1: Name Information */}
+          {/* Step 1: Essential Information */}
           <StepsForm.StepForm
             name="nameInfo"
-            title="Name Information"
-            stepProps={{
-              description: "Please provide your name details",
-            }}
+            title="Essential Information"
             onFinish={handleStepFinish}
             layout="vertical"
           >
-            <NameInfoForm />
+            <EssentialInfoForm />
           </StepsForm.StepForm>
 
-          {/* Step 2: Contact Information */}
-          <StepsForm.StepForm
-            name="contactInfo"
-            title="Contact Information"
-            stepProps={{
-              description: "Please provide your contact details",
-            }}
-            onFinish={handleStepFinish}
-            layout="vertical"
-          >
-            <ContactInfoForm />
-          </StepsForm.StepForm>
-
-          {/* Step 3: Personal Information */}
+          {/* Step 2: Personal Information */}
           <StepsForm.StepForm
             name="personalInfo"
             title="Personal Information"
-            stepProps={{
-              description: "Please provide your personal details",
-            }}
             onFinish={handleStepFinish}
             layout="vertical"
           >
-            <PersonalInfoForm />
+            <IdentityVerificationForm />
           </StepsForm.StepForm>
 
-          {/* Step 4: Address Information */}
-          <StepsForm.StepForm
-            name="addressInfo"
-            title="Address Information"
-            stepProps={{
-              description: "Please provide your current address",
-            }}
-            onFinish={handleStepFinish}
-            layout="vertical"
-          >
-            <AddressInfoForm />
-          </StepsForm.StepForm>
-
-          {/* Step 5: Driver License Information */}
+          {/* Step 3: Driver License Information */}
           <StepsForm.StepForm
             name="driverLicenseInfo"
             title="Driver License Information"
-            stepProps={{
-              description: "Please provide your driver's license information",
-            }}
             onFinish={handleStepFinish}
             layout="vertical"
           >
             <DriverLicenseForm initialValues={initialValues} />
+          </StepsForm.StepForm>
+
+          {/* Step 4: References */}
+          <StepsForm.StepForm
+            name="references"
+            title="References"
+            onFinish={handleStepFinish}
+            layout="vertical"
+          >
+            <ReferencesForm initialValues={initialValues} />
+          </StepsForm.StepForm>
+
+          {/* Step 5: Emergency Contacts */}
+          <StepsForm.StepForm
+            name="emergencyContacts"
+            title="Emergency Contacts"
+            onFinish={handleStepFinish}
+            layout="vertical"
+          >
+            <EmergencyContactsForm initialValues={initialValues} />
           </StepsForm.StepForm>
         </StepsForm>
       </div>
