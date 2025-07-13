@@ -1,7 +1,7 @@
 import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
 import React, { useState } from "react";
-import EmployeeNav from "./EmployeeNav.tsx";
-import HRNav from "./HRNav.tsx";
+import EmployeeNav from "./navbar/EmployeeNav.tsx";
+import HRNav from "./navbar/HRNav.tsx";
 
 type Role = "HR" | "EMPLOYEE";
 

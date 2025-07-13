@@ -35,6 +35,7 @@ export interface WorkAuthorization {
   IsUSCitizen: boolean;
   GreenCardHolder: boolean;
   Type: string;
+  OtherType?: string; // For when Type is "Other"
   StartDate?: string | Dayjs;
   EndDate?: string | Dayjs;
   LastModificationDate: string | Dayjs;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { getUser, isAuthenticated } from "@/utils/authUtils";
-import EmployeeOnboard from "@/pages/employee/EmployeeOnboard.tsx";
+import { getUser, isAuthenticated } from "@/utils/authUtils.ts";
+import OnboardingForm from "@/features/onboarding/OnboardingForm.tsx";
 
 const OnboardingGuard: React.FC = () => {
   const user = getUser();
@@ -10,7 +10,7 @@ const OnboardingGuard: React.FC = () => {
     return <Navigate to="/login" replace />;
   }
 
-  return <EmployeeOnboard />;
+  return <OnboardingForm />;
 };
 
 export default OnboardingGuard;

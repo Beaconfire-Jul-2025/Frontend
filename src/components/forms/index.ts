@@ -6,3 +6,4 @@ export { AddressInfoForm } from "./AddressInfoForm";
 export { DriverLicenseForm } from "./DriverLicenseForm";
 export { ReferencesForm } from "./ReferencesForm";
 export { EmergencyContactsForm } from "./EmergencyContactsForm";
+export { VisaForm } from "./VisaForm";

@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
-import AppLayout from "@/components/common/Layout/AppLayout";
-import { useAuth } from "@/hooks/useAuth";
+import AppLayout from "@/components/layout/AppLayout.tsx";
+import { useAuth } from "@/hooks/useAuth.ts";
 import React from "react";
 
 interface ProtectedLayoutProps {

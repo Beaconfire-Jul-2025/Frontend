@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import LoginPage from "../LoginPage";
+import LoginPage from "../LoginPage.tsx";
 import { type Mock, vi } from "vitest";
-import { login } from "../../../api/auth";
+import { login } from "../../../api/auth.ts";
 import { message } from "antd";
 import { BrowserRouter } from "react-router-dom";
 

@@ -1,4 +1,3 @@
-// src/pages/employee/EmployeeOnboard.tsx
 import React, { useMemo, useState } from "react";
 import { StepsForm } from "@ant-design/pro-components";
 import { message } from "antd";
@@ -10,11 +9,12 @@ import {
   ReferencesForm,
   EmergencyContactsForm,
   EssentialInfoForm,
+  VisaForm,
 } from "@/components/forms";
 import type { FormData } from "@/types/employee.ts";
 import { WelcomeSplash, SuccessScreen } from "@/pages/results";
 
-const EmployeeOnboard: React.FC = () => {
+const OnboardingForm: React.FC = () => {
   const { loadFormData, removeFormData } = useFormData();
   const { saveStepData } = useFormDataSaving();
 
@@ -129,10 +129,20 @@ const EmployeeOnboard: React.FC = () => {
           >
             <EmergencyContactsForm initialValues={initialValues} />
           </StepsForm.StepForm>
+
+          {/* Step 6: Visa Information */}
+          <StepsForm.StepForm
+            name="visaInfo"
+            title="Visa Information"
+            onFinish={handleStepFinish}
+            layout="vertical"
+          >
+            <VisaForm initialValues={initialValues} />
+          </StepsForm.StepForm>
         </StepsForm>
       </div>
     </div>
   );
 };
 
-export default EmployeeOnboard;
+export default OnboardingForm;

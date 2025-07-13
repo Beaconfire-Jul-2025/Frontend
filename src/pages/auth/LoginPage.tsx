@@ -7,7 +7,7 @@ import {
 } from "@ant-design/pro-components";
 import { message, theme } from "antd";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../api/auth";
+import { login } from "../../api/auth.ts";
 
 interface LoginFormData {
   username: string;

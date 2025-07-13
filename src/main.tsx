@@ -8,18 +8,18 @@ import {
 import { ConfigProvider } from "antd";
 import enUS from "antd/locale/en_US";
 
-import LoginPage from "@/components/auth/LoginPage";
-import ProtectedLayout from "@/components/common/ProtectedLayout";
+import LoginPage from "@/pages/auth/LoginPage.tsx";
+import ProtectedLayout from "@/components/layout/ProtectedLayout.tsx";
 
 // HR Pages
-import HRDashboard from "@/components/hr/HRDashboard";
+import HRDashboard from "@/features/hr/HRDashboard.tsx";
 
 // Employee Pages
-import EmployeeDashboard from "@/components/employee/EmployeeDashboard";
-import EmployeeHousing from "@/components/employee/housing/EmployeeHousing";
-import EmployeeFacilityReportDetails from "@/components/employee/housing/EmployeeFacilityReportDetails";
-import EmployeeNewFacilityReport from "@/components/employee/housing/EmployeeNewFacilityReport";
-import OnboardingGuard from "@/components/common/OnboardingGuard.tsx";
+import EmployeeDashboard from "@/features/employee/EmployeeDashboard.tsx";
+import EmployeeHousing from "@/features/employee/housing/EmployeeHousing";
+import EmployeeFacilityReportDetails from "@/features/employee/housing/EmployeeFacilityReportDetails";
+import EmployeeNewFacilityReport from "@/features/employee/housing/EmployeeNewFacilityReport";
+import OnboardingGuard from "@/routes/OnboardingGuard.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/login" replace /> },
