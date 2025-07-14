@@ -1,19 +1,24 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { Space } from "antd";
 import type { View } from "@/api/employee";
-import {
-  RoommateActions,
-  VisaActions,
-} from "@/components/common/EmployeeTable/actions";
+import { VisaActions } from "@/components/common/EmployeeTable/actions";
 
-export const useColumns = (view: View): ProColumns<any>[] => {
+interface EmployeeRecord {
+  FirstName: string;
+  LastName: string;
+  MiddleName?: string;
+  PreferredName?: string;
+  [key: string]: any;
+}
+
+export const useColumns = (view: View): ProColumns<EmployeeRecord>[] => {
   switch (view) {
     case "roommate":
       return [
         {
           title: "Name",
           dataIndex: "preferredName",
-          render: (_, r) => r.preferredName || `${r.firstName} ${r.lastName}`,
+          render: (_, r) => r.PreferredName ?? `${r.FirstName} ${r.LastName}`,
         },
         { title: "Phone", dataIndex: "phone", hideInSearch: true },
       ];
@@ -22,10 +27,10 @@ export const useColumns = (view: View): ProColumns<any>[] => {
     case "hiring":
       return [
         {
-          title: "Legal Name",
+          title: "Name",
           dataIndex: "legalName",
           render: (_, r) =>
-            `${r.firstName} ${r.middleName || ""} ${r.lastName}`,
+            `${r.FirstName} ${r.MiddleName ?? ""} ${r.LastName}`,
         },
         { title: "Type", dataIndex: "applicationType", valueType: "select" },
         { title: "Status", dataIndex: "status", valueType: "select" },
@@ -40,10 +45,10 @@ export const useColumns = (view: View): ProColumns<any>[] => {
     case "profile":
       return [
         {
-          title: "Legal Name",
+          title: "Name",
           dataIndex: "legalName",
           render: (_, r) =>
-            `${r.firstName} ${r.middleName || ""} ${r.lastName}`,
+            `${r.FirstName} ${r.MiddleName ?? ""} ${r.LastName}`,
           filterSearch: true,
         },
         { title: "SSN", dataIndex: "ssn" },
@@ -59,9 +64,9 @@ export const useColumns = (view: View): ProColumns<any>[] => {
     case "visa":
       return [
         {
-          title: "Legal Name",
+          title: "Name",
           dataIndex: "legalName",
-          render: (_, r) => `${r.firstName} ${r.lastName}`,
+          render: (_, r) => `${r.FirstName} ${r.LastName}`,
           filterSearch: true,
         },
         { title: "Work Authorization", dataIndex: "workAuthorization" },
