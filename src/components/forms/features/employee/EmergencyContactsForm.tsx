@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { Button, Card, Popconfirm } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { ProFormList } from "@ant-design/pro-components";
-import { ContactPersonForm } from "./ContactPersonForm";
-import type { FormData } from "@/types/employee";
+import { ContactPersonForm } from "../../common/ContactPersonForm.tsx";
+import type { FormData } from "@/types/employee.ts";
 
 interface EmergencyContactsFormProps {
   initialValues?: Partial<FormData>;
@@ -31,7 +31,6 @@ export const EmergencyContactsForm: React.FC<EmergencyContactsFormProps> = ({
         name="EmergencyContacts"
         min={1}
         max={3}
-        initialValue={emergencyContacts.length > 0 ? emergencyContacts : [{}]}
         creatorButtonProps={{
           creatorButtonText: "Add Emergency Contact",
           icon: <PlusOutlined />,

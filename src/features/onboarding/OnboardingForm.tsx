@@ -9,7 +9,7 @@ import {
   ReferencesForm,
   EmergencyContactsForm,
   EssentialInfoForm,
-  VisaForm,
+  WorkAuthorization,
 } from "@/components/forms";
 import type { FormData } from "@/types/employee.ts";
 import { WelcomeSplash, SuccessScreen } from "@/pages/results";
@@ -100,44 +100,44 @@ const OnboardingForm: React.FC = () => {
             <IdentityVerificationForm />
           </StepsForm.StepForm>
 
-          {/* Step 3: Driver License Information */}
+          {/* Step 3: Visa Information */}
           <StepsForm.StepForm
-            name="driverLicenseInfo"
-            title="Driver License Information"
+            name="workAuthorization"
+            title="Worth Authroization"
             onFinish={handleStepFinish}
             layout="vertical"
           >
-            <DriverLicenseForm initialValues={initialValues} />
+            <WorkAuthorization />
           </StepsForm.StepForm>
 
-          {/* Step 4: References */}
+          {/* Step 4: Driver License Information */}
+          <StepsForm.StepForm
+            name="driverLicenseInfo"
+            title="Driver License"
+            onFinish={handleStepFinish}
+            layout="vertical"
+          >
+            <DriverLicenseForm />
+          </StepsForm.StepForm>
+
+          {/* Step 5: References */}
           <StepsForm.StepForm
             name="references"
             title="References"
             onFinish={handleStepFinish}
             layout="vertical"
           >
-            <ReferencesForm initialValues={initialValues} />
+            <ReferencesForm />
           </StepsForm.StepForm>
 
-          {/* Step 5: Emergency Contacts */}
+          {/* Step 6: Emergency Contacts */}
           <StepsForm.StepForm
             name="emergencyContacts"
             title="Emergency Contacts"
             onFinish={handleStepFinish}
             layout="vertical"
           >
-            <EmergencyContactsForm initialValues={initialValues} />
-          </StepsForm.StepForm>
-
-          {/* Step 6: Visa Information */}
-          <StepsForm.StepForm
-            name="visaInfo"
-            title="Visa Information"
-            onFinish={handleStepFinish}
-            layout="vertical"
-          >
-            <VisaForm initialValues={initialValues} />
+            <EmergencyContactsForm />
           </StepsForm.StepForm>
         </StepsForm>
       </div>

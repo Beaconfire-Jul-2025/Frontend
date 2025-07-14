@@ -1,17 +1,16 @@
 import React from "react";
 import { ProFormText } from "@ant-design/pro-components";
-import type { FormData } from "@/types/employee";
+import type { FormData } from "@/types/employee.ts";
 
 interface NameInfoFormProps {
   initialValues?: Partial<FormData>;
-  onValuesChange?: (values: Partial<FormData>) => void;
 }
 
 export const NameInfoForm: React.FC<NameInfoFormProps> = ({
   initialValues,
 }) => {
   return (
-    <div className="max-w-2xl">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <ProFormText
         name="FirstName"
         label="First Name *"

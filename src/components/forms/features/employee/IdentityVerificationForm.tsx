@@ -5,7 +5,7 @@ import {
   ProFormDatePicker,
 } from "@ant-design/pro-components";
 import dayjs, { Dayjs } from "dayjs";
-import type { FormData } from "@/types/employee";
+import type { FormData } from "@/types/employee.ts";
 
 interface PersonalInfoFormProps {
   initialValues?: Partial<FormData>;

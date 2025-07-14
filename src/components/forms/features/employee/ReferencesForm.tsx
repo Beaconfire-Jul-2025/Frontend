@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { Button, Card, Popconfirm } from "antd";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { ProFormList } from "@ant-design/pro-components";
-import { ContactPersonForm } from "./ContactPersonForm";
-import type { FormData } from "@/types/employee";
+import { ContactPersonForm } from "../../common/ContactPersonForm.tsx";
+import type { FormData } from "@/types/employee.ts";
 
 interface ReferencesFormProps {
   initialValues?: Partial<FormData>;
@@ -29,7 +29,6 @@ export const ReferencesForm: React.FC<ReferencesFormProps> = ({
         name="References"
         min={0}
         max={5}
-        initialValue={references}
         creatorButtonProps={{
           creatorButtonText: "Add Reference",
           icon: <PlusOutlined />,

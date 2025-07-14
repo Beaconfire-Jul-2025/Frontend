@@ -1,6 +1,6 @@
 import React from "react";
 import { ProFormText } from "@ant-design/pro-components";
-import type { FormData } from "@/types/employee";
+import type { FormData } from "@/types/employee.ts";
 
 interface ContactInfoFormProps {
   initialValues?: Partial<FormData>;
@@ -10,7 +10,7 @@ export const ContactInfoForm: React.FC<ContactInfoFormProps> = ({
   initialValues,
 }) => {
   return (
-    <div className="max-w-2xl">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <ProFormText
         name="Email"
         label="Email Address *"

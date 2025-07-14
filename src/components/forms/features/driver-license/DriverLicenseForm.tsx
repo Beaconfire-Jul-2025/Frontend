@@ -6,8 +6,8 @@ import {
   ProFormUploadDragger,
 } from "@ant-design/pro-components";
 import dayjs, { type Dayjs } from "dayjs";
-import { useDriverLicenseUpload } from "@/hooks/useDriverLicenseUpload";
-import type { FormData, PersonalDocument } from "@/types/employee";
+import { useDriverLicenseUpload } from "@/hooks/useDriverLicenseUpload.ts";
+import type { FormData, PersonalDocument } from "@/types/employee.ts";
 import type { UploadFile } from "antd";
 
 interface DriverLicenseFormProps {

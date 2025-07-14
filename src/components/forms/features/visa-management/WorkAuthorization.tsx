@@ -8,8 +8,8 @@ import {
 import { Upload, Button, Card, Typography, Space, Alert } from "antd";
 import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { useVisaForm } from "@/hooks/useVisaForm";
-import type { FormData } from "@/types/employee";
+import { useVisaForm } from "@/hooks/useVisaForm.ts";
+import type { FormData } from "@/types/employee.ts";
 
 const { Title, Text } = Typography;
 const { Dragger } = Upload;
@@ -18,7 +18,9 @@ interface VisaFormProps {
   initialValues?: FormData;
 }
 
-export const VisaForm: React.FC<VisaFormProps> = ({ initialValues }) => {
+export const WorkAuthorization: React.FC<VisaFormProps> = ({
+  initialValues,
+}) => {
   const {
     isUSCitizen,
     workAuthType,
@@ -64,7 +66,6 @@ export const VisaForm: React.FC<VisaFormProps> = ({ initialValues }) => {
           onChange: handleCitizenshipChange,
         }}
         className="mb-6"
-        initialValue={initialValues?.WorkAuthorization?.IsUSCitizen}
       />
 
       {/* Green Card or Citizen Selection */}
@@ -78,7 +79,6 @@ export const VisaForm: React.FC<VisaFormProps> = ({ initialValues }) => {
           ]}
           rules={[{ required: true, message: "Please select your status" }]}
           className="mb-6"
-          initialValue={initialValues?.WorkAuthorization?.GreenCardHolder}
         />
       )}
 
@@ -100,7 +100,6 @@ export const VisaForm: React.FC<VisaFormProps> = ({ initialValues }) => {
               onChange: handleWorkAuthTypeChange,
             }}
             className="mb-4"
-            initialValue={initialValues?.WorkAuthorization?.Type}
           />
 
           {/* Other Work Authorization Input */}
@@ -133,11 +132,6 @@ export const VisaForm: React.FC<VisaFormProps> = ({ initialValues }) => {
                   format: "MM/DD/YYYY",
                   disabledDate: disableFutureDates,
                 }}
-                initialValue={
-                  initialValues?.WorkAuthorization?.StartDate
-                    ? dayjs(initialValues.WorkAuthorization.StartDate)
-                    : undefined
-                }
               />
 
               <ProFormDatePicker
@@ -150,11 +144,6 @@ export const VisaForm: React.FC<VisaFormProps> = ({ initialValues }) => {
                 fieldProps={{
                   format: "MM/DD/YYYY",
                 }}
-                initialValue={
-                  initialValues?.WorkAuthorization?.EndDate
-                    ? dayjs(initialValues.WorkAuthorization.EndDate)
-                    : undefined
-                }
               />
             </div>
           )}
