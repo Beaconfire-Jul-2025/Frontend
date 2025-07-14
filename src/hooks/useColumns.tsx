@@ -1,7 +1,10 @@
 import type { ProColumns } from "@ant-design/pro-components";
 import { Space } from "antd";
 import type { View } from "@/api/employee";
-import { VisaActions } from "@/components/common/EmployeeTable/actions";
+import {
+  VisaActions,
+  SecureViewAction,
+} from "@/components/common/EmployeeTable/actions";
 
 interface EmployeeRecord {
   firstName: string;
@@ -21,6 +24,15 @@ export const useColumns = (view: View): ProColumns<EmployeeRecord>[] => {
           render: (_, r) => r.preferredName ?? `${r.firstName} ${r.lastName}`,
         },
         { title: "Phone", dataIndex: "phone", hideInSearch: true },
+        {
+          title: "Actions",
+          valueType: "option",
+          render: (_, record) => (
+            <Space>
+              <SecureViewAction record={record} mode="roommate" />
+            </Space>
+          ),
+        },
       ];
 
     case "application":
@@ -39,6 +51,15 @@ export const useColumns = (view: View): ProColumns<EmployeeRecord>[] => {
           dataIndex: "lastModificationDate",
           valueType: "dateTime",
           sorter: true,
+        },
+        {
+          title: "Actions",
+          valueType: "option",
+          render: (_, record) => (
+            <Space>
+              <SecureViewAction record={record} mode="hr" />
+            </Space>
+          ),
         },
       ];
 
@@ -59,6 +80,15 @@ export const useColumns = (view: View): ProColumns<EmployeeRecord>[] => {
           sorter: true,
         },
         { title: "Visa Status", dataIndex: "visaStatus" },
+        {
+          title: "Actions",
+          valueType: "option",
+          render: (_, record) => (
+            <Space>
+              <SecureViewAction record={record} mode="hr" />
+            </Space>
+          ),
+        },
       ];
 
     case "visa":
@@ -88,6 +118,7 @@ export const useColumns = (view: View): ProColumns<EmployeeRecord>[] => {
           render: (_, record) => (
             <Space>
               <VisaActions record={record} />
+              <SecureViewAction record={record} mode="hr" />
             </Space>
           ),
         },

@@ -29,13 +29,13 @@ const EmployeeProfile: React.FC<EmployeeProfileProps> = ({
   const [form] = Form.useForm();
 
   const canEdit = mode === "employee";
-  const showAllSections = mode === "hr";
 
   useEffect(() => {
-    if (!providedEmployee && employeeId) {
+    if (!providedEmployee) {
       const fetchEmployeeData = async () => {
         try {
           setLoading(true);
+          // If no employeeId provided, fetch current user's profile
           const data = await getEmployeeProfile(employeeId);
           setEmployee(data);
         } catch (err) {
@@ -54,7 +54,6 @@ const EmployeeProfile: React.FC<EmployeeProfileProps> = ({
     (section: EditSection) => {
       if (!employee || !canEdit) return;
       setEditingSection(section);
-      // Form initialization logic will be handled in individual sections
     },
     [employee, canEdit],
   );
@@ -63,11 +62,16 @@ const EmployeeProfile: React.FC<EmployeeProfileProps> = ({
     try {
       const values = await form.validateFields();
       console.log("Saving data:", values);
+
+      // TODO: Implement actual save logic here
+      // await updateEmployeeProfile(values);
+
       message.success("Information updated successfully");
       setEditingSection(null);
       if (onUpdate) onUpdate();
     } catch (error) {
       console.error("Validation failed:", error);
+      message.error("Please check the form for errors");
     }
   }, [form, onUpdate]);
 

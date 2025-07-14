@@ -23,6 +23,7 @@ import OnboardingGuard from "@/routes/OnboardingGuard.tsx";
 import HiringManagementApplication from "@/features/hr/hiring/HRHiringApplication.tsx";
 import HRVisaManagement from "@/features/hr/visa/HRVisaManagement.tsx";
 import HREmployeesManagement from "@/features/hr/employees/HREmployeesManagement.tsx";
+import HRVisaApplicationReview from "@/features/hr/visa/HRVisaApplicationReview.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/login" replace /> },
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "visa",
         element: <HRVisaManagement />,
+      },
+      {
+        path: "visa/review/:employeeId",
+        element: <HRVisaApplicationReview />,
       },
       {
         path: "hiring",
