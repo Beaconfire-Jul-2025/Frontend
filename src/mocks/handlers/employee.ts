@@ -1,14 +1,16 @@
 // msw.js
 import { http, HttpResponse } from "msw";
-import { employeePayload } from "@/mocks/payloads/employeePayload.ts";
 import { roommatePayload } from "@/mocks/payloads/employee/roommate.ts";
 import { visaPayload } from "@/mocks/payloads/employee/visa.ts";
 import { applicationPayload } from "@/mocks/payloads/employee/application.ts";
 import { profilePayload } from "@/mocks/payloads/employee/profile.ts";
+import { employeeBasicInfoPayload } from "@/mocks/payloads/employee/basicInfo.ts";
 
 export const employeeHandlers = [
   // Single employee
-  http.get("/api/employee/profile", () => HttpResponse.json(employeePayload)),
+  http.get("/api/employee/profile", () =>
+    HttpResponse.json(employeeBasicInfoPayload),
+  ),
 
   // Avatar endpoint (unchanged)
   http.get("/api/employee/avatar", () =>

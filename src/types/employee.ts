@@ -1,78 +1,78 @@
 export interface Address {
-  Type: string;
-  AddressLine1: string;
-  AddressLine2?: string;
-  City: string;
-  State: string;
-  ZipCode: string;
+  type: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  zipCode: string;
 }
 
 export interface WorkAuthorization {
-  IsUSCitizen: boolean;
-  GreenCardHolder: boolean;
-  Type: string;
-  StartDate: string | null;
-  EndDate: string | null;
-  LastModificationDate: string;
+  isUsCitizen: boolean;
+  greenCardHolder: boolean;
+  type: string;
+  startDate: string | null;
+  endDate: string | null;
+  lastModificationDate: string;
 }
 
 export interface DriverLicense {
-  HasLicense: boolean;
-  LicenseNumber: string;
-  ExpirationDate: string;
+  hasLicense: boolean;
+  licenseNumber: string;
+  expirationDate: string;
 }
 
 export interface EmergencyContact {
-  FirstName: string;
-  LastName: string;
-  MiddleName?: string;
-  CellPhone: string;
-  AlternatePhone?: string;
-  Email: string;
-  Relationship: string;
-  Address: Address;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  cellPhone: string;
+  alternatePhone?: string;
+  email: string;
+  relationship: string;
+  address: Address;
 }
 
 export interface Reference {
-  FirstName: string;
-  LastName: string;
-  MiddleName?: string;
-  Phone: string;
-  Email: string;
-  Relationship: string;
-  Address: Address;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  phone: string;
+  email: string;
+  relationship: string;
+  address: Address;
 }
 
 export interface PersonalDocument {
-  Type: string;
-  Path: string;
-  Title: string;
-  Comment: string;
-  CreateDate: string;
+  type: string;
+  path: string;
+  title: string;
+  comment: string;
+  createDate: string;
 }
 
 export interface Employee {
-  ID: string;
-  UserID: string;
-  FirstName: string;
-  LastName: string;
-  MiddleName?: string;
-  PreferredName?: string;
-  AvatarPath?: string;
-  Email: string;
-  CellPhone: string;
-  WorkPhone?: string;
-  Gender: string;
-  SSN: string;
-  DOB: string;
-  StartDate: string;
-  EndDate?: string;
-  HouseID: string;
-  Addresses: Address[];
-  WorkAuthorization: WorkAuthorization;
-  DriverLicense: DriverLicense;
-  EmergencyContacts: EmergencyContact[];
-  References: Reference[];
-  PersonalDocuments: PersonalDocument[];
-  ApplicationType: string;
+  id: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  preferredName?: string;
+  avatarPath?: string;
+  email: string;
+  cellPhone: string;
+  workPhone?: string;
+  gender: string;
+  ssn: string;
+  dob: string;
+  startDate: string;
+  endDate?: string;
+  houseId: string;
+  addresses: Address[];
+  workAuthorization: WorkAuthorization;
+  driverLicense: DriverLicense;
+  emergencyContacts: EmergencyContact[];
+  references: Reference[];
+  personalDocuments: PersonalDocument[];
+  applicationType: string;
 }

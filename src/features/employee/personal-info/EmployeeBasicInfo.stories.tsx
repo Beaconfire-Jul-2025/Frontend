@@ -144,8 +144,8 @@ export const MinimalData: Story = {
             PreferredName: undefined,
             WorkPhone: undefined,
             EndDate: undefined,
-            Addresses: [employeeBasicInfoPayload.Addresses[0]], // Only primary address
-            EmergencyContacts: [employeeBasicInfoPayload.EmergencyContacts[0]], // Only one contact
+            Addresses: [employeeBasicInfoPayload.addresses[0]], // Only primary address
+            EmergencyContacts: [employeeBasicInfoPayload.emergencyContacts[0]], // Only one contact
             References: [],
             PersonalDocuments: [],
           }),

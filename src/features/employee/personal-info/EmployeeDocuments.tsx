@@ -160,7 +160,7 @@ const EmployeeDocuments: React.FC = () => {
         title={
           <Space>
             <FileTextOutlined />
-            Personal Documents ({employee.PersonalDocuments.length})
+            Personal Documents ({employee.personalDocuments.length})
           </Space>
         }
         headerBordered
@@ -195,7 +195,7 @@ const EmployeeDocuments: React.FC = () => {
               xl: 3,
               xxl: 3,
             }}
-            dataSource={employee.PersonalDocuments}
+            dataSource={employee.personalDocuments}
             renderItem={(document) => (
               <List.Item>
                 <Card
