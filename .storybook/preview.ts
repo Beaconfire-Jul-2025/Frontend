@@ -1,7 +1,12 @@
 import type { Preview } from "@storybook/react-vite";
 import { initialize, mswLoader } from "msw-storybook-addon";
 
+// Initialize MSW
 initialize();
+
+// Import global CSS file
+import "../src/index.css";
+import "antd/dist/reset.css";
 
 const preview: Preview = {
   parameters: {

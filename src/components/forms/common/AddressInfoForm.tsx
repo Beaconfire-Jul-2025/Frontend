@@ -1,78 +1,52 @@
 //src/components/forms/AddressInfoForm
-import React, { useMemo } from "react";
-import { ProFormText } from "@ant-design/pro-components";
-import type { FormData } from "@/types/employee.ts";
+import React from "react";
+import { Form, Input, Typography } from "antd";
+
+const { Title } = Typography;
 
 interface AddressInfoFormProps {
-  initialValues?: Partial<FormData>;
+  form: any;
 }
 
-export const AddressInfoForm: React.FC<AddressInfoFormProps> = ({
-  initialValues,
-}) => {
-  // Find the PRIMARY address from the addresses array
-  const primaryAddress = useMemo(() => {
-    return initialValues?.Addresses?.find((addr) => addr.Type === "PRIMARY");
-  }, [initialValues?.Addresses]);
-
+export const AddressInfoForm: React.FC<AddressInfoFormProps> = ({ form }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <ProFormText
-        name={["Addresses", "PRIMARY", "AddressLine1"]}
-        label="Address Line 1 *"
-        placeholder="Enter your street address"
-        rules={[{ required: true, message: "Please enter your address" }]}
-        className="mb-4"
-        initialValue={primaryAddress?.AddressLine1}
-      />
+    <div>
+      <Title level={5}>Primary Address</Title>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <Form.Item label="Address Line 1" name="primaryAddressLine1">
+          <Input />
+        </Form.Item>
+        <Form.Item label="Address Line 2" name="primaryAddressLine2">
+          <Input />
+        </Form.Item>
+        <Form.Item label="City" name="primaryCity">
+          <Input />
+        </Form.Item>
+        <Form.Item label="State" name="primaryState">
+          <Input />
+        </Form.Item>
+        <Form.Item label="Zip Code" name="primaryZipCode">
+          <Input />
+        </Form.Item>
+      </div>
 
-      <ProFormText
-        name={["Addresses", "PRIMARY", "AddressLine2"]}
-        label="Address Line 2"
-        placeholder="Apartment, suite, unit, etc. (optional)"
-        className="mb-4"
-        initialValue={primaryAddress?.AddressLine2}
-      />
-
-      <ProFormText
-        name={["Addresses", "PRIMARY", "City"]}
-        label="City *"
-        placeholder="Enter your city"
-        rules={[{ required: true, message: "Please enter your city" }]}
-        className="mb-4"
-        initialValue={primaryAddress?.City}
-      />
-
-      <ProFormText
-        name={["Addresses", "PRIMARY", "State"]}
-        label="State *"
-        placeholder="Enter your state"
-        rules={[
-          { required: true, message: "Please enter your state" },
-          {
-            len: 2,
-            message: "Please enter state as 2-letter code (e.g., NY)",
-          },
-        ]}
-        className="mb-4"
-        initialValue={primaryAddress?.State}
-      />
-
-      <div className="md:col-span-2">
-        <ProFormText
-          name={["Addresses", "PRIMARY", "ZipCode"]}
-          label="ZIP Code *"
-          placeholder="Enter your ZIP code"
-          rules={[
-            { required: true, message: "Please enter your ZIP code" },
-            {
-              pattern: /^\d{5}(-\d{4})?$/,
-              message: "Please enter a valid ZIP code",
-            },
-          ]}
-          className="mb-4 max-w-xs"
-          initialValue={primaryAddress?.ZipCode}
-        />
+      <Title level={5}>Secondary Address</Title>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Form.Item label="Address Line 1" name="secondaryAddressLine1">
+          <Input />
+        </Form.Item>
+        <Form.Item label="Address Line 2" name="secondaryAddressLine2">
+          <Input />
+        </Form.Item>
+        <Form.Item label="City" name="secondaryCity">
+          <Input />
+        </Form.Item>
+        <Form.Item label="State" name="secondaryState">
+          <Input />
+        </Form.Item>
+        <Form.Item label="Zip Code" name="secondaryZipCode">
+          <Input />
+        </Form.Item>
       </div>
     </div>
   );

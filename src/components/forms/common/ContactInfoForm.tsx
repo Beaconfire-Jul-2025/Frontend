@@ -1,65 +1,33 @@
 import React from "react";
-import { ProFormText } from "@ant-design/pro-components";
-import type { FormData } from "@/types/employee.ts";
+import { Form, Input } from "antd";
 
 interface ContactInfoFormProps {
-  initialValues?: Partial<FormData>;
+  form: any;
 }
 
-export const ContactInfoForm: React.FC<ContactInfoFormProps> = ({
-  initialValues,
-}) => {
+export const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ form }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <ProFormText
-        name="Email"
-        label="Email Address *"
-        placeholder="Enter your email address"
+      <Form.Item
+        label="Personal Email"
+        name="email"
         rules={[
-          { required: true, message: "Please enter your email" },
-          {
-            type: "email",
-            message: "Please enter a valid email address",
-          },
+          { required: true, message: "Please enter email" },
+          { type: "email", message: "Please enter valid email" },
         ]}
-        fieldProps={{
-          disabled: false,
-        }}
-        className="mb-4"
-        initialValue={initialValues?.Email}
-      />
-
-      <ProFormText
-        name="CellPhone"
-        label="Cell Phone *"
-        placeholder="Enter your cell phone number"
-        rules={[
-          {
-            required: true,
-            message: "Please enter your cell phone number",
-          },
-          {
-            pattern: /^\d{3}-\d{3}-\d{4}$/,
-            message: "Please enter phone in format: XXX-XXX-XXXX",
-          },
-        ]}
-        className="mb-4"
-        initialValue={initialValues?.CellPhone}
-      />
-
-      <ProFormText
-        name="WorkPhone"
-        label="Work Phone"
-        placeholder="Enter your work phone number (optional)"
-        rules={[
-          {
-            pattern: /^\d{3}-\d{3}-\d{4}$/,
-            message: "Please enter phone in format: XXX-XXX-XXXX",
-          },
-        ]}
-        className="mb-4"
-        initialValue={initialValues?.WorkPhone}
-      />
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item label="Work Phone" name="workPhone">
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Cell Phone"
+        name="cellPhone"
+        rules={[{ required: true, message: "Please enter cell phone" }]}
+      >
+        <Input />
+      </Form.Item>
     </div>
   );
 };
