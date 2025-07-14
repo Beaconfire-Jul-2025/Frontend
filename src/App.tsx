@@ -19,6 +19,7 @@ import EmployeeFacilityReportDetails from "@/features/employee/housing/EmployeeF
 import EmployeeNewFacilityReport from "@/features/employee/housing/EmployeeNewFacilityReport";
 import EmployeeBasicInfo from "@/features/employee/personal-info/EmployeeBasicInfo.tsx";
 import EmployeeDocuments from "@/features/employee/personal-info/EmployeeDocuments.tsx";
+import EmployeeVisaInfo from "@/features/employee/visa/EmployeeVisaInfo.tsx";
 import OnboardingGuard from "@/routes/OnboardingGuard.tsx";
 import HiringManagementApplication from "@/features/hr/hiring/HRHiringApplication.tsx";
 import HRVisaManagement from "@/features/hr/visa/HRVisaManagement.tsx";
@@ -97,7 +98,7 @@ const router = createBrowserRouter([
         path: "visa",
         element: <Navigate to="/employee/visa/info" replace />,
       },
-      { path: "visa/info", element: <div>Visa Info Page - Coming Soon</div> },
+      { path: "visa/info", element: <EmployeeVisaInfo /> },
       {
         path: "visa/documents",
         element: <div>Visa Documents Page - Coming Soon</div>,
