@@ -27,3 +27,6 @@ coverage
 
 .env
 package-lock.json
+
+*storybook.log
+storybook-static

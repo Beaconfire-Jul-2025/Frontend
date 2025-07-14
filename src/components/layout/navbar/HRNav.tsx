@@ -10,40 +10,44 @@ import {
 
 const HRNav = {
   route: {
-    path: "/",
+    path: "/hr",
     routes: [
-      { path: "/home", name: "Home", icon: <HomeOutlined /> },
-      { path: "/employees", name: "Employee Profiles", icon: <UserOutlined /> },
+      { path: "/hr/home", name: "Home", icon: <HomeOutlined /> },
       {
-        path: "/visa",
+        path: "/hr/employees",
+        name: "Employee Profiles",
+        icon: <UserOutlined />,
+      },
+      {
+        path: "/hr/visa",
         name: "Visa Status Management",
         icon: <FileProtectOutlined />,
       },
       {
-        path: "/hiring",
+        path: "/hr/hiring",
         name: "Hiring Management",
         icon: <TeamOutlined />,
         routes: [
           {
-            path: "/hiring/review",
+            path: "/hr/hiring/review",
             name: "Application Review",
             icon: <FileSearchOutlined />,
           },
           {
-            path: "/hiring/invite",
+            path: "/hr/hiring/invite",
             name: "Send New Invite",
             icon: <FileAddOutlined />,
           },
         ],
       },
       {
-        path: "/housing",
+        path: "/hr/housing",
         name: "House Management",
         icon: <BankOutlined />,
         routes: [
-          { path: "/housing/basic", name: "Basic Info" },
-          { path: "/housing/facility", name: "Facility Info" },
-          { path: "/housing/report", name: "Facility Reports" },
+          { path: "/hr/housing/basic", name: "Basic Info" },
+          { path: "/hr/housing/facility", name: "Facility Info" },
+          { path: "/hr/housing/report", name: "Facility Reports" },
         ],
       },
     ],
