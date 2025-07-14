@@ -76,13 +76,6 @@ const EmployeeVisaInfo: React.FC = () => {
 
   return (
     <div className="space-y-6 p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Visa Information</h1>
-        <p className="text-gray-600 mt-2">
-          Manage your work authorization and employment information
-        </p>
-      </div>
-
       <EmploymentSection
         employee={employee}
         mode="employee"

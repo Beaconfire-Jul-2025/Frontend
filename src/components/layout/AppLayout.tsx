@@ -2,6 +2,9 @@ import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getEmployeeAvatar } from "@/api/employee";
+import { Dropdown } from "antd";
+import { LogoutOutlined } from "@ant-design/icons";
+import { logout } from "@/utils/authUtils";
 import EmployeeNav from "./navbar/EmployeeNav.tsx";
 import HRNav from "./navbar/HRNav.tsx";
 
@@ -72,6 +75,24 @@ const AppLayout: React.FC<AppLayoutProps> = ({ role, children }) => {
           src: avatarSrc,
           size: "small",
           title: "User",
+          render: (_props, dom) => (
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: "logout",
+                    icon: <LogoutOutlined />,
+                    label: "Logout",
+                    onClick: () => logout(),
+                  },
+                ],
+              }}
+              trigger={["hover", "click"]}
+              placement="bottomRight"
+            >
+              {dom}
+            </Dropdown>
+          ),
         }}
         menuItemRender={(item, dom) => (
           <MenuItemRenderer item={item} dom={dom} navigate={navigate} />

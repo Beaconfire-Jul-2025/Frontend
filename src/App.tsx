@@ -21,10 +21,12 @@ import EmployeeBasicInfo from "@/features/employee/personal-info/EmployeeBasicIn
 import EmployeeDocuments from "@/features/employee/personal-info/EmployeeDocuments.tsx";
 import EmployeeVisaInfo from "@/features/employee/visa/EmployeeVisaInfo.tsx";
 import OnboardingGuard from "@/routes/OnboardingGuard.tsx";
-import HiringManagementApplication from "@/features/hr/hiring/HRHiringApplication.tsx";
+import HiringManagementApplication from "@/features/hr/hiring/HRHiringApplicationList.tsx";
 import HRVisaManagement from "@/features/hr/visa/HRVisaManagement.tsx";
 import HREmployeesManagement from "@/features/hr/employees/HREmployeesManagement.tsx";
 import HRVisaApplicationReview from "@/features/hr/visa/HRVisaApplicationReview.tsx";
+import HREmployeeView from "@/features/hr/employees/HREmployeeView.tsx";
+import HRApplicationView from "@/features/hr/hiring/HRApplicationView.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/login" replace /> },
@@ -46,11 +48,15 @@ const router = createBrowserRouter([
         element: <HREmployeesManagement />,
       },
       {
+        path: "employees/view/:employeeId",
+        element: <HREmployeeView />,
+      },
+      {
         path: "visa",
         element: <HRVisaManagement />,
       },
       {
-        path: "visa/review/:employeeId",
+        path: "visa/view/:employeeId",
         element: <HRVisaApplicationReview />,
       },
       {
@@ -60,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "hiring/review",
         element: <HiringManagementApplication />,
+      },
+      {
+        path: "hiring/review/view/:employeeId",
+        element: <HRApplicationView />,
       },
       {
         path: "hiring/invite",

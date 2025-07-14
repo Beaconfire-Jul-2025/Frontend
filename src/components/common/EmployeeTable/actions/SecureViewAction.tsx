@@ -15,7 +15,7 @@ const RealSecureViewAction: React.FC<Props> = ({ userId }) => {
 
   const handleView = () => {
     const basePath = location.pathname;
-    navigate(`${basePath}/review/${userId}`);
+    navigate(`${basePath}/view/${userId}`);
   };
 
   return (
