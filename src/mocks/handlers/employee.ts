@@ -1,12 +1,17 @@
 // msw.js
 import { http, HttpResponse } from "msw";
-import { roommatePayload } from "@/mocks/payloads/employee/roommate.ts";
+import { roommatePayload } from "../payloads/roommatePayload";
 import { visaPayload } from "@/mocks/payloads/employee/visa.ts";
 import { applicationPayload } from "@/mocks/payloads/employee/application.ts";
 import { profilePayload } from "@/mocks/payloads/employee/profile.ts";
 import { employeeBasicInfoPayload } from "@/mocks/payloads/employee/basicInfo.ts";
 
 export const employeeHandlers = [
+  // GET /api/employee/roommates
+  http.get("/api/employee/roommates", () => {
+    return HttpResponse.json(roommatePayload);
+  }),
+
   // Single employee
   http.get("/api/employee/profile", () =>
     HttpResponse.json(employeeBasicInfoPayload),
@@ -19,7 +24,8 @@ export const employeeHandlers = [
     }),
   ),
 
-  http.get("/api/employee", ({ request }) => {
+  // GET /api/employee/ (for table queries)
+  http.get("/api/employee/", ({ request }) => {
     const url = new URL(request.url);
     const view = url.searchParams.get("view") as keyof typeof viewMap;
     const page = Number(url.searchParams.get("page") ?? 1);

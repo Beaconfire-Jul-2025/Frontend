@@ -27,6 +27,7 @@ import HREmployeesManagement from "@/features/hr/employees/HREmployeesManagement
 import HRVisaApplicationReview from "@/features/hr/visa/HRVisaApplicationReview.tsx";
 import HREmployeeView from "@/features/hr/employees/HREmployeeView.tsx";
 import HRApplicationView from "@/features/hr/hiring/HRApplicationView.tsx";
+import EmployeeHousingDetails from "@/features/employee/housing/EmployeeHousingDetails.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/login" replace /> },
@@ -113,7 +114,7 @@ const router = createBrowserRouter([
         path: "visa/documents",
         element: <div>Visa Documents Page - Coming Soon</div>,
       },
-      { path: "housing", element: <EmployeeHousing /> },
+      { path: "housing", element: <EmployeeHousingDetails /> },
       {
         path: "housing/details",
         element: <div>House Details Page - Coming Soon</div>,

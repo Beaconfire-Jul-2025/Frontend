@@ -23,6 +23,14 @@ export interface PageResult<T = unknown> {
   success: boolean;
 }
 
+export interface Roommate {
+  id: string;
+  preferredName?: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+}
+
 // Add auth token to requests
 employeeAPI.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -40,6 +48,11 @@ export const getEmployeeProfile = async (): Promise<Employee> => {
 export const getEmployeeAvatar = async (): Promise<string> => {
   const response = await employeeAPI.get<{ avatarPath: string }>("/avatar");
   return response.data.avatarPath;
+};
+
+export const getRoommates = async (): Promise<Roommate[]> => {
+  const response = await employeeAPI.get<Roommate[]>("/roommates");
+  return response.data;
 };
 
 export async function queryEmployee(
