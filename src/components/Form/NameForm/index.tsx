@@ -3,27 +3,13 @@ import { Form, Input } from 'antd';
 import type { NameData } from './data';
 
 export interface NameFormProps {
-  initialValues: NameData;
-  onFinish: (values: NameData) => void;
-  onCancel: () => void;
-  formId?: string;
+  // Only require initialValues for field default values, not for form instance
+  initialValues?: NameData;
 }
 
-export const NameForm: React.FC<NameFormProps> = ({ initialValues, onFinish, onCancel, formId = 'name-form' }) => {
-  const [form] = Form.useForm<NameData>();
-
-  React.useEffect(() => {
-    form.setFieldsValue(initialValues);
-  }, [initialValues, form]);
-
+export const NameForm: React.FC<NameFormProps> = ({ initialValues }) => {
   return (
-    <Form
-      id={formId}
-      form={form}
-      layout="vertical"
-      initialValues={initialValues}
-      onFinish={onFinish}
-    >
+    <>
       <Form.Item name="firstName" label="First Name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
@@ -36,6 +22,6 @@ export const NameForm: React.FC<NameFormProps> = ({ initialValues, onFinish, onC
       <Form.Item name="preferredName" label="Preferred Name">
         <Input />
       </Form.Item>
-    </Form>
+    </>
   );
 };

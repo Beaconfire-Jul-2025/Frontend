@@ -1,13 +1,17 @@
 import React from 'react';
-import AddressInformation, { AddressInformationValues } from './index';
+import AddressInformation from './index';
+import type { Meta, StoryObj } from '@storybook/react';
 
-export default {
+const meta: Meta<typeof AddressInformation> = {
   title: 'Onboarding/AddressInformation',
   component: AddressInformation,
   parameters: {
     layout: 'padded',
   },
 };
+export default meta;
+
+type Story = StoryObj<typeof AddressInformation>;
 
 const sampleAddresses = [
   {
@@ -20,37 +24,38 @@ const sampleAddresses = [
   },
 ];
 
-const Template = (args: any) => <AddressInformation {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-  initialValues: { addresses: [{ addressLine1: '', addressLine2: '', city: '', state: '', zipCode: '', type: 'PRIMARY' }] },
-  onFinish: () => {},
-  onCancel: () => {},
-};
-
-export const WithInitialData = Template.bind({});
-WithInitialData.args = {
-  initialValues: { addresses: sampleAddresses },
-  onFinish: () => {},
-  onCancel: () => {},
-};
-
-export const MultipleAddresses = Template.bind({});
-MultipleAddresses.args = {
-  initialValues: {
-    addresses: [
-      ...sampleAddresses,
-      {
-        addressLine1: '456 Elm St',
-        addressLine2: '',
-        city: 'Brooklyn',
-        state: 'NY',
-        zipCode: '11201',
-        type: 'SECONDARY',
-      },
-    ],
+export const Default: Story = {
+  args: {
+    initialValues: { addresses: [{ addressLine1: '', addressLine2: '', city: '', state: '', zipCode: '', type: 'PRIMARY' }] },
+    onFinish: () => {},
+    onCancel: () => {},
   },
-  onFinish: () => {},
-  onCancel: () => {},
+};
+
+export const WithInitialData: Story = {
+  args: {
+    initialValues: { addresses: sampleAddresses },
+    onFinish: () => {},
+    onCancel: () => {},
+  },
+};
+
+export const MultipleAddresses: Story = {
+  args: {
+    initialValues: {
+      addresses: [
+        ...sampleAddresses,
+        {
+          addressLine1: '456 Elm St',
+          addressLine2: '',
+          city: 'Brooklyn',
+          state: 'NY',
+          zipCode: '11201',
+          type: 'SECONDARY',
+        },
+      ],
+    },
+    onFinish: () => {},
+    onCancel: () => {},
+  },
 };

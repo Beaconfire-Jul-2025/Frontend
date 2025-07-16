@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { SectionHeader } from '../SectionHeader';
 import { NameDisplay } from '@/components/Information/NameDisplay';
 import { NameForm } from '../../Form/NameForm';
+import FormWrapper from '@/components/Form/FormWrapper';
 import type { NameSectionProps, NameSectionData } from './data';
 
 const NameSection: React.FC<NameSectionProps> = ({
@@ -46,11 +47,12 @@ const NameSection: React.FC<NameSectionProps> = ({
       }
     >
       {isEditing ? (
-        <NameForm
+        <FormWrapper
           initialValues={formData}
           onFinish={handleSave}
-          onCancel={onCancel || (() => {})}
-        />
+        >
+          <NameForm />
+        </FormWrapper>
       ) : (
         <NameDisplay data={formData} />
       )}
@@ -59,4 +61,3 @@ const NameSection: React.FC<NameSectionProps> = ({
 };
 
 export default NameSection;
-

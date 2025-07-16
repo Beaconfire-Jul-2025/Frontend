@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Space, Card, message } from 'antd';
+import { Form, Button, Space, Card } from 'antd';
 import { NameForm } from '@/components/Form/NameForm';
 import ContactForm from '@/components/Form/ContactForm';
 import IdentityForm from '@/components/Form/IdentityForm';
@@ -35,13 +35,19 @@ const BasicInformation: React.FC<BasicInformationProps> = ({ initialValues, onFi
       style={{ maxWidth: 700, margin: '0 auto' }}
     >
       <Card title="Name Information" style={{ marginBottom: 24 }}>
-        <NameForm />
+        <Form.Item noStyle shouldUpdate>
+          {() => <NameForm />}
+        </Form.Item>
       </Card>
       <Card title="Contact Information" style={{ marginBottom: 24 }}>
-        <ContactForm />
+        <Form.Item noStyle shouldUpdate>
+          {() => <ContactForm />}
+        </Form.Item>
       </Card>
       <Card title="Identity Information" style={{ marginBottom: 24 }}>
-        <IdentityForm />
+        <Form.Item noStyle shouldUpdate>
+          {() => <IdentityForm />}
+        </Form.Item>
       </Card>
       <Form.Item style={{ textAlign: 'center', marginTop: 32 }}>
         <Space>
@@ -54,4 +60,3 @@ const BasicInformation: React.FC<BasicInformationProps> = ({ initialValues, onFi
 };
 
 export default BasicInformation;
-
