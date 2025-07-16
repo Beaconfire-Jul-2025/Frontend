@@ -3,7 +3,14 @@ import { Upload, message } from 'antd';
 import type { UploadProps, UploadFile as AntdUploadFile } from 'antd/es/upload/interface';
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadFileProps, FilePurpose } from './data';
-import { getPreSignedUrl } from './service';
+
+// Conditional import for Storybook compatibility
+let getPreSignedUrl: typeof import('./service').getPreSignedUrl;
+if (process.env.STORYBOOK === 'true') {
+  getPreSignedUrl = require('./service.storybook').getPreSignedUrl;
+} else {
+  getPreSignedUrl = require('./service').getPreSignedUrl;
+}
 
 const { Dragger } = Upload;
 
@@ -112,4 +119,3 @@ const UploadFile: React.FC<UploadFileProps> = ({
 };
 
 export default UploadFile;
-

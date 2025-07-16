@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Steps, Button, Card, message } from 'antd';
 import { history } from '@umijs/max';
-import NameInformation from './components/NameInformation';
+import BasicInformation from './components/BasicInformation';
+import AddressInformation from './components/AddressInformation';
 import Welcome from './components/Welcome';
 import CompleteResult from '@/components/Form/CompleteResult';
 import type { NameData } from '@/components/Form/NameForm/data';
@@ -9,7 +10,8 @@ import type { NameData } from '@/components/Form/NameForm/data';
 const { Step } = Steps;
 
 interface OnboardingData {
-  nameInfo?: NameData;
+  basicInfo?: any;
+  addressInfo?: any;
 }
 
 const OnboardingPage: React.FC = () => {
@@ -19,10 +21,13 @@ const OnboardingPage: React.FC = () => {
 
   const steps = [
     {
-      title: 'Name Information',
-      content: 'name-information',
+      title: 'Basic Information',
+      content: 'basic-information',
     },
-    // Add more steps here as needed
+    {
+      title: 'Address Information',
+      content: 'address-information',
+    },
     {
       title: 'Complete',
       content: 'complete',
@@ -41,9 +46,15 @@ const OnboardingPage: React.FC = () => {
     setCurrent(current - 1);
   };
 
-  const handleNameInfoSubmit = (values: NameData) => {
-    setOnboardingData(prev => ({ ...prev, nameInfo: values }));
-    message.success('Name information saved successfully!');
+  const handleBasicInfoSubmit = (values: any) => {
+    setOnboardingData(prev => ({ ...prev, basicInfo: values }));
+    message.success('Basic information saved successfully!');
+    next();
+  };
+
+  const handleAddressInfoSubmit = (values: any) => {
+    setOnboardingData(prev => ({ ...prev, addressInfo: values }));
+    message.success('Address information saved successfully!');
     next();
   };
 
@@ -60,27 +71,20 @@ const OnboardingPage: React.FC = () => {
     switch (current) {
       case 0:
         return (
-          <NameInformation
-            initialValues={onboardingData.nameInfo || {
-              firstName: '',
-              lastName: '',
-              middleName: '',
-              preferredName: '',
-            }}
-            onFinish={handleNameInfoSubmit}
+          <BasicInformation
+            initialValues={onboardingData.basicInfo}
+            onFinish={handleBasicInfoSubmit}
             onCancel={() => history.push('/welcome')}
           />
         );
-      // case 1:
-      //   return (
-      //     <div style={{ textAlign: 'center', padding: '50px 0' }}>
-      //       <h2>Onboarding Complete!</h2>
-      //       <p>Welcome to the platform. Your information has been saved successfully.</p>
-      //       <Button type="primary" size="large" onClick={handleComplete}>
-      //         Get Started
-      //       </Button>
-      //     </div>
-      //   );
+      case 1:
+        return (
+          <AddressInformation
+            initialValues={onboardingData.addressInfo}
+            onFinish={handleAddressInfoSubmit}
+            onCancel={() => history.push('/welcome')}
+          />
+        );
       default:
         return null;
     }
