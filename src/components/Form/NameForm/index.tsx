@@ -6,9 +6,10 @@ export interface NameFormProps {
   initialValues: NameData;
   onFinish: (values: NameData) => void;
   onCancel: () => void;
+  formId?: string;
 }
 
-export const NameForm: React.FC<NameFormProps> = ({ initialValues, onFinish, onCancel }) => {
+export const NameForm: React.FC<NameFormProps> = ({ initialValues, onFinish, onCancel, formId = 'name-form' }) => {
   const [form] = Form.useForm<NameData>();
 
   React.useEffect(() => {
@@ -17,6 +18,7 @@ export const NameForm: React.FC<NameFormProps> = ({ initialValues, onFinish, onC
 
   return (
     <Form
+      id={formId}
       form={form}
       layout="vertical"
       initialValues={initialValues}
@@ -37,4 +39,3 @@ export const NameForm: React.FC<NameFormProps> = ({ initialValues, onFinish, onC
     </Form>
   );
 };
-
