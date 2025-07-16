@@ -3,7 +3,7 @@ import {AddressSection} from './index';
 import type {Address} from '@/components/Information/AddressDisplay/data.d';
 
 export default {
-  title: 'Components/Section/AddressSection',
+  title: 'Section/AddressSection',
   component: AddressSection,
 };
 

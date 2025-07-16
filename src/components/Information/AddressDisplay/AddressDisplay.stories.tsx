@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {AddressDisplay} from './index';
 
 const meta: Meta<typeof AddressDisplay> = {
-  title: 'Components/Information/AddressDisplay',
+  title: 'Information/AddressDisplay',
   component: AddressDisplay,
   tags: ['autodocs'],
   argTypes: {
