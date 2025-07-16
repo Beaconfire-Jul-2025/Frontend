@@ -153,4 +153,16 @@ export const layout: RunTimeLayoutConfig = ({
 export const request: RequestConfig = {
   baseURL: isDev ? '' : 'https://proapi.azurewebsites.net',
   ...errorConfig,
+  requestInterceptors: [
+    (url, options) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        options.headers = {
+          ...(options.headers || {}),
+          Authorization: `Bearer ${token}`,
+        };
+      }
+      return { url, options };
+    },
+  ],
 };

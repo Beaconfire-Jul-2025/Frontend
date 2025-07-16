@@ -30,8 +30,11 @@ const getAccess = () => {
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 export default {
   // 支持值为 Object 和 Array
-  'GET /api/currentUser': (_req: Request, res: Response) => {
-    if (!getAccess()) {
+  'GET /api/currentUser': (req: Request, res: Response) => {
+    // Support JWT mock: check Authorization header or token query param
+    const authHeader = req.headers['authorization'];
+    const token = (authHeader && authHeader.replace('Bearer ', '')) || req.query.token;
+    if (token !== 'mock-jwt-token') {
       res.status(401).send({
         data: {
           isLogin: false,
@@ -54,44 +57,20 @@ export default {
         title: '交互专家',
         group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
         tags: [
-          {
-            key: '0',
-            label: '很有想法的',
-          },
-          {
-            key: '1',
-            label: '专注设计',
-          },
-          {
-            key: '2',
-            label: '辣~',
-          },
-          {
-            key: '3',
-            label: '大长腿',
-          },
-          {
-            key: '4',
-            label: '川妹子',
-          },
-          {
-            key: '5',
-            label: '海纳百川',
-          },
+          { key: '0', label: '很有想法的' },
+          { key: '1', label: '专注设计' },
+          { key: '2', label: '辣~' },
+          { key: '3', label: '大长腿' },
+          { key: '4', label: '川妹子' },
+          { key: '5', label: '海纳百川' },
         ],
         notifyCount: 12,
         unreadCount: 11,
         country: 'China',
-        access: getAccess(),
+        access: 'admin',
         geographic: {
-          province: {
-            label: '浙江省',
-            key: '330000',
-          },
-          city: {
-            label: '杭州市',
-            key: '330100',
-          },
+          province: { label: '浙江省', key: '330000' },
+          city: { label: '杭州市', key: '330100' },
         },
         address: '西湖区工专路 77 号',
         phone: '0752-268888888',
