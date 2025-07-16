@@ -1,4 +1,6 @@
-import type { StorybookConfig } from '@storybook/react-webpack5';
+import type {StorybookConfig} from '@storybook/react-webpack5';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import path from 'path';
 
 const config: StorybookConfig = {
   "stories": [
@@ -12,6 +14,18 @@ const config: StorybookConfig = {
   "framework": {
     "name": "@storybook/react-webpack5",
     "options": {}
-  }
+  },
+  webpackFinal: async (config) => {
+    if (config.resolve) {
+      config.resolve.plugins = [
+        ...(config.resolve.plugins || []),
+        new TsconfigPathsPlugin({
+          configFile: path.resolve(__dirname, '../tsconfig.json'), // Point to your tsconfig.json
+          extensions: config.resolve.extensions,
+        }),
+      ];
+    }
+    return config;
+  },
 };
 export default config;

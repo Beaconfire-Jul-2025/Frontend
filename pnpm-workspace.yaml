@@ -1,4 +1,6 @@
 onlyBuiltDependencies:
+  - '@scarf/scarf'
+  - '@swc/core'
   - core-js
   - core-js-pure
   - es5-ext
