@@ -17,7 +17,8 @@ const AddressInformation: React.FC<AddressInformationProps> = ({ initialValues, 
       initialValues={initialValues}
       onFinish={onFinish}
       onCancel={onCancel}
-      // You can pass minAddresses and maxAddresses as needed
+      minAddresses={1}
+      maxAddresses={5}
     />
   );
 };
