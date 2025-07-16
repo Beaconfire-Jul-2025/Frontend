@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Steps, Button, Card, message } from 'antd';
 import { history } from '@umijs/max';
 import NameInformation from './components/NameInformation';
+import Welcome from './components/Welcome';
+import CompleteResult from '@/components/Form/CompleteResult';
 import type { NameData } from '@/components/Form/NameForm/data';
 
 const { Step } = Steps;
@@ -12,6 +14,7 @@ interface OnboardingData {
 
 const OnboardingPage: React.FC = () => {
   const [current, setCurrent] = useState(0);
+  const [phase, setPhase] = useState<'welcome' | 'form' | 'complete'>('welcome');
   const [onboardingData, setOnboardingData] = useState<OnboardingData>({});
 
   const steps = [
@@ -27,7 +30,11 @@ const OnboardingPage: React.FC = () => {
   ];
 
   const next = () => {
-    setCurrent(current + 1);
+    if (current < steps.length - 2) {
+      setCurrent(current + 1);
+    } else {
+      setPhase('complete');
+    }
   };
 
   const prev = () => {
@@ -42,8 +49,11 @@ const OnboardingPage: React.FC = () => {
 
   const handleComplete = () => {
     message.success('Onboarding completed successfully!');
-    // Redirect to dashboard or appropriate page
     history.push('/welcome');
+  };
+
+  const handleStart = () => {
+    setPhase('form');
   };
 
   const renderStepContent = () => {
@@ -61,16 +71,16 @@ const OnboardingPage: React.FC = () => {
             onCancel={() => history.push('/welcome')}
           />
         );
-      case 1:
-        return (
-          <div style={{ textAlign: 'center', padding: '50px 0' }}>
-            <h2>Onboarding Complete!</h2>
-            <p>Welcome to the platform. Your information has been saved successfully.</p>
-            <Button type="primary" size="large" onClick={handleComplete}>
-              Get Started
-            </Button>
-          </div>
-        );
+      // case 1:
+      //   return (
+      //     <div style={{ textAlign: 'center', padding: '50px 0' }}>
+      //       <h2>Onboarding Complete!</h2>
+      //       <p>Welcome to the platform. Your information has been saved successfully.</p>
+      //       <Button type="primary" size="large" onClick={handleComplete}>
+      //         Get Started
+      //       </Button>
+      //     </div>
+      //   );
       default:
         return null;
     }
@@ -100,22 +110,30 @@ const OnboardingPage: React.FC = () => {
           </div>
         }
       >
-        <Steps current={current} style={{ marginBottom: '30px' }}>
-          {steps.map(item => (
-            <Step key={item.title} title={item.title} />
-          ))}
-        </Steps>
-
-        <div style={{ minHeight: '400px', padding: '20px 0' }}>
-          {renderStepContent()}
-        </div>
-
-        {current > 0 && current < steps.length - 1 && (
-          <div style={{ marginTop: '30px', textAlign: 'center' }}>
-            <Button style={{ margin: '0 8px' }} onClick={prev}>
-              Previous
-            </Button>
-          </div>
+        {phase === 'welcome' && (
+          <Welcome onStart={handleStart} />
+        )}
+        {phase === 'form' && (
+          <>
+            <Steps current={current} style={{ marginBottom: '30px' }}>
+              {steps.slice(0, steps.length - 1).map(item => (
+                <Step key={item.title} title={item.title} />
+              ))}
+            </Steps>
+            <div style={{ minHeight: '400px', padding: '20px 0' }}>
+              {renderStepContent()}
+            </div>
+            {current > 0 && current < steps.length - 2 && (
+              <div style={{ marginTop: '30px', textAlign: 'center' }}>
+                <Button style={{ margin: '0 8px' }} onClick={prev}>
+                  Previous
+                </Button>
+              </div>
+            )}
+          </>
+        )}
+        {phase === 'complete' && (
+          <CompleteResult onFinish={handleComplete} />
         )}
       </Card>
     </div>
