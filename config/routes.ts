@@ -23,33 +23,45 @@ export default [
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
-  },
-  {
-    path: '/admin',
-    name: 'admin',
+    path: '/hr',
+    name: 'hr',
     icon: 'crown',
-    access: 'canAdmin',
+    access: 'canHr',
     routes: [
       {
-        path: '/admin',
-        redirect: '/admin/sub-page',
+        path: '/hr',
+        redirect: '/admin/welcome',
       },
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
+        path: '/hr/welcome',
+        name: 'Welcome',
+        component: './hr/Admin',
       },
     ],
   },
   {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './table-list',
+    path: '/employee',
+    name: 'employee',
+    icon: 'smile',
+    access: 'canEmployee',
+    routes: [
+      {
+        path: '/employee',
+        redirect: '/employee/welcome',
+      },
+      {
+        path: '/employee/welcome',
+        name: 'Welcome',
+        component: './employee/Welcome',
+      },
+    ],
+  },
+  {
+    path: '/onboarding',
+    name: 'onboarding',
+    icon: 'user',
+    access: 'canEmployeeOnboard',
+    component: './onboarding',
   },
   {
     path: '/',

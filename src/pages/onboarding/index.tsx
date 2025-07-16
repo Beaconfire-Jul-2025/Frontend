@@ -122,7 +122,4 @@ const OnboardingPage: React.FC = () => {
   );
 };
 
-// This bypasses ant design pro layout
-(OnboardingPage as any).layout = false;
-
 export default OnboardingPage;

@@ -12,7 +12,7 @@ export default {
   'POST /api/auth/login': async (req: Request, res: Response) => {
     const { username, password } = req.body;
     await waitTime(1000);
-    if (username === 'admin' && password === 'ant.design') {
+    if (username === 'hr' && password === 'ant.design') {
       res.send({
         status: 'ok',
         type: 'account',
@@ -21,7 +21,7 @@ export default {
       });
       return;
     }
-    if (username === 'user' && password === 'ant.design') {
+    if (username === 'employee' && password === 'ant.design') {
       res.send({
         status: 'ok',
         type: 'account',

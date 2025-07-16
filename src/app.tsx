@@ -48,6 +48,22 @@ export async function getInitialState(): Promise<{
     )
   ) {
     const currentUser = await fetchUserInfo();
+    // Redirect based on access
+    if (currentUser) {
+      if (currentUser.access === 'hr' && location.pathname !== '/hr/welcome') {
+        history.replace('/hr/welcome');
+      } else if (
+        currentUser.access === 'employee' &&
+        location.pathname !== '/employee/welcome'
+      ) {
+        history.replace('/employee/welcome');
+      } else if (
+        currentUser.access === 'employee-onboard' &&
+        location.pathname !== '/onboarding'
+      ) {
+        history.replace('/onboarding');
+      }
+    }
     return {
       fetchUserInfo,
       currentUser,
@@ -117,6 +133,13 @@ export const layout: RunTimeLayoutConfig = ({
         ]
       : [],
     menuHeaderRender: undefined,
+    // Hide side menu for onboarding page
+    menuRender: (props, defaultDom) => {
+      if (history.location.pathname.startsWith('/onboarding')) {
+        return false;
+      }
+      return defaultDom;
+    },
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
