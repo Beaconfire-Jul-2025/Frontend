@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Card, Space } from 'antd';
+import { Card, Space, Button, Form } from 'antd';
 import AddressForm from '@/components/Form/AddressForm';
 
 export interface AddressesFormValues {
@@ -7,46 +7,32 @@ export interface AddressesFormValues {
 }
 
 interface AddressesFormProps {
-  initialValues?: Partial<AddressesFormValues>;
-  onFinish: (values: AddressesFormValues) => void;
-  onCancel: () => void;
+  formInstance?: any;
   minAddresses?: number;
   maxAddresses?: number;
+  onCancel?: () => void;
 }
 
 const AddressesForm: React.FC<AddressesFormProps> = ({
-  initialValues,
-  onFinish,
-  onCancel,
+  formInstance,
   minAddresses = 1,
   maxAddresses = 5,
+  onCancel,
 }) => {
-  const [form] = Form.useForm();
-
-  const handleFinish = (values: any) => {
-    onFinish(values as AddressesFormValues);
-  };
-
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      initialValues={initialValues}
-      onFinish={handleFinish}
-      style={{ maxWidth: 700, margin: '0 auto' }}
-    >
+    <>
       <Card title="Address Information" style={{ marginBottom: 24 }}>
-        <AddressForm form={form} minAddresses={minAddresses} maxAddresses={maxAddresses} />
+        <AddressForm form={formInstance} minAddresses={minAddresses} maxAddresses={maxAddresses} />
       </Card>
-      <Form.Item style={{ textAlign: 'center', marginTop: 32 }}>
-        <Space>
-          <Button onClick={onCancel}>Cancel</Button>
-          <Button type="primary" htmlType="submit">Next Step</Button>
-        </Space>
-      </Form.Item>
-    </Form>
+      {onCancel && (
+        <Form.Item style={{ textAlign: 'center', marginTop: 32 }}>
+          <Space>
+            <Button onClick={onCancel}>Cancel</Button>
+          </Space>
+        </Form.Item>
+      )}
+    </>
   );
 };
 
 export default AddressesForm;
-

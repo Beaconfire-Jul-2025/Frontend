@@ -4,7 +4,8 @@ import {HomeOutlined} from '@ant-design/icons';
 import {ProCard} from '@ant-design/pro-components';
 import {AddressDisplay} from '@/components/Information/AddressDisplay';
 import {SectionHeader} from '@/components/Section/SectionHeader';
-import AddressForm from '@/components/Form/AddressForm';
+import FormWrapper from '@/components/Form/FormWrapper';
+import AddressesForm from '@/components/Form/AddressesForm';
 import type {Address} from '@/components/Information/AddressDisplay/data.d';
 import type {AddressFormData, AddressSectionProps} from './data.d';
 
@@ -102,7 +103,9 @@ export const AddressSection: React.FC<AddressSectionProps> = ({
       size="small"
     >
       {isEditing ? (
-        <AddressForm form={form}/>
+        <FormWrapper formInstance={form} onFinish={handleSave}>
+          <AddressesForm formInstance={form} onCancel={handleCancel} />
+        </FormWrapper>
       ) : (
         <Space direction="vertical" size="middle" style={{width: '100%'}}>
           {addresses.length === 0 ? (

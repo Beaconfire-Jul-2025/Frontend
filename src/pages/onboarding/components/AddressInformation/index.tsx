@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form } from 'antd';
 import AddressesForm from '@/components/Form/AddressesForm';
 
 export interface AddressInformationValues {
@@ -12,14 +13,15 @@ interface AddressInformationProps {
 }
 
 const AddressInformation: React.FC<AddressInformationProps> = ({ initialValues, onFinish, onCancel }) => {
+  const [form] = Form.useForm();
+
   return (
-    <AddressesForm
-      initialValues={initialValues}
-      onFinish={onFinish}
-      onCancel={onCancel}
-      minAddresses={1}
-      maxAddresses={5}
-    />
+    <Form form={form} layout="vertical" initialValues={initialValues} onFinish={onFinish} style={{ maxWidth: 700, margin: '0 auto' }}>
+      <AddressesForm formInstance={form} onCancel={onCancel} minAddresses={1} maxAddresses={5} />
+      <Form.Item style={{ textAlign: 'center', marginTop: 32 }}>
+        <button type="submit">Next Step</button>
+      </Form.Item>
+    </Form>
   );
 };
 

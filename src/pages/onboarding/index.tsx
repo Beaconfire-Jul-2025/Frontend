@@ -91,55 +91,83 @@ const OnboardingPage: React.FC = () => {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#f0f2f5',
-      padding: '20px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
-      <Card
+    <div
+      style={{
+        minHeight: '100vh',
+        background: '#f0f2f5',
+        padding: '20px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <div
         style={{
+          display: 'flex',
           width: '100%',
-          maxWidth: '800px',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+          maxWidth: '1000px',
+          gap: '40px',
         }}
-        title={
-          <div style={{ textAlign: 'center', padding: '20px 0' }}>
-            <h1 style={{ margin: 0, color: '#1890ff' }}>Employee Onboarding</h1>
-            <p style={{ margin: '10px 0 0 0', color: '#666' }}>
-              Please complete the following steps to set up your profile
-            </p>
-          </div>
-        }
       >
-        {phase === 'welcome' && (
-          <Welcome onStart={handleStart} />
-        )}
+        {/* Steps on the left */}
         {phase === 'form' && (
-          <>
-            <Steps current={current} style={{ marginBottom: '30px' }}>
+          <div
+            style={{
+              minWidth: '220px',
+              background: '#fff',
+              borderRadius: '8px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+              padding: '32px 16px',
+              height: 'fit-content',
+              alignSelf: 'flex-start',
+            }}
+          >
+            <Steps
+              direction="vertical"
+              current={current}
+              style={{}}
+            >
               {steps.slice(0, steps.length - 1).map(item => (
                 <Step key={item.title} title={item.title} />
               ))}
             </Steps>
-            <div style={{ minHeight: '400px', padding: '20px 0' }}>
-              {renderStepContent()}
+          </div>
+        )}
+        {/* Card on the right */}
+        <Card
+          style={{
+            width: '100%',
+            maxWidth: '800px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          }}
+          title={
+            <div style={{ textAlign: 'center', padding: '20px 0' }}>
+              <h1 style={{ margin: 0, color: '#1890ff' }}>Employee Onboarding</h1>
+              <p style={{ margin: '10px 0 0 0', color: '#666' }}>
+                Please complete the following steps to set up your profile
+              </p>
             </div>
-            {current > 0 && current < steps.length - 2 && (
-              <div style={{ marginTop: '30px', textAlign: 'center' }}>
-                <Button style={{ margin: '0 8px' }} onClick={prev}>
-                  Previous
-                </Button>
+          }
+        >
+          {phase === 'welcome' && <Welcome onStart={handleStart} />}
+          {phase === 'form' && (
+            <>
+              {/* Steps removed from here */}
+              <div style={{ minHeight: '400px', padding: '20px 0' }}>
+                {renderStepContent()}
               </div>
-            )}
-          </>
-        )}
-        {phase === 'complete' && (
-          <CompleteResult onFinish={handleComplete} />
-        )}
-      </Card>
+              {current > 0 && current < steps.length - 2 && (
+                <div style={{ marginTop: '30px', textAlign: 'center' }}>
+                  <Button style={{ margin: '0 8px' }} onClick={prev}>
+                    Previous
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
+          {phase === 'complete' && <CompleteResult onFinish={handleComplete} />}
+        </Card>
+      </div>
     </div>
   );
 };
