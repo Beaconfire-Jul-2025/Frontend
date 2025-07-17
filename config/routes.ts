@@ -23,17 +23,42 @@ export default [
     ],
   },
   {
-    path: '/hr',
-    name: 'hr',
+    path: '/hr/welcome',
+    name: 'Dashboard',
+    icon: 'crown',
+    access: 'canHr',
+    component: './hr/Admin',
+  },
+  {
+    path: '/hr/employee',
+    name: 'Employee Profiles',
+    icon: 'crown',
+    access: 'canHr',
+    component: './hr/employee',
+  },
+  {
+    path: '/hr/visa',
+    name: 'Visa Status Management',
+    icon: 'crown',
+    access: 'canHr',
+    component: './hr/employee',
+  },
+  {
+    path: '/hr/hiring',
+    name: 'Hiring Management',
     icon: 'crown',
     access: 'canHr',
     routes: [
       {
-        path: '/hr',
-        redirect: '/admin/welcome',
+        path: '/hr/hiring',
+        redirect: '/hr/hiring/applications',
       },
       {
-        path: '/hr/welcome',
+        path: '/hr/hiring/applications',
+        component: './hr/hiring/applications',
+      },
+      {
+        path: '/hr/hiring/invite',
         name: 'Welcome',
         component: './hr/Admin',
       },
