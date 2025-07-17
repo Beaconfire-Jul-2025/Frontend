@@ -1,6 +1,5 @@
 import React from 'react';
-import {Button, Card, Form, Input, Select} from 'antd';
-import {DeleteOutlined, PlusOutlined} from '@ant-design/icons';
+import {Button, Form, Input, Select} from 'antd';
 import type {FormInstance} from 'antd/es/form';
 
 interface Address {
@@ -86,152 +85,89 @@ const US_STATES = [
   {value: 'WY', label: 'Wyoming'},
 ];
 
-const AddressForm: React.FC<AddressFormProps> = ({
-                                                   form,
-                                                   initialValues,
-                                                   showAddressType = true,
-                                                   disabled = false,
-                                                   maxAddresses = 5,
-                                                 }) => {
+const AddressForm: React.FC<{ name?: number; showAddressType?: boolean; disabled?: boolean }> = ({
+  name,
+  showAddressType = true,
+  disabled = false,
+}) => {
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      initialValues={initialValues}
-      disabled={disabled}
-    >
-      <Form.List name="addresses">
-        {(fields, {add, remove}) => (
-          <>
-            {fields.map(({key, name, ...restField}) => (
-              <Card
-                key={key}
-                size="small"
-                title={`Address ${name + 1}`}
-                extra={
-                  fields.length > 1 && !disabled && (
-                    <Button
-                      type="text"
-                      danger
-                      icon={<DeleteOutlined/>}
-                      onClick={() => remove(name)}
-                      size="small"
-                      title="Remove address"
-                    >
-                      Remove
-                    </Button>
-                  )
-                }
-                style={{marginBottom: 16}}
-              >
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: 16
-                }}>
-                  {showAddressType && (
-                    <Form.Item
-                      {...restField}
-                      label="Address Type"
-                      name={[name, 'type']}
-                      rules={[{required: true, message: 'Please select address type'}]}
-                    >
-                      <Select placeholder="Select address type" showSearch>
-                        {ADDRESS_TYPES.map(type => (
-                          <Option key={type.value} value={type.value}>
-                            {type.label}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                  )}
-
-                  <Form.Item
-                    {...restField}
-                    label="Address Line 1"
-                    name={[name, 'addressLine1']}
-                    rules={[
-                      {required: true, message: 'Please enter address line 1'},
-                      {max: 100, message: 'Address line 1 cannot exceed 100 characters'}
-                    ]}
-                    style={{gridColumn: showAddressType ? 'auto' : 'span 2'}}
-                  >
-                    <Input placeholder="Enter street address"/>
-                  </Form.Item>
-
-                  <Form.Item
-                    {...restField}
-                    label="Address Line 2 (Optional)"
-                    name={[name, 'addressLine2']}
-                    rules={[
-                      {max: 100, message: 'Address line 2 cannot exceed 100 characters'}
-                    ]}
-                  >
-                    <Input placeholder="Apartment, suite, unit, etc."/>
-                  </Form.Item>
-
-                  <Form.Item
-                    {...restField}
-                    label="City"
-                    name={[name, 'city']}
-                    rules={[
-                      {required: true, message: 'Please enter city'},
-                      {max: 50, message: 'City cannot exceed 50 characters'}
-                    ]}
-                  >
-                    <Input placeholder="Enter city"/>
-                  </Form.Item>
-
-                  <Form.Item
-                    {...restField}
-                    label="State"
-                    name={[name, 'state']}
-                    rules={[{required: true, message: 'Please select state'}]}
-                  >
-                    <Select placeholder="Select state" showSearch>
-                      {US_STATES.map(state => (
-                        <Option key={state.value} value={state.value}>
-                          {state.label}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-
-                  <Form.Item
-                    {...restField}
-                    label="ZIP Code"
-                    name={[name, 'zipCode']}
-                    rules={[
-                      {required: true, message: 'Please enter ZIP code'},
-                      {
-                        pattern: /^\d{5}(-\d{4})?$/,
-                        message: 'Please enter a valid ZIP code (12345 or 12345-6789)'
-                      }
-                    ]}
-                  >
-                    <Input placeholder="12345 or 12345-6789" maxLength={10}/>
-                  </Form.Item>
-                </div>
-              </Card>
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+      gap: 16
+    }}>
+      {showAddressType && (
+        <Form.Item
+          label="Address Type"
+          name={name !== undefined ? [name, 'type'] : 'type'}
+          rules={[{ required: true, message: 'Please select address type' }]}
+        >
+          <Select placeholder="Select address type" showSearch disabled={disabled}>
+            {ADDRESS_TYPES.map(type => (
+              <Option key={type.value} value={type.value}>
+                {type.label}
+              </Option>
             ))}
-
-            {!disabled && fields.length < maxAddresses && (
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined/>}
-                  style={{marginBottom: 16}}
-                >
-                  Add Address
-                </Button>
-              </Form.Item>
-            )}
-          </>
-        )}
-      </Form.List>
-    </Form>
+          </Select>
+        </Form.Item>
+      )}
+      <Form.Item
+        label="Address Line 1"
+        name={name !== undefined ? [name, 'addressLine1'] : 'addressLine1'}
+        rules={[
+          { required: true, message: 'Please enter address line 1' },
+          { max: 100, message: 'Address line 1 cannot exceed 100 characters' }
+        ]}
+        style={{ gridColumn: showAddressType ? 'auto' : 'span 2' }}
+      >
+        <Input placeholder="Enter street address" disabled={disabled} />
+      </Form.Item>
+      <Form.Item
+        label="Address Line 2 (Optional)"
+        name={name !== undefined ? [name, 'addressLine2'] : 'addressLine2'}
+        rules={[
+          { max: 100, message: 'Address line 2 cannot exceed 100 characters' }
+        ]}
+      >
+        <Input placeholder="Apartment, suite, unit, etc." disabled={disabled} />
+      </Form.Item>
+      <Form.Item
+        label="City"
+        name={name !== undefined ? [name, 'city'] : 'city'}
+        rules={[
+          { required: true, message: 'Please enter city' },
+          { max: 50, message: 'City cannot exceed 50 characters' }
+        ]}
+      >
+        <Input placeholder="Enter city" disabled={disabled} />
+      </Form.Item>
+      <Form.Item
+        label="State"
+        name={name !== undefined ? [name, 'state'] : 'state'}
+        rules={[{ required: true, message: 'Please select state' }]}
+      >
+        <Select placeholder="Select state" showSearch disabled={disabled}>
+          {US_STATES.map(state => (
+            <Option key={state.value} value={state.value}>
+              {state.label}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <Form.Item
+        label="ZIP Code"
+        name={name !== undefined ? [name, 'zipCode'] : 'zipCode'}
+        rules={[
+          { required: true, message: 'Please enter ZIP code' },
+          {
+            pattern: /^\d{5}(-\d{4})?$/,
+            message: 'Please enter a valid ZIP code (12345 or 12345-6789)'
+          }
+        ]}
+      >
+        <Input placeholder="12345 or 12345-6789" maxLength={10} disabled={disabled} />
+      </Form.Item>
+    </div>
   );
 };
 

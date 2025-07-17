@@ -40,31 +40,22 @@ const meta: Meta<typeof AddressForm> = {
 export default meta;
 type Story = StoryObj<React.ComponentProps<typeof AddressForm>>;
 
-const sampleAddresses = [
-  {
-    addressLine1: '123 Main St',
-    addressLine2: 'Apt 4B',
-    city: 'New York',
-    state: 'NY',
-    zipCode: '10001',
-    type: 'PRIMARY',
-  },
-  {
-    addressLine1: '456 Elm St',
-    addressLine2: '',
-    city: 'Brooklyn',
-    state: 'NY',
-    zipCode: '11201',
-    type: 'SECONDARY',
-  },
-];
+const sampleAddress = {
+  addressLine1: '123 Main St',
+  addressLine2: 'Apt 4B',
+  city: 'New York',
+  state: 'NY',
+  zipCode: '10001',
+  type: 'PRIMARY',
+};
 
 interface FormWrapperProps {
   children: React.ReactElement;
   onSubmit?: (values: any) => void;
+  initialValues?: any;
 }
 
-const FormWrapper: React.FC<FormWrapperProps> = ({children, onSubmit}) => {
+const FormWrapper: React.FC<FormWrapperProps> = ({children, onSubmit, initialValues}) => {
   const [form] = Form.useForm();
 
   const handleSubmit = async () => {
@@ -84,124 +75,103 @@ const FormWrapper: React.FC<FormWrapperProps> = ({children, onSubmit}) => {
   };
 
   return (
-    <div style={{maxWidth: 800, margin: '0 auto'}}>
-      {React.cloneElement(children, {form})}
-      <Space style={{marginTop: 16}}>
-        <Button type="primary" onClick={handleSubmit}>
-          Submit
-        </Button>
-        <Button onClick={handleReset}>
-          Reset
-        </Button>
-      </Space>
-    </div>
+    <Form form={form} initialValues={initialValues} layout="vertical">
+      <div style={{maxWidth: 800, margin: '0 auto'}}>
+        {React.cloneElement(children, {form})}
+        <Space style={{marginTop: 16}}>
+          <Button type="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+          <Button onClick={handleReset}>
+            Reset
+          </Button>
+        </Space>
+      </div>
+    </Form>
   );
 };
 
 export const Default: Story = {
   render: (args: React.ComponentProps<typeof AddressForm>) => (
-    <FormWrapper>
+    <FormWrapper initialValues={args.initialValues}>
       <AddressForm {...args} />
     </FormWrapper>
   ),
   args: {
     initialValues: {
-      addresses: [{
+      address: {
         addressLine1: '',
         addressLine2: '',
         city: '',
         state: '',
         zipCode: '',
         type: 'PRIMARY'
-      }]
+      }
     },
     showAddressType: true,
     disabled: false,
-    maxAddresses: 5,
+    maxAddresses: 1,
   },
 };
 
 export const WithInitialData: Story = {
   render: (args: React.ComponentProps<typeof AddressForm>) => (
-    <FormWrapper>
+    <FormWrapper initialValues={args.initialValues}>
       <AddressForm {...args} />
     </FormWrapper>
   ),
   args: {
-    initialValues: {addresses: sampleAddresses},
+    initialValues: {address: sampleAddress},
     showAddressType: true,
     disabled: false,
-    maxAddresses: 5,
+    maxAddresses: 1,
   },
 };
 
 export const WithoutAddressType: Story = {
   render: (args: React.ComponentProps<typeof AddressForm>) => (
-    <FormWrapper>
+    <FormWrapper initialValues={args.initialValues}>
       <AddressForm {...args} />
     </FormWrapper>
   ),
   args: {
-    initialValues: {addresses: sampleAddresses},
+    initialValues: {address: sampleAddress},
     showAddressType: false,
     disabled: false,
-    maxAddresses: 5,
+    maxAddresses: 1,
   },
 };
 
 export const Disabled: Story = {
   render: (args: React.ComponentProps<typeof AddressForm>) => (
-    <FormWrapper>
+    <FormWrapper initialValues={args.initialValues}>
       <AddressForm {...args} />
     </FormWrapper>
   ),
   args: {
-    initialValues: {addresses: sampleAddresses},
+    initialValues: {address: sampleAddress},
     showAddressType: true,
     disabled: true,
-    maxAddresses: 5,
-  },
-};
-
-export const LimitedAddresses: Story = {
-  render: (args: React.ComponentProps<typeof AddressForm>) => (
-    <FormWrapper>
-      <AddressForm {...args} />
-    </FormWrapper>
-  ),
-  args: {
-    initialValues: {
-      addresses: [{
-        addressLine1: '789 Oak Ave',
-        addressLine2: '',
-        city: 'San Francisco',
-        state: 'CA',
-        zipCode: '94102',
-        type: 'PRIMARY'
-      }]
-    },
-    showAddressType: true,
-    disabled: false,
-    maxAddresses: 2,
+    maxAddresses: 1,
   },
 };
 
 export const SingleAddressNoType: Story = {
   render: (args: React.ComponentProps<typeof AddressForm>) => (
-    <FormWrapper>
+    <FormWrapper initialValues={args.initialValues}>
       <AddressForm {...args} />
     </FormWrapper>
   ),
   args: {
     initialValues: {
-      addresses: [{
+      address: {
         addressLine1: '321 Pine St',
         addressLine2: 'Suite 100',
         city: 'Seattle',
         state: 'WA',
         zipCode: '98101',
         type: 'PRIMARY'
-      }]
+      }
     },
     showAddressType: false,
     disabled: false,
