@@ -1,7 +1,8 @@
 import { FileOutlined } from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
-import { Button, List, Modal, Space, Typography } from 'antd';
+import { List, Modal, Space, Typography } from 'antd';
 import React, { useState } from 'react';
+import DocumentListItem from '../../Information/DocumentListItem';
 import { SectionHeader } from '../SectionHeader';
 import type { PersonalDocument, PersonalDocumentsSectionProps } from './data.d';
 
@@ -60,33 +61,7 @@ export const PersonalDocumentsSection: React.FC<
         itemLayout="horizontal"
         dataSource={sortedDocs}
         renderItem={(doc) => (
-          <List.Item
-            actions={[
-              <Button
-                type="link"
-                key="preview"
-                onClick={() => setPreviewDoc(doc)}
-              >
-                Preview
-              </Button>,
-              <Button
-                type="link"
-                key="download"
-                href={doc.path}
-                target="_blank"
-                download
-              >
-                Download
-              </Button>,
-            ]}
-          >
-            <List.Item.Meta
-              avatar={getFileIcon(doc.type)}
-              title={<Text strong>{doc.title}</Text>}
-              description={doc.comment}
-            />
-            <Text type="secondary">{doc.createDate}</Text>
-          </List.Item>
+          <DocumentListItem doc={doc} onPreview={setPreviewDoc} />
         )}
       />
       <Modal

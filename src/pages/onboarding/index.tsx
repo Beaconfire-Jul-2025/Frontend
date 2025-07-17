@@ -1,4 +1,5 @@
-import { Button, Card, message, Steps } from 'antd';
+import { StepsForm } from '@ant-design/pro-form';
+import { message, Steps } from 'antd';
 import React, { useState } from 'react';
 import CompleteResult from '@/components/Form/CompleteResult';
 import AddressInformation from './components/AddressInformation';
@@ -27,7 +28,6 @@ interface OnboardingData {
 }
 
 const OnboardingPage: React.FC = () => {
-  const [current, setCurrent] = useState(0);
   const [phase, setPhase] = useState<'welcome' | 'form' | 'complete'>(
     'welcome',
   );
@@ -36,195 +36,152 @@ const OnboardingPage: React.FC = () => {
   const steps = [
     {
       title: 'Basic Information',
-      content: 'basic-information',
+      form: (
+        <BasicInformation
+          onFinish={(values: any) => {
+            setOnboardingData((prev) => ({ ...prev, basicInfo: values }));
+            message.success('Basic information saved successfully!');
+            return true;
+          }}
+          initialValues={onboardingData.basicInfo}
+          onCancel={() => history.push('/welcome')}
+        />
+      ),
     },
     {
       title: 'Address Information',
-      content: 'address-information',
-    },
-    {
-      title: 'Emergency Contact',
-      content: 'emergency-contact',
-    },
-    {
-      title: 'Reference',
-      content: 'reference',
+      form: (
+        <AddressInformation
+          onFinish={(values: any) => {
+            setOnboardingData((prev) => ({ ...prev, addressInfo: values }));
+            message.success('Address information saved successfully!');
+            return true;
+          }}
+          initialValues={onboardingData.addressInfo}
+          onCancel={() => history.push('/welcome')}
+        />
+      ),
     },
     {
       title: 'Work Authorization Information',
-      content: 'work-authorization-information',
+      form: <WorkAuthorizationInformation />,
     },
     {
-      title: 'Complete',
-      content: 'complete',
+      title: 'Emergency Contact',
+      form: (
+        <EmergencyContactInformation
+          onFinish={(contacts: any[]) => {
+            setOnboardingData((prev) => ({
+              ...prev,
+              emergencyContacts: contacts,
+            }));
+            localStorage.setItem('emergencyContacts', JSON.stringify(contacts));
+            message.success('Emergency contacts saved successfully!');
+            return true;
+          }}
+          initialValues={onboardingData.emergencyContacts}
+          disabled={false}
+        />
+      ),
+    },
+    {
+      title: 'Reference',
+      form: (
+        <ReferenceInformation
+          onFinish={(refs: any[]) => {
+            setOnboardingData((prev) => ({ ...prev, references: refs }));
+            localStorage.setItem('references', JSON.stringify(refs));
+            message.success('References saved successfully!');
+            return true;
+          }}
+          initialValues={onboardingData.references}
+          disabled={false}
+        />
+      ),
     },
   ];
 
-  const next = () => {
-    if (current < steps.length - 2) {
-      setCurrent(current + 1);
-    } else {
-      setPhase('complete');
-    }
-  };
+  if (phase === 'welcome') {
+    return <Welcome onStart={() => setPhase('form')} />;
+  }
 
-  const prev = () => {
-    setCurrent(current - 1);
-  };
-
-  const handleBasicInfoSubmit = (values: any) => {
-    setOnboardingData((prev) => ({ ...prev, basicInfo: values }));
-    message.success('Basic information saved successfully!');
-    next();
-  };
-
-  const handleAddressInfoSubmit = (values: any) => {
-    setOnboardingData((prev) => ({ ...prev, addressInfo: values }));
-    message.success('Address information saved successfully!');
-    next();
-  };
-
-  const handleEmergencyContactsSubmit = (contacts: any[]) => {
-    setOnboardingData((prev) => ({ ...prev, emergencyContacts: contacts }));
-    localStorage.setItem('emergencyContacts', JSON.stringify(contacts));
-    message.success('Emergency contacts saved successfully!');
-    next();
-  };
-
-  const handleReferencesSubmit = (refs: any[]) => {
-    setOnboardingData((prev) => ({ ...prev, references: refs }));
-    localStorage.setItem('references', JSON.stringify(refs));
-    message.success('References saved successfully!');
-    next();
-  };
-
-  const handleComplete = () => {
-    message.success('Onboarding completed successfully!');
-    history.push('/welcome');
-  };
-
-  const handleStart = () => {
-    setPhase('form');
-  };
-
-  const renderStepContent = () => {
-    switch (steps[current].content) {
-      case 'basic-information':
-        return (
-          <BasicInformation
-            initialValues={onboardingData.basicInfo}
-            onFinish={handleBasicInfoSubmit}
-            onCancel={() => history.push('/welcome')}
-          />
-        );
-      case 'address-information':
-        return (
-          <AddressInformation
-            initialValues={onboardingData.addressInfo}
-            onFinish={handleAddressInfoSubmit}
-            onCancel={() => history.push('/welcome')}
-          />
-        );
-      case 'emergency-contact':
-        return (
-          <EmergencyContactInformation
-            initialValues={onboardingData.emergencyContacts}
-            onFinish={handleEmergencyContactsSubmit}
-            disabled={false}
-          />
-        );
-      case 'reference':
-        return (
-          <ReferenceInformation
-            initialValues={onboardingData.references}
-            onFinish={handleReferencesSubmit}
-            disabled={false}
-          />
-        );
-      case 'work-authorization-information':
-        return <WorkAuthorizationInformation />;
-      case 'complete':
-        return <CompleteResult />;
-      default:
-        return null;
-    }
-  };
+  if (phase === 'complete') {
+    return <CompleteResult onFinish={() => history.push('/welcome')} />;
+  }
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        padding: '20px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          maxWidth: '1000px',
-          gap: '40px',
+    <div style={{ minHeight: '80vh' }}>
+      <StepsForm
+        stepsProps={{
+          direction: 'vertical',
+          style: { width: 220, marginRight: 32 },
+        }}
+        onFinish={async () => {
+          message.success('Onboarding completed successfully!');
+          setPhase('complete');
+          return true;
         }}
       >
-        {/* Steps on the left */}
-        {phase === 'form' && (
-          <div
-            style={{
-              minWidth: '220px',
-              background: '#fff',
-              borderRadius: '8px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-              padding: '32px 16px',
-              height: 'fit-content',
-              alignSelf: 'flex-start',
-            }}
-          >
-            <Steps direction="vertical" current={current} style={{}}>
-              {steps.slice(0, steps.length - 1).map((item) => (
-                <Step key={item.title} title={item.title} />
-              ))}
-            </Steps>
-          </div>
-        )}
-        {/* Card on the right */}
-        <Card
-          style={{
-            width: '100%',
-            maxWidth: '800px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        <StepsForm.StepForm
+          name="basicInfo"
+          title="Basic Information"
+          initialValues={onboardingData.basicInfo}
+          onFinish={async (values) => {
+            setOnboardingData((prev) => ({ ...prev, basicInfo: values }));
+            message.success('Basic information saved successfully!');
+            return true;
           }}
-          title={
-            <div style={{ textAlign: 'center', padding: '20px 0' }}>
-              <h1 style={{ margin: 0, color: '#1890ff' }}>
-                Employee Onboarding
-              </h1>
-              <p style={{ margin: '10px 0 0 0', color: '#666' }}>
-                Please complete the following steps to set up your profile
-              </p>
-            </div>
-          }
         >
-          {phase === 'welcome' && <Welcome onStart={handleStart} />}
-          {phase === 'form' && (
-            <>
-              {/* Steps removed from here */}
-              <div style={{ minHeight: '400px', padding: '20px 0' }}>
-                {renderStepContent()}
-              </div>
-              {current > 0 && current < steps.length - 2 && (
-                <div style={{ marginTop: '30px', textAlign: 'center' }}>
-                  <Button style={{ margin: '0 8px' }} onClick={prev}>
-                    Previous
-                  </Button>
-                </div>
-              )}
-            </>
-          )}
-          {phase === 'complete' && <CompleteResult onFinish={handleComplete} />}
-        </Card>
-      </div>
+          <BasicInformation onCancel={() => history.push('/welcome')} />
+        </StepsForm.StepForm>
+        <StepsForm.StepForm
+          name="addressInfo"
+          title="Address Information"
+          initialValues={onboardingData.addressInfo}
+          onFinish={async (values) => {
+            setOnboardingData((prev) => ({ ...prev, addressInfo: values }));
+            message.success('Address information saved successfully!');
+            return true;
+          }}
+        >
+          <AddressInformation onCancel={() => history.push('/welcome')} />
+        </StepsForm.StepForm>
+        <StepsForm.StepForm
+          name="workAuthorization"
+          title="Work Authorization Information"
+        >
+          <WorkAuthorizationInformation />
+        </StepsForm.StepForm>
+        <StepsForm.StepForm
+          name="emergencyContacts"
+          title="Emergency Contact"
+          initialValues={onboardingData.emergencyContacts}
+          onFinish={async (contacts) => {
+            setOnboardingData((prev) => ({
+              ...prev,
+              emergencyContacts: contacts,
+            }));
+            localStorage.setItem('emergencyContacts', JSON.stringify(contacts));
+            message.success('Emergency contacts saved successfully!');
+            return true;
+          }}
+        >
+          <EmergencyContactInformation disabled={false} />
+        </StepsForm.StepForm>
+        <StepsForm.StepForm
+          name="references"
+          title="Reference"
+          initialValues={onboardingData.references}
+          onFinish={async (refs) => {
+            setOnboardingData((prev) => ({ ...prev, references: refs }));
+            localStorage.setItem('references', JSON.stringify(refs));
+            message.success('References saved successfully!');
+            return true;
+          }}
+        >
+          <ReferenceInformation disabled={false} />
+        </StepsForm.StepForm>
+      </StepsForm>
     </div>
   );
 };

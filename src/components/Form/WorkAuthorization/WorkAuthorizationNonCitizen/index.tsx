@@ -1,28 +1,32 @@
-import React from "react";
-import { ProFormSelect, ProFormText, ProFormDatePicker } from "@ant-design/pro-components";
-import { Card, Typography } from "antd";
-import UploadFile from "../../UploadFile";
-import type { WorkAuthorizationNonCitizenData } from "./data.d";
+import {
+  ProFormDatePicker,
+  ProFormSelect,
+  ProFormText,
+} from '@ant-design/pro-components';
+import { Card, Typography } from 'antd';
+import React from 'react';
+import UploadFile from '../../UploadFile';
+import type { WorkAuthorizationNonCitizenData } from './data.d';
 
 const { Title, Text } = Typography;
 
 interface WorkAuthorizationNonCitizenProps {
   value?: WorkAuthorizationNonCitizenData;
   onChange?: (data: WorkAuthorizationNonCitizenData) => void;
+  showDocumentUpload?: boolean;
 }
 
 const workAuthOptions = [
-  { label: "H1-B", value: "H1-B" },
-  { label: "L2", value: "L2" },
-  { label: "F1(CPT/OPT)", value: "F1(CPT/OPT)" },
-  { label: "H4", value: "H4" },
-  { label: "Other", value: "Other" },
+  { label: 'H1-B', value: 'H1-B' },
+  { label: 'L2', value: 'L2' },
+  { label: 'F1(CPT/OPT)', value: 'F1(CPT/OPT)' },
+  { label: 'H4', value: 'H4' },
+  { label: 'Other', value: 'Other' },
 ];
 
-export const WorkAuthorizationNonCitizen: React.FC<WorkAuthorizationNonCitizenProps> = ({
-  value = { workAuthType: "" },
-  onChange,
-}) => {
+export const WorkAuthorizationNonCitizen: React.FC<
+  WorkAuthorizationNonCitizenProps
+> = ({ value = { workAuthType: '' }, onChange, showDocumentUpload = true }) => {
   const disableFutureDates = (current: any) => current && current > new Date();
 
   return (
@@ -32,22 +36,34 @@ export const WorkAuthorizationNonCitizen: React.FC<WorkAuthorizationNonCitizenPr
         label="What is your work authorization? *"
         placeholder="Select your work authorization type"
         options={workAuthOptions}
-        rules={[{ required: true, message: "Please select your work authorization type" }]}
+        rules={[
+          {
+            required: true,
+            message: 'Please select your work authorization type',
+          },
+        ]}
         fieldProps={{
           value: value.workAuthType,
-          onChange: (val: string) => onChange?.({ ...value, workAuthType: val, otherType: "" }),
+          onChange: (val: string) =>
+            onChange?.({ ...value, workAuthType: val, otherType: '' }),
         }}
         className="mb-4"
       />
-      {value.workAuthType === "Other" && (
+      {value.workAuthType === 'Other' && (
         <ProFormText
           name="otherType"
           label="Please specify your work authorization *"
           placeholder="Enter your work authorization type"
-          rules={[{ required: true, message: "Please specify your work authorization" }]}
+          rules={[
+            {
+              required: true,
+              message: 'Please specify your work authorization',
+            },
+          ]}
           fieldProps={{
             value: value.otherType,
-            onChange: (e: any) => onChange?.({ ...value, otherType: e.target.value }),
+            onChange: (e: any) =>
+              onChange?.({ ...value, otherType: e.target.value }),
           }}
           className="mb-4"
         />
@@ -58,31 +74,39 @@ export const WorkAuthorizationNonCitizen: React.FC<WorkAuthorizationNonCitizenPr
             name="startDate"
             label="Start Date *"
             placeholder="Select start date"
-            rules={[{ required: true, message: "Please select the start date" }]}
+            rules={[
+              { required: true, message: 'Please select the start date' },
+            ]}
             fieldProps={{
               value: value.startDate,
-              format: "MM/DD/YYYY",
+              format: 'MM/DD/YYYY',
               disabledDate: disableFutureDates,
-              onChange: (date: any) => onChange?.({ ...value, startDate: date }),
+              onChange: (date: any) =>
+                onChange?.({ ...value, startDate: date }),
             }}
           />
           <ProFormDatePicker
             name="endDate"
             label="End Date *"
             placeholder="Select end date"
-            rules={[{ required: true, message: "Please select the end date" }]}
+            rules={[{ required: true, message: 'Please select the end date' }]}
             fieldProps={{
               value: value.endDate,
-              format: "MM/DD/YYYY",
+              format: 'MM/DD/YYYY',
               onChange: (date: any) => onChange?.({ ...value, endDate: date }),
             }}
           />
         </div>
       )}
-      {value.workAuthType && (
+      {value.workAuthType && showDocumentUpload && (
         <Card className="mb-6">
-          <Title level={4} className="mb-4">Work Authorization Document *</Title>
-          <Text className="block mb-4">Please upload a copy of your work authorization document (EAD card, H1B document, etc.)</Text>
+          <Title level={4} className="mb-4">
+            Work Authorization Document *
+          </Title>
+          <Text className="block mb-4">
+            Please upload a copy of your work authorization document (EAD card,
+            H1B document, etc.)
+          </Text>
           <UploadFile
             value={value.workAuthFile}
             onChange={(file) => onChange?.({ ...value, workAuthFile: file })}

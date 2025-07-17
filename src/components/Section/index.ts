@@ -1,0 +1,9 @@
+export { default as AddressSection } from './AddressSection';
+export { default as ContactSection } from './ContactSection';
+export { default as DriverLicenseSection } from './DriverLicenseSection';
+export { default as IdentitySection } from './IdentitySection';
+export { default as NameSection } from './NameSection';
+export { default as PersonalDocumentsSection } from './PersonalDocumentsSection';
+export { default as RelatedPeopleSection } from './RelatedPeopleSection';
+export { default as SectionHeader } from './SectionHeader';
+export { default as WorkAuthorizationSection } from './WorkAuthorizationSection';

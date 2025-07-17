@@ -2,6 +2,7 @@ import { Divider, Space, Typography } from 'antd';
 import React from 'react';
 import AddressSection from '../Section/AddressSection';
 import ContactSection from '../Section/ContactSection';
+import DriverLicenseSection from '../Section/DriverLicenseSection';
 import IdentitySection from '../Section/IdentitySection';
 import NameSection from '../Section/NameSection';
 import PersonalDocumentsSection from '../Section/PersonalDocumentsSection';
@@ -80,6 +81,14 @@ const EmployeeProfile: React.FC<EmployeeProfileProps> = ({
       <WorkAuthorizationSection
         workAuthorization={employee.workAuthorization}
         editable={false}
+      />
+      <Divider />
+      <DriverLicenseSection
+        driverLicense={employee.driverLicense}
+        document={employee.personalDocuments?.find(
+          (doc) => doc.type === 'DRIVER_LICENSE',
+        )}
+        editable={editable}
       />
     </Space>
   );
