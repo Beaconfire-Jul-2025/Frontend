@@ -1,6 +1,11 @@
 // Types for CitizenshipQuestions
 export interface CitizenshipQuestionsData {
-  isUSCitizen: boolean | null;
-  isGreenCardHolder: boolean | null;
+  workAuthorization: {
+    isUsCitizen: boolean;
+    greenCardHolder: boolean;
+    type: string;
+    startDate: string | null;
+    endDate: string | null;
+    lastModificationDate: string;
+  };
 }
-

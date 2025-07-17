@@ -1,53 +1,83 @@
-import React from "react";
-import { ProFormRadio } from "@ant-design/pro-components";
-import type { CitizenshipQuestionsData } from "./data.d";
+import { ProFormRadio } from '@ant-design/pro-components';
+import React from 'react';
+import type { CitizenshipQuestionsData } from './data.d';
 
 interface CitizenshipQuestionsProps {
   value?: CitizenshipQuestionsData;
   onChange?: (data: CitizenshipQuestionsData) => void;
 }
 
-const citizenshipOptions = [
-  { label: "Yes, I am a U.S. Citizen or Permanent Resident", value: true },
-  { label: "No, I require work authorization", value: false },
-];
-
-const greenCardOptions = [
-  { label: "U.S. Citizen", value: false },
-  { label: "Green Card Holder", value: true },
+const yesNoOptions = [
+  { label: 'Yes', value: true },
+  { label: 'No', value: false },
 ];
 
 export const CitizenshipQuestions: React.FC<CitizenshipQuestionsProps> = ({
-  value = { isUSCitizen: null, isGreenCardHolder: null },
+  value = {
+    workAuthorization: {
+      isUsCitizen: false,
+      greenCardHolder: false,
+      type: '',
+      startDate: null,
+      endDate: null,
+      lastModificationDate: new Date().toISOString().slice(0, 10),
+    },
+  },
   onChange,
 }) => {
+  const handleCitizenChange = (isUsCitizen: boolean) => {
+    const type = isUsCitizen ? 'US Citizen' : '';
+    onChange?.({
+      workAuthorization: {
+        ...value.workAuthorization,
+        isUsCitizen,
+        greenCardHolder: false,
+        type,
+      },
+    });
+  };
+
+  const handleGreenCardChange = (greenCardHolder: boolean) => {
+    const type = greenCardHolder
+      ? 'Green Card Holder'
+      : value.workAuthorization.isUsCitizen
+        ? 'US Citizen'
+        : 'Other';
+    onChange?.({
+      workAuthorization: {
+        ...value.workAuthorization,
+        greenCardHolder,
+        type,
+      },
+    });
+  };
+
   return (
     <>
       <ProFormRadio.Group
-        name="isUSCitizen"
-        label="Are you a citizen or permanent resident of the U.S.? *"
-        options={citizenshipOptions}
-        rules={[{ required: true, message: "Please select your citizenship status" }]}
+        name="isUsCitizen"
+        label="Are you a US citizen? *"
+        options={yesNoOptions}
+        rules={[
+          { required: true, message: 'Please select your citizenship status' },
+        ]}
         fieldProps={{
-          value: value.isUSCitizen,
-          onChange: (e) => {
-            const isUSCitizen = e.target.value;
-            onChange?.({ ...value, isUSCitizen, isGreenCardHolder: null });
-          },
+          value: value.workAuthorization.isUsCitizen,
+          onChange: (e: any) => handleCitizenChange(e.target.value),
         }}
         className="mb-6"
       />
-      {value.isUSCitizen === true && (
+      {!value.workAuthorization.isUsCitizen && (
         <ProFormRadio.Group
-          name="isGreenCardHolder"
-          label="Please specify your status *"
-          options={greenCardOptions}
-          rules={[{ required: true, message: "Please select your status" }]}
+          name="greenCardHolder"
+          label="Are you a green card holder? *"
+          options={yesNoOptions}
+          rules={[
+            { required: true, message: 'Please select your green card status' },
+          ]}
           fieldProps={{
-            value: value.isGreenCardHolder,
-            onChange: (e) => {
-              onChange?.({ ...value, isGreenCardHolder: e.target.value });
-            },
+            value: value.workAuthorization.greenCardHolder,
+            onChange: (e: any) => handleGreenCardChange(e.target.value),
           }}
           className="mb-6"
         />
@@ -55,4 +85,3 @@ export const CitizenshipQuestions: React.FC<CitizenshipQuestionsProps> = ({
     </>
   );
 };
-

@@ -3,7 +3,7 @@ import React from 'react';
 import { SecureViewAction, VisaActions } from './actions';
 
 const meta: Meta = {
-  title: 'Common/EmployeeTable/Actions',
+  title: 'Table/EmployeeTable/Actions',
   component: VisaActions,
 };
 export default meta;

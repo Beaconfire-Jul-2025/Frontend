@@ -1,11 +1,17 @@
+import { Button, Card, message, Steps } from 'antd';
 import React, { useState } from 'react';
-import { Steps, Button, Card, message } from 'antd';
-import { history } from '@umijs/max';
-import BasicInformation from './components/BasicInformation';
-import AddressInformation from './components/AddressInformation';
-import Welcome from './components/Welcome';
 import CompleteResult from '@/components/Form/CompleteResult';
-import type { NameData } from '@/components/Form/NameForm/data';
+import AddressInformation from './components/AddressInformation';
+import BasicInformation from './components/BasicInformation';
+import Welcome from './components/Welcome';
+import WorkAuthorizationInformation from './components/WorkAuthorizationInformation';
+
+let history: typeof import('@umijs/max').history;
+if (process.env.STORYBOOK === 'true') {
+  history = { push: () => {} } as any;
+} else {
+  history = require('@umijs/max').history;
+}
 
 const { Step } = Steps;
 
@@ -16,7 +22,9 @@ interface OnboardingData {
 
 const OnboardingPage: React.FC = () => {
   const [current, setCurrent] = useState(0);
-  const [phase, setPhase] = useState<'welcome' | 'form' | 'complete'>('welcome');
+  const [phase, setPhase] = useState<'welcome' | 'form' | 'complete'>(
+    'welcome',
+  );
   const [onboardingData, setOnboardingData] = useState<OnboardingData>({});
 
   const steps = [
@@ -27,6 +35,10 @@ const OnboardingPage: React.FC = () => {
     {
       title: 'Address Information',
       content: 'address-information',
+    },
+    {
+      title: 'Work Authorization Information',
+      content: 'work-authorization-information',
     },
     {
       title: 'Complete',
@@ -47,13 +59,13 @@ const OnboardingPage: React.FC = () => {
   };
 
   const handleBasicInfoSubmit = (values: any) => {
-    setOnboardingData(prev => ({ ...prev, basicInfo: values }));
+    setOnboardingData((prev) => ({ ...prev, basicInfo: values }));
     message.success('Basic information saved successfully!');
     next();
   };
 
   const handleAddressInfoSubmit = (values: any) => {
-    setOnboardingData(prev => ({ ...prev, addressInfo: values }));
+    setOnboardingData((prev) => ({ ...prev, addressInfo: values }));
     message.success('Address information saved successfully!');
     next();
   };
@@ -68,8 +80,8 @@ const OnboardingPage: React.FC = () => {
   };
 
   const renderStepContent = () => {
-    switch (current) {
-      case 0:
+    switch (steps[current].content) {
+      case 'basic-information':
         return (
           <BasicInformation
             initialValues={onboardingData.basicInfo}
@@ -77,7 +89,7 @@ const OnboardingPage: React.FC = () => {
             onCancel={() => history.push('/welcome')}
           />
         );
-      case 1:
+      case 'address-information':
         return (
           <AddressInformation
             initialValues={onboardingData.addressInfo}
@@ -85,6 +97,10 @@ const OnboardingPage: React.FC = () => {
             onCancel={() => history.push('/welcome')}
           />
         );
+      case 'work-authorization-information':
+        return <WorkAuthorizationInformation />;
+      case 'complete':
+        return <CompleteResult />;
       default:
         return null;
     }
@@ -121,12 +137,8 @@ const OnboardingPage: React.FC = () => {
               alignSelf: 'flex-start',
             }}
           >
-            <Steps
-              direction="vertical"
-              current={current}
-              style={{}}
-            >
-              {steps.slice(0, steps.length - 1).map(item => (
+            <Steps direction="vertical" current={current} style={{}}>
+              {steps.slice(0, steps.length - 1).map((item) => (
                 <Step key={item.title} title={item.title} />
               ))}
             </Steps>
@@ -141,7 +153,9 @@ const OnboardingPage: React.FC = () => {
           }}
           title={
             <div style={{ textAlign: 'center', padding: '20px 0' }}>
-              <h1 style={{ margin: 0, color: '#1890ff' }}>Employee Onboarding</h1>
+              <h1 style={{ margin: 0, color: '#1890ff' }}>
+                Employee Onboarding
+              </h1>
               <p style={{ margin: '10px 0 0 0', color: '#666' }}>
                 Please complete the following steps to set up your profile
               </p>
@@ -172,10 +186,3 @@ const OnboardingPage: React.FC = () => {
 };
 
 export default OnboardingPage;
-
-let history: typeof import('@umijs/max').history;
-if (process.env.STORYBOOK === 'true') {
-  history = { push: () => {} } as any;
-} else {
-  history = require('@umijs/max').history;
-}

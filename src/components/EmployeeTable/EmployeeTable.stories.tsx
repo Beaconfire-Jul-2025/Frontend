@@ -5,12 +5,12 @@ import type { EmployeeTableView } from './data';
 import EmployeeTable from './index';
 
 // Fake service for Storybook compatibility
-const fetchEmployees = async () => {
+const _fetchEmployees = async () => {
   return mockEmployees[0].response();
 };
 
 const meta: Meta<typeof EmployeeTable> = {
-  title: 'Employee/EmployeeTable',
+  title: 'Table/EmployeeTable',
   component: EmployeeTable,
   parameters: {
     controls: { expanded: true },

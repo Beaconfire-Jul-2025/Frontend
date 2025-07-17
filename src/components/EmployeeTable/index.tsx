@@ -1,4 +1,4 @@
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
+import type { ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import React from 'react';
 import type { Employee, EmployeeTableView } from './data';
@@ -16,7 +16,7 @@ if (process.env.STORYBOOK === 'true') {
 }
 
 import { Avatar } from 'antd';
-import { SecureViewAction, VisaActions } from '../common/EmployeeTable/actions';
+import { SecureViewAction, VisaActions } from './components/actions';
 
 export interface EmployeeTableProps {
   view: EmployeeTableView;
@@ -138,7 +138,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({ view, onRowClick }) => {
     <ProTable<Employee>
       rowKey="userId"
       columns={getColumns(view)}
-      request={async (params, sorter, filter) => {
+      request={async (params, sorter, _filter) => {
         // Convert AntD params to API params
         const query: Record<string, any> = {
           page: params.current ? params.current - 1 : 0,
@@ -146,7 +146,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({ view, onRowClick }) => {
         };
         if (params.fullName) query.name = params.fullName;
         if (params.applicationStatus) query.status = params.applicationStatus;
-        if (sorter && sorter.field && sorter.order) {
+        if (sorter?.field && sorter.order) {
           query.sort = `${sorter.field},${sorter.order === 'ascend' ? 'asc' : 'desc'}`;
         }
         // Add more filters as needed

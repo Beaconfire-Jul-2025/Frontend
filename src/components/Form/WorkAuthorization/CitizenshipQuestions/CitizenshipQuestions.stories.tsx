@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Meta, StoryObj } from "@storybook/react-webpack5";
-import { CitizenshipQuestions } from "./index";
-import FormWrapper from "../../FormWrapper";
-import type { CitizenshipQuestionsData } from "./data.d";
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
+import React, { useState } from 'react';
+import FormWrapper from '../../FormWrapper';
+import type { CitizenshipQuestionsData } from './data.d';
+import { CitizenshipQuestions } from './index';
 
 const meta: Meta<typeof CitizenshipQuestions> = {
-  title: "Form/WorkAuthorization/CitizenshipQuestions",
+  title: 'Form/WorkAuthorization/CitizenshipQuestions',
   component: CitizenshipQuestions,
 };
 export default meta;
@@ -13,13 +13,20 @@ export default meta;
 type Story = StoryObj<typeof CitizenshipQuestions>;
 
 const initialValues: CitizenshipQuestionsData = {
-  isUSCitizen: null,
-  isGreenCardHolder: null,
+  workAuthorization: {
+    isUsCitizen: false,
+    greenCardHolder: false,
+    type: '',
+    startDate: null,
+    endDate: null,
+    lastModificationDate: new Date().toISOString().slice(0, 10),
+  },
 };
 
 export const Default: Story = {
   render: () => {
-    const [formData, setFormData] = useState<CitizenshipQuestionsData>(initialValues);
+    const [formData, setFormData] =
+      useState<CitizenshipQuestionsData>(initialValues);
     return (
       <FormWrapper
         initialValues={formData}
@@ -33,4 +40,3 @@ export const Default: Story = {
     );
   },
 };
-

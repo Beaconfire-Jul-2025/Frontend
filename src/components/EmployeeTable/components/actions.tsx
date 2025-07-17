@@ -4,12 +4,12 @@ import React from 'react';
 
 let useNavigate: () => (path: string) => void;
 if (process.env.STORYBOOK === 'true') {
-  useNavigate = () => (path: string) => {};
+  useNavigate = () => (_path: string) => {};
 } else {
   useNavigate = require('@umijs/max').useNavigate;
 }
 
-export const VisaActions: React.FC<{ record: any }> = ({ record }) => (
+export const VisaActions: React.FC<{ record: any }> = ({ _record }) => (
   <>
     <Button type="link" size="small">
       Renew
