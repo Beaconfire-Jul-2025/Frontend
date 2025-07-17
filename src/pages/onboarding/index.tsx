@@ -3,12 +3,16 @@ import React, { useState } from 'react';
 import CompleteResult from '@/components/Form/CompleteResult';
 import AddressInformation from './components/AddressInformation';
 import BasicInformation from './components/BasicInformation';
+import EmergencyContactInformation from './components/EmergencyContactInformation';
+import ReferenceInformation from './components/ReferenceInformation';
 import Welcome from './components/Welcome';
 import WorkAuthorizationInformation from './components/WorkAuthorizationInformation';
 
 let history: typeof import('@umijs/max').history;
 if (process.env.STORYBOOK === 'true') {
-  history = { push: () => {} } as any;
+  history = {
+    push: () => {},
+  } as any;
 } else {
   history = require('@umijs/max').history;
 }
@@ -18,6 +22,8 @@ const { Step } = Steps;
 interface OnboardingData {
   basicInfo?: any;
   addressInfo?: any;
+  emergencyContacts?: any[];
+  references?: any[];
 }
 
 const OnboardingPage: React.FC = () => {
@@ -35,6 +41,14 @@ const OnboardingPage: React.FC = () => {
     {
       title: 'Address Information',
       content: 'address-information',
+    },
+    {
+      title: 'Emergency Contact',
+      content: 'emergency-contact',
+    },
+    {
+      title: 'Reference',
+      content: 'reference',
     },
     {
       title: 'Work Authorization Information',
@@ -70,6 +84,20 @@ const OnboardingPage: React.FC = () => {
     next();
   };
 
+  const handleEmergencyContactsSubmit = (contacts: any[]) => {
+    setOnboardingData((prev) => ({ ...prev, emergencyContacts: contacts }));
+    localStorage.setItem('emergencyContacts', JSON.stringify(contacts));
+    message.success('Emergency contacts saved successfully!');
+    next();
+  };
+
+  const handleReferencesSubmit = (refs: any[]) => {
+    setOnboardingData((prev) => ({ ...prev, references: refs }));
+    localStorage.setItem('references', JSON.stringify(refs));
+    message.success('References saved successfully!');
+    next();
+  };
+
   const handleComplete = () => {
     message.success('Onboarding completed successfully!');
     history.push('/welcome');
@@ -95,6 +123,22 @@ const OnboardingPage: React.FC = () => {
             initialValues={onboardingData.addressInfo}
             onFinish={handleAddressInfoSubmit}
             onCancel={() => history.push('/welcome')}
+          />
+        );
+      case 'emergency-contact':
+        return (
+          <EmergencyContactInformation
+            initialValues={onboardingData.emergencyContacts}
+            onFinish={handleEmergencyContactsSubmit}
+            disabled={false}
+          />
+        );
+      case 'reference':
+        return (
+          <ReferenceInformation
+            initialValues={onboardingData.references}
+            onFinish={handleReferencesSubmit}
+            disabled={false}
           />
         );
       case 'work-authorization-information':
