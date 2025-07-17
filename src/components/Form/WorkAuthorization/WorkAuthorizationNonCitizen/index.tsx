@@ -1,11 +1,10 @@
 import React from "react";
 import { ProFormSelect, ProFormText, ProFormDatePicker } from "@ant-design/pro-components";
-import { Card, Typography, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Card, Typography } from "antd";
+import UploadFile from "../../UploadFile";
 import type { WorkAuthorizationNonCitizenData } from "./data.d";
 
 const { Title, Text } = Typography;
-const { Dragger } = Upload;
 
 interface WorkAuthorizationNonCitizenProps {
   value?: WorkAuthorizationNonCitizenData;
@@ -84,24 +83,15 @@ export const WorkAuthorizationNonCitizen: React.FC<WorkAuthorizationNonCitizenPr
         <Card className="mb-6">
           <Title level={4} className="mb-4">Work Authorization Document *</Title>
           <Text className="block mb-4">Please upload a copy of your work authorization document (EAD card, H1B document, etc.)</Text>
-          <Dragger
-            name="workAuthFile"
-            multiple={false}
-            accept=".pdf,.jpg,.jpeg,.png"
-            beforeUpload={() => false}
-            onChange={(info) => {
-              const file = info.fileList[0]?.originFileObj;
-              onChange?.({ ...value, workAuthFile: file });
-            }}
-            className="mb-4"
-          >
-            <p className="ant-upload-drag-icon"><UploadOutlined /></p>
-            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-            <p className="ant-upload-hint">Support for PDF, JPG, JPEG, PNG files only</p>
-          </Dragger>
+          <UploadFile
+            value={value.workAuthFile}
+            onChange={(file) => onChange?.({ ...value, workAuthFile: file })}
+            fileLimit={1}
+            purpose="VISA"
+            disabled={false}
+          />
         </Card>
       )}
     </>
   );
 };
-

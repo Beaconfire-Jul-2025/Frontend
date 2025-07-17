@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Upload, message } from 'antd';
 import type { UploadProps, UploadFile as AntdUploadFile } from 'antd/es/upload/interface';
-import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import type { UploadFileProps, FilePurpose } from './data';
 
 // Conditional import for Storybook compatibility
@@ -94,7 +94,7 @@ const UploadFile: React.FC<UploadFileProps> = ({
       onRemove={handleRemove}
       disabled={disabled}
       maxCount={fileLimit}
-      accept={purpose === 'AVATAR' ? 'image/*' : undefined}
+      accept={purpose === 'AVATAR' ? 'image/*' : '.pdf,.jpg,.jpeg,.png'}
       showUploadList={{ showRemoveIcon: !disabled }}
       beforeUpload={(file) => {
         if (fileLimit === 1 && fileList.length >= 1) {
@@ -106,13 +106,13 @@ const UploadFile: React.FC<UploadFileProps> = ({
       style={{ width: '100%' }}
     >
       <p className="ant-upload-drag-icon">
-        <InboxOutlined />
+        <UploadOutlined />
       </p>
       <p className="ant-upload-text">
         Click or drag file to this area to upload
       </p>
       <p className="ant-upload-hint">
-        {fileLimit === 1 ? 'Only one file allowed.' : `Up to ${fileLimit} files allowed.`}
+        Support for PDF, JPG, JPEG, PNG files only
       </p>
     </Dragger>
   );

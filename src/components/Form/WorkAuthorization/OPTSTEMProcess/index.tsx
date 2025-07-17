@@ -1,10 +1,10 @@
 import React from "react";
-import { Card, Typography, Space, Button, Alert, Upload } from "antd";
-import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
+import { Card, Typography, Space, Button, Alert } from "antd";
+import { DownloadOutlined } from "@ant-design/icons";
+import UploadFile from "../../UploadFile";
 import type { OPTSTEMProcessData } from "./data.d";
 
 const { Title, Text } = Typography;
-const { Dragger } = Upload;
 
 interface OPTSTEMProcessProps {
   value?: OPTSTEMProcessData;
@@ -36,20 +36,13 @@ export const OPTSTEMProcess: React.FC<OPTSTEMProcessProps> = ({
         <Space direction="vertical" size="small" className="w-full">
           <Text strong>Step 2: Upload New I-20</Text>
           <Text type="secondary">After submitting the I-983 to your school, upload your new I-20</Text>
-          <Dragger
-            name="i20File"
-            multiple={false}
-            accept=".pdf"
-            beforeUpload={() => false}
-            onChange={(info) => {
-              const file = info.fileList[0]?.originFileObj;
-              onChange?.({ ...value, i20File: file });
-            }}
-          >
-            <p className="ant-upload-drag-icon"><UploadOutlined /></p>
-            <p className="ant-upload-text">Upload New I-20</p>
-            <p className="ant-upload-hint">PDF files only</p>
-          </Dragger>
+          <UploadFile
+            value={value.i20File}
+            onChange={(file) => onChange?.({ ...value, i20File: file })}
+            fileLimit={1}
+            purpose="VISA"
+            disabled={false}
+          />
         </Space>
       </div>
       {/* Step 3: Upload OPT STEM Receipt */}
@@ -58,20 +51,13 @@ export const OPTSTEMProcess: React.FC<OPTSTEMProcessProps> = ({
           <Space direction="vertical" size="small" className="w-full">
             <Alert message="Please upload your OPT STEM Receipt" type="success" className="mb-2" />
             <Text type="secondary">Upload your OPT STEM Receipt (applied for OPT STEM but haven't received the EAD yet)</Text>
-            <Dragger
-              name="optStemReceipt"
-              multiple={false}
-              accept=".pdf"
-              beforeUpload={() => false}
-              onChange={(info) => {
-                const file = info.fileList[0]?.originFileObj;
-                onChange?.({ ...value, optStemReceipt: file });
-              }}
-            >
-              <p className="ant-upload-drag-icon"><UploadOutlined /></p>
-              <p className="ant-upload-text">Upload OPT STEM Receipt</p>
-              <p className="ant-upload-hint">PDF files only</p>
-            </Dragger>
+            <UploadFile
+              value={value.optStemReceipt}
+              onChange={(file) => onChange?.({ ...value, optStemReceipt: file })}
+              fileLimit={1}
+              purpose="VISA"
+              disabled={false}
+            />
           </Space>
         </div>
       )}
@@ -81,20 +67,13 @@ export const OPTSTEMProcess: React.FC<OPTSTEMProcessProps> = ({
           <Space direction="vertical" size="small" className="w-full">
             <Alert message="Please upload your OPT STEM EAD" type="success" className="mb-2" />
             <Text type="secondary">Upload your OPT STEM EAD (received the OPT EAD) and wait for HR's response</Text>
-            <Dragger
-              name="optStemEAD"
-              multiple={false}
-              accept=".pdf"
-              beforeUpload={() => false}
-              onChange={(info) => {
-                const file = info.fileList[0]?.originFileObj;
-                onChange?.({ ...value, optStemEAD: file });
-              }}
-            >
-              <p className="ant-upload-drag-icon"><UploadOutlined /></p>
-              <p className="ant-upload-text">Upload OPT STEM EAD</p>
-              <p className="ant-upload-hint">PDF files only</p>
-            </Dragger>
+            <UploadFile
+              value={value.optStemEAD}
+              onChange={(file) => onChange?.({ ...value, optStemEAD: file })}
+              fileLimit={1}
+              purpose="VISA"
+              disabled={false}
+            />
           </Space>
         </div>
       )}
@@ -110,4 +89,3 @@ export const OPTSTEMProcess: React.FC<OPTSTEMProcessProps> = ({
     </Card>
   );
 };
-
