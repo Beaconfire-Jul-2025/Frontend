@@ -94,7 +94,6 @@ const OnboardingPage: React.FC = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: '#f0f2f5',
         padding: '20px',
         display: 'flex',
         justifyContent: 'center',
@@ -173,3 +172,10 @@ const OnboardingPage: React.FC = () => {
 };
 
 export default OnboardingPage;
+
+let history: typeof import('@umijs/max').history;
+if (process.env.STORYBOOK === 'true') {
+  history = { push: () => {} } as any;
+} else {
+  history = require('@umijs/max').history;
+}
