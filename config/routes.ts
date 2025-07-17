@@ -40,21 +40,18 @@ export default [
     ],
   },
   {
-    path: '/employee',
-    name: 'employee',
+    path: '/employee/welcome',
+    name: 'Profile',
     icon: 'smile',
     access: 'canEmployee',
-    routes: [
-      {
-        path: '/employee',
-        redirect: '/employee/welcome',
-      },
-      {
-        path: '/employee/welcome',
-        name: 'Welcome',
-        component: './employee/Welcome',
-      },
-    ],
+    component: './employee/Welcome',
+  },
+  {
+    path: '/employee/profile',
+    name: 'Dashboard',
+    icon: 'smile',
+    access: 'canEmployee',
+    component: './employee/profile',
   },
   {
     path: '/onboarding',
