@@ -5,10 +5,24 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
 import { Button, message } from 'antd';
 import type { FC } from 'react';
-import { addRule } from '@/services/ant-design-pro/api';
+
+// Conditional import for Storybook compatibility
+let addRule: any;
+if (process.env.STORYBOOK === 'true') {
+  addRule = require('../service.storybook').addRule;
+} else {
+  addRule = require('@/services/ant-design-pro/api').addRule;
+}
+
+// Conditional import for FormattedMessage, useIntl, and useRequest
+let FormattedMessage: any, useIntl: any, useRequest: any;
+if (process.env.STORYBOOK === 'true') {
+  ({ FormattedMessage, useIntl, useRequest } = require('../umijsMax.mock'));
+} else {
+  ({ FormattedMessage, useIntl, useRequest } = require('@umijs/max'));
+}
 
 interface CreateFormProps {
   reload?: ActionType['reload'];

@@ -9,12 +9,30 @@ import {
   ProDescriptions,
   ProTable,
 } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
 import { Button, Drawer, Input, message } from 'antd';
 import React, { useCallback, useRef, useState } from 'react';
-import { removeRule, rule } from '@/services/ant-design-pro/api';
+
+// Conditional import for Storybook compatibility
+let rule: any, removeRule: any;
+if (process.env.STORYBOOK === 'true') {
+  const service = require('./service.storybook');
+  rule = service.rule;
+  removeRule = service.removeRule;
+} else {
+  const service = require('@/services/ant-design-pro/api');
+  rule = service.rule;
+  removeRule = service.removeRule;
+}
+
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
+
+let FormattedMessage: any, useIntl: any, useRequest: any;
+if (process.env.STORYBOOK === 'true') {
+  ({ FormattedMessage, useIntl, useRequest } = require('./umijsMax.mock'));
+} else {
+  ({ FormattedMessage, useIntl, useRequest } = require('@umijs/max'));
+}
 
 const TableList: React.FC = () => {
   const actionRef = useRef<ActionType | null>(null);

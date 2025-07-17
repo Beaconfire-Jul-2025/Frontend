@@ -1,7 +1,7 @@
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import UploadFile from './index';
 import type { FilePurpose } from './data';
+import UploadFile from './index';
 
 // Use the mock service for Storybook
 import { getPreSignedUrl } from './service.storybook';
@@ -46,4 +46,3 @@ export const MultipleFiles: Story = {
     disabled: false,
   },
 };
-

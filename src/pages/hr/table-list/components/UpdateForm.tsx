@@ -6,10 +6,24 @@ import {
   ProFormTextArea,
   StepsForm,
 } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl, useRequest } from '@umijs/max';
 import { Modal, message } from 'antd';
 import React, { cloneElement, useCallback, useState } from 'react';
-import { updateRule } from '@/services/ant-design-pro/api';
+
+// Conditional import for Storybook compatibility
+let updateRule: any;
+if (process.env.STORYBOOK === 'true') {
+  updateRule = require('../service.storybook').updateRule;
+} else {
+  updateRule = require('@/services/ant-design-pro/api').updateRule;
+}
+
+// Conditional import for FormattedMessage, useIntl, and useRequest
+let FormattedMessage: any, useIntl: any, useRequest: any;
+if (process.env.STORYBOOK === 'true') {
+  ({ FormattedMessage, useIntl, useRequest } = require('../umijsMax.mock'));
+} else {
+  ({ FormattedMessage, useIntl, useRequest } = require('@umijs/max'));
+}
 
 export type FormValueType = {
   target?: string;
