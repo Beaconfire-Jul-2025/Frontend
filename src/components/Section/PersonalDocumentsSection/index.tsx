@@ -32,8 +32,11 @@ export const PersonalDocumentsSection: React.FC<
 }) => {
   const [previewDoc, setPreviewDoc] = useState<PersonalDocument | null>(null);
 
+  // Safely handle null/undefined documents
+  const safeDocuments = Array.isArray(documents) ? documents : [];
+
   // Sort documents by createDate descending
-  const sortedDocs = [...documents].sort(
+  const sortedDocs = [...safeDocuments].sort(
     (a, b) =>
       new Date(b.createDate).getTime() - new Date(a.createDate).getTime(),
   );
@@ -57,13 +60,22 @@ export const PersonalDocumentsSection: React.FC<
         />
       }
     >
-      <List
-        itemLayout="horizontal"
-        dataSource={sortedDocs}
-        renderItem={(doc) => (
-          <DocumentListItem doc={doc} onPreview={setPreviewDoc} />
-        )}
-      />
+      {safeDocuments.length === 0 ? (
+        <Typography.Text type="secondary">
+          No personal documents available
+        </Typography.Text>
+      ) : (
+        <List
+          dataSource={sortedDocs}
+          renderItem={(doc) => (
+            <DocumentListItem
+              key={doc.id}
+              document={doc}
+              onPreview={() => setPreviewDoc(doc)}
+            />
+          )}
+        />
+      )}
       <Modal
         open={!!previewDoc}
         title={previewDoc?.title}

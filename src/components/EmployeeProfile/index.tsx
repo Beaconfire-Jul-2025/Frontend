@@ -23,6 +23,17 @@ const EmployeeProfile: React.FC<EmployeeProfileProps> = ({
   // Helper to get last 4 digits of SSN
   const getLast4SSN = (ssn: string) => (ssn ? ssn.slice(-4) : '');
 
+  // Add editing state for Name section
+  const [isEditingName, setIsEditingName] = React.useState(false);
+
+  // Handler for edit, save, cancel
+  const handleEditName = () => setIsEditingName(true);
+  const handleCancelName = () => setIsEditingName(false);
+  const handleSaveName = (values: any) => {
+    // TODO: Save logic (API call or state update)
+    setIsEditingName(false);
+  };
+
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <NameSection
@@ -37,7 +48,10 @@ const EmployeeProfile: React.FC<EmployeeProfileProps> = ({
           ssn: getLast4SSN(employee.ssn),
         }}
         mode={editable ? 'employee' : 'readonly'}
-        isEditing={false}
+        isEditing={isEditingName}
+        onEdit={handleEditName}
+        onSave={handleSaveName}
+        onCancel={handleCancelName}
       />
       <IdentitySection
         value={{

@@ -86,6 +86,12 @@ export default [
     component: './onboarding',
   },
   {
+    path: '/hr/employee/view/:userId',
+    name: 'View Employee Profile',
+    access: 'canHr',
+    component: './hr/employee/EmployeeProfileViewer',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },

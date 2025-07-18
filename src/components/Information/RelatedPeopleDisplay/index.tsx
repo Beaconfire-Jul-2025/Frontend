@@ -9,6 +9,7 @@ const RelatedPeopleDisplay: React.FC<RelatedPeopleDisplayProps> = ({
   people,
   title,
 }) => {
+  const safePeople = Array.isArray(people) ? people : [];
   return (
     <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       {title && (
@@ -16,12 +17,12 @@ const RelatedPeopleDisplay: React.FC<RelatedPeopleDisplayProps> = ({
           {title}
         </Title>
       )}
-      {people.length === 0 ? (
+      {safePeople.length === 0 ? (
         <Typography.Text type="secondary">
           No related people information available
         </Typography.Text>
       ) : (
-        people.map((person) => (
+        safePeople.map((person) => (
           <Card
             key={person.id || person.email || person.phone}
             style={{ margin: 0 }}

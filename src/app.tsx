@@ -50,15 +50,18 @@ export async function getInitialState(): Promise<{
     const currentUser = await fetchUserInfo();
     // Redirect based on access
     if (currentUser) {
-      if (currentUser.access === 'hr' && location.pathname !== '/hr/welcome') {
+      if (
+        currentUser.access === 'ROLE_HR' &&
+        location.pathname !== '/hr/welcome'
+      ) {
         history.replace('/hr/welcome');
       } else if (
-        currentUser.access === 'employee' &&
+        currentUser.access === 'ROLE_EMPLOYEE' &&
         location.pathname !== '/employee/welcome'
       ) {
         history.replace('/employee/welcome');
       } else if (
-        currentUser.access === 'employee-onboard' &&
+        currentUser.access === 'ROLE_ONBOARD' &&
         location.pathname !== '/onboarding'
       ) {
         history.replace('/onboarding');
@@ -92,9 +95,6 @@ export const layout: RunTimeLayoutConfig = ({
       render: (_, avatarChildren) => (
         <AvatarDropdown>{avatarChildren}</AvatarDropdown>
       ),
-    },
-    waterMarkProps: {
-      content: initialState?.currentUser?.name,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {

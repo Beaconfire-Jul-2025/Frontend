@@ -1,26 +1,21 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import React from 'react';
-import type { Employee, EmployeeTableView } from './data';
-
-// Conditional import for Storybook compatibility
-let fetchEmployees: typeof import('./service').fetchEmployees;
-if (process.env.STORYBOOK === 'true') {
-  fetchEmployees = async () => {
-    // Use mock data for Storybook
-    const mock = require('./_mock').default;
-    return mock[0].response();
-  };
-} else {
-  fetchEmployees = require('./service').fetchEmployees;
-}
-
 import { Avatar } from 'antd';
+import React from 'react';
 import { SecureViewAction, VisaActions } from './components/actions';
+import type { Employee, EmployeeTableView } from './data';
 
 export interface EmployeeTableProps {
   view: EmployeeTableView;
+  data: Employee[];
+  total?: number;
+  loading?: boolean;
   onRowClick?: (record: Employee) => void;
+  pagination?: {
+    current?: number;
+    pageSize?: number;
+    onChange?: (page: number, pageSize?: number) => void;
+  };
 }
 
 const getColumns = (view: EmployeeTableView): ProColumns<Employee>[] => {
@@ -104,7 +99,11 @@ const getColumns = (view: EmployeeTableView): ProColumns<Employee>[] => {
           title: 'Actions',
           valueType: 'option',
           render: (_, record) => (
-            <SecureViewAction userId={record.userId} mode="hr" />
+            <SecureViewAction
+              userId={record.userId}
+              mode="hr"
+              redirectPath="/hr/employee/view"
+            />
           ),
         },
       ];
@@ -133,31 +132,31 @@ const getColumns = (view: EmployeeTableView): ProColumns<Employee>[] => {
   }
 };
 
-const EmployeeTable: React.FC<EmployeeTableProps> = ({ view, onRowClick }) => {
+const EmployeeTable: React.FC<EmployeeTableProps> = ({
+  view,
+  data,
+  total,
+  loading,
+  onRowClick,
+  pagination,
+}) => {
   return (
     <ProTable<Employee>
       rowKey="userId"
       columns={getColumns(view)}
-      request={async (params, sorter, _filter) => {
-        // Convert AntD params to API params
-        const query: Record<string, any> = {
-          page: params.current ? params.current - 1 : 0,
-          size: params.pageSize || 10,
-        };
-        if (params.fullName) query.name = params.fullName;
-        if (params.applicationStatus) query.status = params.applicationStatus;
-        if (sorter?.field && sorter.order) {
-          query.sort = `${sorter.field},${sorter.order === 'ascend' ? 'asc' : 'desc'}`;
-        }
-        // Add more filters as needed
-        const res = await fetchEmployees(query);
-        return {
-          data: res.data.list,
-          success: res.success,
-          total: res.data.total,
-        };
-      }}
-      pagination={{ showSizeChanger: true }}
+      dataSource={data}
+      loading={loading}
+      pagination={
+        pagination
+          ? {
+              showSizeChanger: true,
+              total,
+              current: pagination.current,
+              pageSize: pagination.pageSize,
+              onChange: pagination.onChange,
+            }
+          : false
+      }
       search={
         view === 'profile' || view === 'visa'
           ? { filterType: 'light', defaultCollapsed: false }

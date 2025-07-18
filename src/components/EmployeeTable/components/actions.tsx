@@ -23,13 +23,19 @@ export const VisaActions: React.FC<{ record: any }> = ({ _record }) => (
 interface SecureViewActionProps {
   userId: string;
   mode?: string;
+  redirectPath?: string;
 }
 
-const RealSecureViewAction: React.FC<SecureViewActionProps> = ({ userId }) => {
+const RealSecureViewAction: React.FC<SecureViewActionProps> = ({
+  userId,
+  redirectPath,
+}) => {
   const navigate = useNavigate();
 
   const handleView = () => {
-    navigate(`/employee/view/${userId}`);
+    navigate(
+      redirectPath ? `${redirectPath}/${userId}` : `/employee/view/${userId}`,
+    );
   };
 
   return (
@@ -47,12 +53,17 @@ const RealSecureViewAction: React.FC<SecureViewActionProps> = ({ userId }) => {
 const SBSecureViewAction: React.FC<SecureViewActionProps> = ({
   userId,
   mode,
+  redirectPath,
 }) => (
   <Button
     type="link"
     size="small"
     icon={<EyeOutlined />}
-    onClick={() => alert(`View profile for ${userId} (mode=${mode})`)}
+    onClick={() =>
+      alert(
+        `View profile for ${userId} (mode=${mode}, redirectPath=${redirectPath})`,
+      )
+    }
   >
     View
   </Button>

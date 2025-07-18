@@ -21,6 +21,17 @@ export default {
   //     changeOrigin: true,
   //   },
   // },
+  dev: {
+    '/api/auth': {
+      target: 'http://localhost:9081',
+      changeOrigin: true,
+      pathRewrite: { '^/api/auth': '' },
+    },
+    '/api': {
+      target: 'http://localhost:8080',
+      changeOrigin: true,
+    },
+  },
   /**
    * @name 详细的代理配置
    * @doc https://github.com/chimurai/http-proxy-middleware
