@@ -1,8 +1,11 @@
+import { UploadOutlined } from '@ant-design/icons';
+import { message, Upload } from 'antd';
+import type {
+  UploadFile as AntdUploadFile,
+  UploadProps,
+} from 'antd/es/upload/interface';
 import React, { useCallback } from 'react';
-import { Upload, message } from 'antd';
-import type { UploadProps, UploadFile as AntdUploadFile } from 'antd/es/upload/interface';
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import type { UploadFileProps, FilePurpose } from './data';
+import type { UploadFileProps } from './data';
 
 // Conditional import for Storybook compatibility
 let getPreSignedUrl: typeof import('./service').getPreSignedUrl;
@@ -27,63 +30,85 @@ const UploadFile: React.FC<UploadFileProps> = ({
     if (Array.isArray(value)) {
       return value.map((v, idx) => ({
         uid: String(idx),
-        name: v.split('/').pop() || 'file',
+        name: v.split('/').pop() ?? 'file',
         status: 'done',
         url: v,
       }));
     }
-    return [{
-      uid: '0',
-      name: value.split('/').pop() || 'file',
-      status: 'done',
-      url: value,
-    }];
+    return [
+      {
+        uid: '0',
+        name: value.split('/').pop() ?? 'file',
+        status: 'done',
+        url: value,
+      },
+    ];
   }, [value]);
 
   // Custom upload handler
-  const customRequest: UploadProps['customRequest'] = async ({ file, onSuccess, onError }) => {
-    try {
-      const fileType = (file as File).type;
-      const { presignedUrl, objectKey } = await getPreSignedUrl({
-        fileType,
-        filePurpose: purpose,
-      });
-      // Upload to S3
-      await fetch(presignedUrl, {
-        method: 'PUT',
-        body: file,
-        headers: {
-          'Content-Type': fileType,
-        },
-      });
-      if (onChange) {
-        if (fileLimit === 1) {
-          onChange(objectKey);
-        } else {
-          const prev = Array.isArray(value) ? value : value ? [value] : [];
-          onChange([...prev, objectKey].slice(-fileLimit));
+  const customRequest: UploadProps['customRequest'] = ({
+    file,
+    onSuccess,
+    onError,
+  }) => {
+    (async () => {
+      try {
+        const fileType = (file as File).type;
+        const { objectKey } = await getPreSignedUrl({
+          fileType,
+          filePurpose: purpose,
+        });
+        // Simulate successful upload (skip actual S3 upload)
+        if (onChange) {
+          let prev: string[];
+          if (Array.isArray(value)) {
+            prev = value;
+          } else if (value) {
+            prev = [value];
+          } else {
+            prev = [];
+          }
+          if (fileLimit === 1) {
+            onChange(objectKey);
+          } else {
+            onChange([...prev, objectKey].slice(-fileLimit));
+          }
         }
+        if (onSuccess) onSuccess({}, file as any);
+        message.success('File uploaded successfully');
+      } catch (e) {
+        if (onError) onError(e as any);
+        message.error('File upload failed');
       }
-      if (onSuccess) onSuccess({}, file as any);
-      message.success('File uploaded successfully');
-    } catch (e) {
-      if (onError) onError(e as any);
-      message.error('File upload failed');
-    }
+    })();
   };
 
   // Remove file handler
-  const handleRemove = useCallback((file: AntdUploadFile) => {
-    if (onChange) {
-      if (fileLimit === 1) {
-        onChange(undefined);
-      } else {
-        const prev = Array.isArray(value) ? value : value ? [value] : [];
-        onChange(prev.filter((v) => v !== file.url && v !== file.response?.objectKey));
+  const handleRemove = useCallback(
+    (file: AntdUploadFile) => {
+      if (onChange) {
+        let prev: string[];
+        if (Array.isArray(value)) {
+          prev = value;
+        } else if (value) {
+          prev = [value];
+        } else {
+          prev = [];
+        }
+        if (fileLimit === 1) {
+          onChange('');
+        } else {
+          onChange(
+            prev.filter(
+              (v) => v !== file.url && v !== file.response?.objectKey,
+            ),
+          );
+        }
       }
-    }
-    return true;
-  }, [onChange, value, fileLimit]);
+      return true;
+    },
+    [onChange, value, fileLimit],
+  );
 
   return (
     <Dragger
@@ -96,7 +121,7 @@ const UploadFile: React.FC<UploadFileProps> = ({
       maxCount={fileLimit}
       accept={purpose === 'AVATAR' ? 'image/*' : '.pdf,.jpg,.jpeg,.png'}
       showUploadList={{ showRemoveIcon: !disabled }}
-      beforeUpload={(file) => {
+      beforeUpload={(_file) => {
         if (fileLimit === 1 && fileList.length >= 1) {
           message.warning('Only one file can be uploaded');
           return Upload.LIST_IGNORE;

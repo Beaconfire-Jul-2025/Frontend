@@ -9,12 +9,11 @@ export interface UploadFileProps {
 }
 
 export interface PreSignedRequest {
+  filePurpose: string;
   fileType: string;
-  filePurpose: FilePurpose;
 }
 
 export interface PreSignedResponse {
   presignedUrl: string;
   objectKey: string;
 }
-

@@ -29,3 +29,9 @@ export async function getEmployeePersonalProfile() {
     method: 'GET',
   });
 }
+
+export async function getRoommates() {
+  return request(`/api/employee/roommate`, {
+    method: 'GET',
+  });
+}

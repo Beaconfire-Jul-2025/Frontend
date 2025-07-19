@@ -1,5 +1,5 @@
 import { StepsForm } from '@ant-design/pro-form';
-import { message, Steps } from 'antd';
+import { message } from 'antd';
 import React, { useState } from 'react';
 import CompleteResult from '@/components/Form/CompleteResult';
 import AddressInformation from './components/AddressInformation';
@@ -18,8 +18,6 @@ if (process.env.STORYBOOK === 'true') {
   history = require('@umijs/max').history;
 }
 
-const { Step } = Steps;
-
 interface OnboardingData {
   basicInfo?: any;
   addressInfo?: any;
@@ -33,7 +31,7 @@ const OnboardingPage: React.FC = () => {
   );
   const [onboardingData, setOnboardingData] = useState<OnboardingData>({});
 
-  const steps = [
+  const _steps = [
     {
       title: 'Basic Information',
       form: (
@@ -101,6 +99,44 @@ const OnboardingPage: React.FC = () => {
     },
   ];
 
+  const submitToCompositeService = async (data: any) => {
+    // Transform onboardingData to required JSON structure
+    const {
+      basicInfo = {},
+      addressInfo = {},
+      workAuthorization = {},
+      emergencyContacts = [],
+      references = [],
+      personalDocuments = [],
+    } = data;
+
+    // Example mapping, adjust as needed based on actual form data structure
+    const result = {
+      firstName: basicInfo.name?.firstName || '',
+      lastName: basicInfo.name?.lastName || '',
+      middleName: basicInfo.name?.middleName || '',
+      preferredName: basicInfo.name?.preferredName || '',
+      avatarPath: basicInfo.identity?.avatarPath || '',
+      email: basicInfo.contact?.email || '',
+      cellPhone: basicInfo.contact?.cellPhone || '',
+      alternatePhone: basicInfo.contact?.alternatePhone || '',
+      gender: basicInfo.identity?.gender || '',
+      ssn: basicInfo.identity?.ssn || '',
+      dob: basicInfo.identity?.dob ? new Date(basicInfo.identity.dob) : null,
+      addresses: addressInfo.addresses || [],
+      workAuthorization: workAuthorization || {},
+      driverLicense: basicInfo.identity?.driverLicense || {},
+      emergencyContacts: emergencyContacts || [],
+      references: references || [],
+      personalDocuments: personalDocuments || [],
+      applicationType: 'ONBOARD',
+    };
+
+    // TODO: Replace with actual API call to composite service
+    // await fetch('/api/composite', { method: 'POST', body: JSON.stringify(result) });
+    console.log('Submitting to composite service:', result);
+  };
+
   if (phase === 'welcome') {
     return <Welcome onStart={() => setPhase('form')} />;
   }
@@ -119,6 +155,11 @@ const OnboardingPage: React.FC = () => {
         onFinish={async () => {
           message.success('Onboarding completed successfully!');
           setPhase('complete');
+          await submitToCompositeService({
+            ...onboardingData,
+            workAuthorization: onboardingData.workAuthorization,
+            personalDocuments: onboardingData.personalDocuments,
+          });
           return true;
         }}
       >

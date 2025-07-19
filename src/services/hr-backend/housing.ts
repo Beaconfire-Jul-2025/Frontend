@@ -44,7 +44,7 @@ export async function getHouseById(id: number, options?: { [key: string]: any })
   return request(`/api/housing/house/${id}`, {
     method: 'GET',
     ...(options || {}),
-  });
+  }).then((res) => res.data || {});
 }
 
 export async function updateHouse(id: number, data: any, options?: { [key: string]: any }) {
@@ -67,7 +67,7 @@ export async function getAllHouses(params?: any, options?: { [key: string]: any 
     method: 'GET',
     params,
     ...(options || {}),
-  });
+  }).then((res) => res.data || {list: []});
 }
 
 export async function createHouse(data: any, options?: { [key: string]: any }) {
@@ -199,4 +199,3 @@ export async function getFacilityReportDetails(reportId: number, options?: { [ke
     ...(options || {}),
   });
 }
-
